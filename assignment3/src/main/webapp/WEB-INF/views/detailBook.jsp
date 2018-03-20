@@ -15,6 +15,7 @@
     
   </head>
   <body>  
+  <c:url value="/show-editBook" var="urlShowEditBook"></c:url>
     <!-- Left column -->
     <div class="templatemo-flex-row">
       <div class="templatemo-sidebar">
@@ -36,7 +37,7 @@
             		<span>${objBook.description}</span>
             </div>
             <br><br>
-            <a href="#" class="templatemo-edit-btn">Chỉnh sửa sách</a>
+            <a href="${urlShowEditBook}/${objBook.idBook}" class="templatemo-edit-btn">Chỉnh sửa sách</a>
         	  </div>
         	  </c:if>
             </div>

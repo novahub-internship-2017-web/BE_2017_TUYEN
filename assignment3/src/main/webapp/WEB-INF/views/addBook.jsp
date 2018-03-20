@@ -18,7 +18,7 @@
   </head>
   <body>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-  <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+  	<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
     <!-- Left column -->
     <div class="templatemo-flex-row">
       <div class="templatemo-sidebar">
@@ -52,7 +52,7 @@
                 <div class="col-lg-12">
                   <label class="control-label templatemo-block">Ảnh bìa</label> 
                   <form:input path="pictureBook" type="file" name="fileToUpload" id="fileToUpload" class="filestyle" data-buttonName="btn-primary" data-buttonBefore="true" data-icon="false"></form:input>
-                  <p >Dung lượng không quá 5MB</p>                  
+                  <p>Dung lượng không quá 5MB</p>                  
                 </div>
               </div>
               <div class="form-group text-right">

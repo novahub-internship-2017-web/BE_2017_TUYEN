@@ -123,12 +123,12 @@ footer { padding: 15px; }
 	font-size: 1.1em;
 	margin: 50px 20px;		
 }
-.templatemo-search-form .input-group { width: 100%; }
+.templatemo-search-form .input-group { width: 50%; }
 .templatemo-search-form .input-group .form-control {
-	background-color: #18191b;
+	background-color: #bcdee0;
 	border: none;
 	border-radius: 10px;
-	color: #DDD;
+	/* color: #DDD; */
 	padding-left: 30px;
 }
 .form-control:focus {

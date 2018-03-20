@@ -75,11 +75,8 @@ public class UserController {
 
   @RequestMapping(value = { "/show-editUser/{id}" }, method = RequestMethod.GET)
   public String showEditUser(@PathVariable int id, Model model) {
-    System.out.println("id: " + id);
     User objUser = userService.getUserById(id);
-    System.out.println(objUser.toString());
     model.addAttribute("objUser", objUser);
-    System.out.println("listRole: " + userService.getListRole());
     model.addAttribute("listRole", userService.getListRole());
     return "editUser";
   }

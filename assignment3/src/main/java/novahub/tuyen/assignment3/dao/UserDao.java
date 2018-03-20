@@ -125,7 +125,6 @@ public class UserDao {
 
   public int delUser(int id) {
     String sql = "DELETE FROM user WHERE idUser = " + id;
-    System.out.println("delete: " + jdbcTemplate.update(sql));
     return jdbcTemplate.update(sql);
   }
 

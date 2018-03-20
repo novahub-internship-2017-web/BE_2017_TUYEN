@@ -16,7 +16,8 @@
     <link href="<%=request.getContextPath()%>/resources/css/font-awesome.min.css" rel="stylesheet">
     <link href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="<%=request.getContextPath()%>/resources/css/templatemo-style.css" rel="stylesheet">
-
+	<link href="<%=request.getContextPath()%>/resources/css/style.css" rel="stylesheet">
+  
   </head>
   <body>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -33,21 +34,21 @@
           <div class="templatemo-content-widget white-bg">
             <h2 class="margin-bottom-10">Chỉnh sửa sách</h2>
             <p style="color: red">(*) là bắt buộc,không được bỏ trống những nội dung này!</p>
-            <form:form action="index.html" modelAttribute="objBook" class="templatemo-login-form" method="POST" >
+            <form:form action="${pageContext.request.contextPath}/editBook/${objBook.idBook}" id="form-editBook" modelAttribute="objBook" class="templatemo-login-form" method="POST" >
               <div class="row form-group">
                 <div class="col-lg-6 col-md-6 form-group">                  
                     <label for="inputFirstName">Tên sách</label> <span style="color: red">(*)</span>
-                    <form:input path="title" type="text" class="form-control" id="title" placeholder="Ngữ Văn"></form:input>                  
+                    <form:input path="title" type="text" class="form-control" name="title" placeholder="Nhập tên sách"></form:input>                  
                 </div>
                 <div class="col-lg-6 col-md-6 form-group">                  
                     <label for="inputLastName">Tác giả</label> <span style="color: red">(*)</span>
-                    <form:input path="author" type="text" class="form-control" id="author" placeholder="Nguyễn An"></form:input>                  
+                    <form:input path="author" type="text" class="form-control" name="author" placeholder="Nhập tên tác giả"></form:input>                  
                 </div> 
               </div>
              <div class="row form-group">
                 <div class="col-lg-12 form-group">                   
                     <label class="control-label" for="inputNote">Mô tả sách</label>
-                    <form:textarea path="description" class="form-control" id="description" rows="3"></form:textarea>
+                    <form:textarea path="description" class="form-control" name="description" rows="3"></form:textarea>
                 </div>
               </div>
               <div class="row form-group">
@@ -75,5 +76,9 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-1.11.2.min.js"></script>        <!-- jQuery -->
     <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/bootstrap-filestyle.min.js"></script>  <!-- http://markusslima.github.io/bootstrap-filestyle/ -->
     <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/templatemo-script.js"></script>        <!-- Templatemo Script -->
+	<script src="<%=request.getContextPath()%>/resources/js/jquery-3.1.1.min.js" type="text/javascript"></script> 
+  	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery.validate.min.js"></script>
+  	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/validate.js"></script>
+ 
   </body>
 </html>

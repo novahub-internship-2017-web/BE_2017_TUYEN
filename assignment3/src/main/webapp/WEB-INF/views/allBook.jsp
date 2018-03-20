@@ -24,6 +24,9 @@
 	  <c:url value="/" var="urlIndex"/>
 	 <c:url value="/list-book" var="urlListBook"/> 
 	 <c:url value="/show-addBook" var="urlShowAddBook"></c:url>
+	  <c:url value="/show-editBook" var="urlShowEditBook"></c:url>
+	  <c:url value="/deleteBook" var="urlDeleteBook"></c:url>
+	 
     <!-- Left column -->
     <div class="templatemo-flex-row">
       <div class="templatemo-sidebar">
@@ -32,25 +35,37 @@
       <!-- Main content --> 
       <div class="templatemo-content col-1 light-gray-bg">
         <div class="templatemo-content-container">
+         <h3 style="color: red">${msgBook}</h3>  <br>
         <div class="pagination-wrap">
             <ul class="pagination">
             <c:if test="${userLogin.idRole ==1 }">
            <!--  //nếu là admin mới được xem toàn bộ sách -->
             <li><a href="${urlListBook}" class="fa fa-eye" title="Xem sách của bạn">&nbsp;&nbsp;Sách của bạn</a></li>
             </c:if>
-              <li><a href="${urlListAllBook}"  class="fa fa-plus-square" title="Thêm sách">&nbsp;&nbsp;Thêm sách</a></li>
+              <li><a href="${urlShowAddBook}"  class="fa fa-plus-square" title="Thêm sách">&nbsp;&nbsp;Thêm sách</a></li>
             </ul>
           </div>
           <div class="templatemo-content-widget no-padding">
+           <!-- Search box -->
+        <form:form modelAttribute="objBook" method="POST" action="${pageContext.request.contextPath}/searchAllBook" class="templatemo-search-form" role="search" >
+          <div class="input-group">
+              <button type="submit" class="fa fa-search"></button>
+              <input value="${keySearch}" required="required" type="search" class="form-control" placeholder="Nhập nội dung bạn muốn tìm kiếm" name="keySearch" id="srch-term"></input>
+          </div>
+        </form:form>
+        <div class="mobile-menu-icon">
+            <i class="fa fa-bars"></i>
+         </div>
             <div class="panel panel-default table-responsive">
               <table class="table table-striped table-bordered templatemo-user-table">
                 <thead>
                   <tr>
-                    <td align="center" valign="middle" ><a href="" class="white-text templatemo-sort-by">ID<span class="caret"></span></a></td>
-                    <td><a href="" class="white-text templatemo-sort-by">Tên sách <span class="caret"></span></a></td>
-                    <td><a href="" class="white-text templatemo-sort-by">Tác giả <span class="caret"></span></a></td>
-                    <td align="center" valign="middle"><a href="" class="white-text templatemo-sort-by">Ngày tạo<span class="caret"></span></a></td>
-                    <td align="center" valign="middle"><a href="" class="white-text templatemo-sort-by">Cập nhật<span class="caret"></span></a></td>
+                    <td align="center" valign="middle" ><a href="#" class="white-text templatemo-sort-by">ID<span class=""></span></a></td>
+                    <td><a href="#" class="white-text templatemo-sort-by">Tên sách <span class="caret"></span></a></td>
+                    <td><a href="#" class="white-text templatemo-sort-by">Tác giả <span class="caret"></span></a></td>
+                    <td align="center" valign="middle"><a href="#" class="white-text templatemo-sort-by">Ngày tạo<span class=""></span></a></td>
+                    <td align="center" valign="middle"><a href="#" class="white-text templatemo-sort-by">Cập nhật<span class=""></span></a></td>
+                   <td align="center" valign="middle"><a href="#" class="white-text templatemo-sort-by">Người tạo<span class=""></span></a></td>
                     <td align="center" valign="middle">Chức năng</td>
                   </tr>
                 </thead>
@@ -63,13 +78,12 @@
                     <td>${objBook.author}</td>
 					<td>${objBook.created_at}</td>
 					<td>${objBook.updated_at}</td>
-					
-                   
+					<td>${objBook.idUser}</td>
                     
                     <td align="center" valign="middle">
                     	<a href="${urlShowDetailBook}/${objBook.idBook}" class="fa fa-eye" title="Xem"></a>&nbsp;
-                    	<a href=""  class="fa fa-edit" title="Sửa"></a>&nbsp;
-                    	<a href=""  class="fa fa-trash-o" title="Xóa"></a>
+                    	<a href="${urlShowEditBook}/${objBook.idBook}"  class="fa fa-edit" title="Sửa"></a>&nbsp;
+                    	<a href="${urlDeleteBook}/${objBook.idBook}" onclick="return confirm('Bạn muốn xóa không ?')"  class="fa fa-trash-o" title="Xóa"></a>
                     </td>
                     
                   </tr>

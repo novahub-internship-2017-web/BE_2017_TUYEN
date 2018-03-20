@@ -35,5 +35,21 @@ public class BookService {
     
   }
 
+  public int editBook(Book objBook) {
+    return bookDao.editBook(objBook);
+  }
+
+  public int deleteBook(int id) {
+    return bookDao.deleteBook(id);
+  }
+
+  public List<Book> getListSearchBookByUserLogin(int idUser, String keySearch) {
+    return bookDao.getListSearchBookByUserLogin(idUser,keySearch);
+  }
+
+public List<Book> getListSearchAllBook(String keySearch) {
+	return bookDao.getListSearchAllBook(keySearch);
+}
+
   
 }
