@@ -16,13 +16,15 @@
     <link href="<%=request.getContextPath()%>/resources/css/font-awesome.min.css" rel="stylesheet">
     <link href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="<%=request.getContextPath()%>/resources/css/templatemo-style.css" rel="stylesheet">
-
+	<link href="<%=request.getContextPath()%>/resources/css/style.css" rel="stylesheet">
+	
   </head>
   <body>
   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
   <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 	<c:url value="/editUser" var="urlEditUser"/> 
+	<c:url value="/show-changePassword" var="urlShowChangePassword"/> 
     <!-- Left column -->
     <div class="templatemo-flex-row">
       <div class="templatemo-sidebar">
@@ -35,16 +37,13 @@
           <div class="templatemo-content-widget white-bg">
             <h2 class="margin-bottom-10">Chỉnh sửa thông tin người dùng</h2>
             <p style="color: red">(*) là bắt buộc,không được bỏ trống những nội dung này</p>
-            <form:form modelAttribute="objUser"  action="${pageContext.request.contextPath}/editUser/${objUser.idUser}" class="templatemo-login-form" method="POST" >
+            <form:form modelAttribute="objUser" id="form-editUser" action="${pageContext.request.contextPath}/editUser/${objUser.idUser}" class="templatemo-login-form" method="POST" >
               <div class="row form-group">
                 <div class="col-lg-6 col-md-6 form-group">                  
                     <label for="inputFirstName">Họ và tên</label> <span style="color: red">(*)</span>
-                    <form:input path="firstName" value="${objUser.firstName} ${objUser.lastName}" type="text" class="form-control" id="inputFirstName"  placeholder="Nhập họ và tên"></form:input>                  
+                    <form:input path="firstName" value="${objUser.firstName} ${objUser.lastName}" type="text" name="firstName" class="form-control" id="inputFirstName"  placeholder="Nhập họ và tên"></form:input>                  
                 </div>
-               <%--  <div class="col-lg-6 col-md-6 form-group">                  
-                    <label for="inputLastName">Tên</label> <span style="color: red">(*)</span>
-                    <form:input path="lastName" type="text" class="form-control" id="inputLastName" placeholder="A"></form:input>                  
-                </div>  --%>
+             
               </div>
               <div class="row form-group">
                 <div class="col-lg-6 col-md-6 form-group">                  
@@ -52,15 +51,15 @@
                     <form:input path="email" readonly="true" type="email" class="form-control" id="inputEmail" placeholder="admin@company.com"></form:input>                  
                 </div> 
               </div>
-              <div class="row form-group">
+              	<div class="row form-group">
                 <div class="col-lg-6 col-md-6 form-group">                  
                     <label for="inputNewPassword">Mật khẩu:</label> <span style="color: red">(*)</span>
-                    <form:input path="password" readonly="true" type="password" class="form-control" id="inputNewPassword"></form:input>
-               		
+                    <input disabled="disabled" type="password" class="form-control" id="password" value="****"></input>
                 </div>
                 <br><br>
-                 <a href="" class="templatemo-edit-btn">Đổi mật khẩu</a>
+                 <a href="${urlShowChangePassword}/${objUser.idUser}" class="templatemo-edit-btn">Đổi mật khẩu</a>
               </div>
+              
              
               <div class="row form-group">
                 <div class="col-lg-6 col-md-6 form-group"> 
@@ -76,10 +75,7 @@
 	                  		<option value="${objRole.idRole}">${objRole.nameRole}</option>
 	                  	</c:otherwise>
         			</c:choose>
-                  	
-                  	
                   </c:forEach>
-                  	<%-- <option value="${2}" >Người dùng</option>  --%>
                    </c:if> 
                   </form:select>
                 </div>
@@ -108,5 +104,9 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-1.11.2.min.js"></script>        <!-- jQuery -->
     <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/bootstrap-filestyle.min.js"></script>  <!-- http://markusslima.github.io/bootstrap-filestyle/ -->
     <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/templatemo-script.js"></script>        <!-- Templatemo Script -->
+  
+  	<script src="<%=request.getContextPath()%>/resources/js/jquery-3.1.1.min.js" type="text/javascript"></script> 
+  	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery.validate.min.js"></script>
+  	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/validate.js"></script>
   </body>
 </html>

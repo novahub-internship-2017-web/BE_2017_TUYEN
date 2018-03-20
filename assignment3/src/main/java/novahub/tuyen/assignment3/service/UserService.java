@@ -51,8 +51,17 @@ public class UserService {
   }
 
   public User checkEmail(String aemail) {
-    // TODO Auto-generated method stub
     return userDao.checkEmail(aemail);
+  }
+
+  public int changePassword(User objUser) {
+    return userDao.changePassword(objUser);
+    
+  }
+
+  public int changeStatus(int idUser,int status) {
+    return userDao.changeStatus(idUser,status);
+    
   }
 
 }

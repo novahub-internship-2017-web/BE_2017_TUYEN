@@ -55,8 +55,6 @@ $(document).ready( function () {
 				equalTo: "#password",
 			},
 			
-			
-			
 		},
 		messages: {
 			"firstName": {
@@ -83,5 +81,141 @@ $(document).ready( function () {
 	});
 
 });
+
+
+$(document).ready( function () {
+	$("#changePassword").validate( {
+		rules: {
+			"oldPassword": {
+				required: true,
+				minlength: 3,
+				maxlength: 40
+			},
+			"newPassword": {
+				required: true,
+				minlength: 3,
+				maxlength: 40
+			},
+			
+			"rePassword": {
+				required: true,
+				equalTo: "#newPassword",
+			},
+			
+		},
+		messages: {
+			"oldPassword": {
+				required: "Vui lòng nhập mật khẩu của bạn!",					
+				minlength: "Tối thiểu 3 kí tự!",
+				maxlength: "Tối đa 40 kí tự!"
+			},	
+			"newPassword": {
+				required: "Vui lòng nhập mật khẩu mới!",					
+				minlength: "Tối thiểu 3 kí tự!",
+				maxlength: "Tối đa 40 kí tự!"
+			},	
+			
+			"rePassword": {
+				required: "Không được để trống!",					
+				equalTo: "Mật khẩu phải trùng với mật khẩu đã mới đã nhập!",
+		},	
+
+		}
+	});
+
+});
+
+
+$(document).ready( function () {
+	$("#form-index").validate( {
+		rules: {
+			"firstName": {
+				required: true,
+				minlength: 4,
+				maxlength: 40
+			},
+			
+			
+			
+		},
+		messages: {
+			"firstName": {
+				required: "Không được bỏ trống!",
+				minlength: "Tối thiểu 4 kí tự!",
+				maxlength: "Tối đa 40 kí tự!"
+			},
+			
+		}
+	});
+
+});
+
+$(document).ready( function () {
+	$("#form-editUser").validate( {
+		rules: {
+			"firstName": {
+				required: true,
+				minlength: 4,
+				maxlength: 40
+			},
+			
+			
+			
+		},
+		messages: {
+			"firstName": {
+				required: "Không được bỏ trống!",
+				minlength: "Tối thiểu 4 kí tự!",
+				maxlength: "Tối đa 40 kí tự!"
+			},
+			
+		}
+	});
+
+});
+
+$(document).ready( function () {
+	$("#form-changePasswordLogin").validate( {
+		rules: {
+			"oldPassword": {
+				required: true,
+				minlength: 3,
+				maxlength: 40
+			},
+			"newPassword": {
+				required: true,
+				minlength: 3,
+				maxlength: 40
+			},
+			
+			"rePassword": {
+				required: true,
+				equalTo: "#newPassword",
+			},
+			
+		},
+		messages: {
+			"oldPassword": {
+				required: "Vui lòng nhập mật khẩu của bạn!",					
+				minlength: "Tối thiểu 3 kí tự!",
+				maxlength: "Tối đa 40 kí tự!"
+			},	
+			"newPassword": {
+				required: "Vui lòng nhập mật khẩu mới!",					
+				minlength: "Tối thiểu 3 kí tự!",
+				maxlength: "Tối đa 40 kí tự!"
+			},	
+			
+			"rePassword": {
+				required: "Không được để trống!",					
+				equalTo: "Mật khẩu phải trùng với mật khẩu đã mới đã nhập!",
+		},	
+
+		}
+	});
+
+});
+
+
 
 

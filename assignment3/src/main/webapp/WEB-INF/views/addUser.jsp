@@ -31,7 +31,6 @@
 					},
 			success: function(data){
 				// Xử lý thành công
-				alert(data);
 				$("#check").html(data);
 			},
 			error: function (){
@@ -73,7 +72,7 @@
               <div class="row form-group" id="check">
                 <div class="col-lg-6 col-md-6 form-group">                  
                     <label for="inputEmail">Email</label> <span style="color: red">(*)</span>
-                    <form:input path="email" value="" name="email" id="email" type="email" class="form-control" placeholder="admin@company.com"></form:input>                  
+                    <input  onblur="return checkEmail()" value="" name="email" id="email" type="email" class="form-control" placeholder="Nhập email"></input>                 
                 </div> 
               </div>
               <div class="row form-group">

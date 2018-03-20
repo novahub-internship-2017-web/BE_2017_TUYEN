@@ -17,7 +17,56 @@
     <link href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="<%=request.getContextPath()%>/resources/css/templatemo-style.css" rel="stylesheet">
     
+<script type="text/javascript">
+function openUser(id) {
+	alert("Mở khóa ID = "+id);
+	$.ajax({
+		url: '<%=request.getContextPath()%>/changeStatus',
+		type: 'POST',
+		cache: false,
+		data: {
+				//Dữ liệu gửi đi
+				idUser:id,
+				active:1
+				},
+		success: function(data){
+			// Xử lý thành công
+			$("#open").html(data);
+		},
+		error: function (){
+		// Xử lý nếu có lỗi
+			alert("có lỗi trong quá trình xử lí");
+		}
+	});	
+	
+}
 
+</script>
+
+<script type="text/javascript">
+	function blockUser(id) {
+		alert("Đang khóa ID = "+id);
+		$.ajax({
+			url: '<%=request.getContextPath()%>/changeStatus',
+			type: 'POST',
+			cache: false,
+			data: {
+					//Dữ liệu gửi đi
+					idUser:id,
+					active:0
+					},
+			success: function(data){
+				// Xử lý thành công
+				$("#block").html(data);
+			},
+			error: function (){
+			// Xử lý nếu có lỗi
+				alert("có lỗi trong quá trình xử lí");
+			}
+		});	
+		
+	}
+</script>
   </head>
   <body>  
 	   <c:url value="/show-addUser" var="urlShowAddUser"/> 
@@ -68,24 +117,24 @@
 						</c:otherwise>	
 					</c:choose>
 					
+					
                    <c:choose>
 						<c:when test="${objUser.active == 1}">
-						
 						<c:choose>
 							<c:when test="${objUser.idRole == 1}">
 								<td style="" align="center" valign="middle"><a href="#" class="" title="Không được khóa!">
 	                   			<img alt="Đang hoạt động!" src="<%=request.getContextPath()%>/resources/images/active.gif"></a></td>
                    			</c:when>
                    			<c:otherwise>
-                   				<td style="" align="center" valign="middle"><a href="" class="" title="Khóa tài khoản!">
+                   				<td id="block" align="center" valign="middle"><a href="" onclick="return blockUser(${objUser.idUser})" class="" title="Khóa tài khoản!">
 	                   			<img alt="Đang hoạt động!" src="<%=request.getContextPath()%>/resources/images/active.gif"></a></td>
                    			</c:otherwise>
 						</c:choose>
 							
                    		</c:when>
 					<c:otherwise>
-						<td style="" align="center" valign="middle" ><a href="" class="" title="Mở khóa tài khoản!">
-                   		<img alt="Mở khóa tài khoản" src="<%=request.getContextPath()%>/resources/images/block.gif"></a></td>
+						<td style="" id="open" align="center" valign="middle" ><a href="" onclick="return openUser(${objUser.idUser})" class="" title="Mở khóa tài khoản!">
+                   		<img alt="Đã khóa!" src="<%=request.getContextPath()%>/resources/images/block.gif"></a></td>
 					</c:otherwise>
 					</c:choose>
                     

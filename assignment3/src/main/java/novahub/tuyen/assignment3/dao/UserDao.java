@@ -75,7 +75,7 @@ public class UserDao {
   }
 
   public Role getNameRoleById(int idRole) {
-    String sql = "SELECT * FROM role WHERE idRole=" + idRole;
+    String sql = "SELECT * FROM role WHERE idRole = " + idRole;
     Role objRole = new Role();
 
     try {
@@ -101,7 +101,8 @@ public class UserDao {
 
   public int addUser(User objUser) {
     String sql = "INSERT INTO user (email,password,firstName, lastName,picture,idRole,active) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    int result = jdbcTemplate.update(sql, objUser.getEmail(), MD5Library.md5(objUser.getPassword()), objUser.getFirstName(),
+    int result = 0;
+    result = jdbcTemplate.update(sql, objUser.getEmail(), MD5Library.md5(objUser.getPassword()), objUser.getFirstName(),
         objUser.getLastName(), objUser.getPicture(), objUser.getIdRole(), 1);
 
     return result;
@@ -115,8 +116,10 @@ public class UserDao {
 
   public int editUser(User objUser) {
     String sql = "UPDATE user SET firstName = ?, lastName = ?, idRole = ? WHERE idUser = ? ";
-    int result = jdbcTemplate.update(sql, objUser.getFirstName(), objUser.getLastName(), objUser.getIdRole(), objUser.getIdUser());
-    System.out.println("Kết quả update: "+result);
+    int result = 0;
+        result = jdbcTemplate.update(sql, objUser.getFirstName(), objUser.getLastName(), objUser.getIdRole(),
+        objUser.getIdUser());
+    System.out.println("Kết quả update: " + result);
     return result;
   }
 
@@ -127,9 +130,49 @@ public class UserDao {
   }
 
   public User checkEmail(String aemail) {
+    System.out.println("Email truyền tới: "+aemail);
+    
     String sql = "SELECT * FROM user WHERE email = ?";
-    return jdbcTemplate.queryForObject(sql, new UserMapper(), aemail);
+    User objUser = new User();
 
+    try {
+      conn = datasource.getConnection();
+      pst = conn.prepareStatement(sql);
+
+      pst.setString(1, aemail);
+      rs = pst.executeQuery();
+      if (rs.next()) {
+        objUser = new User(rs.getInt("idUser"), rs.getString("email"), rs.getString("password"),
+            rs.getString("firstName"), rs.getString("lastName"), rs.getString("picture"), rs.getInt("idRole"),
+            rs.getInt("active"));
+      }
+    } catch (SQLException e) {
+      Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
+    } finally {
+      try {
+        pst.close();
+        conn.close();
+        rs.close();
+      } catch (SQLException e) {
+        Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, e);
+      }
+    }
+    return objUser;
+
+  }
+
+  public int changePassword(User objUser) {
+    String sql = "UPDATE user SET password = ? WHERE idUser = ? ";
+    int result = jdbcTemplate.update(sql, MD5Library.md5(objUser.getPassword()), objUser.getIdUser());
+    System.out.println("Kết quả đổi pass thành công: " + result);
+    return result;
+  }
+
+  public int changeStatus(int idUser, int status) {
+    String sql = "UPDATE user SET active = ? WHERE idUser = ? ";
+    int result = jdbcTemplate.update(sql, status, idUser);
+    System.out.println("Kết quả đổi active thành công: " + result);
+    return result;
   }
 
 }

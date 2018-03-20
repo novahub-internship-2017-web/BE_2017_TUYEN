@@ -18,10 +18,6 @@ import novahub.tuyen.assignment3.service.BookService;
 
 @Controller
 public class BookController {
-//  @ModelAttribute
-//  public void init(Model model) {
-//    model.addAttribute("objBook1", new Book());
-//}
 
   
   @Autowired
