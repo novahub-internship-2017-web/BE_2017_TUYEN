@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import novahub.tuyen.assignment3.entities.Book;
 import novahub.tuyen.assignment3.entities.User;
 import novahub.tuyen.assignment3.service.BookService;
+import novahub.tuyen.assignment3.service.UserService;
 
 @Controller
 public class BookController {
@@ -44,6 +45,7 @@ public class BookController {
       if (objUser.getIdRole() == 1) {
         // nếu là admin thì mới cho chuyển tới danh sách gồm toàn bộ sách
         modelMap.addAttribute("listBook", bookService.getListBook());
+        modelMap.addAttribute("userService", new UserService());
         return "allBook";
       } else {
         return "redirect:list-book";

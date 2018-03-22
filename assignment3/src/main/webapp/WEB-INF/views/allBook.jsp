@@ -1,4 +1,5 @@
- <%@page import="java.util.List"%>
+ <%@page import="novahub.tuyen.assignment3.service.UserService"%>
+<%@page import="java.util.List"%>
 <%@page import="novahub.tuyen.assignment3.dao.UserDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -65,7 +66,6 @@
                     <td><a href="#" class="white-text templatemo-sort-by">Tác giả <span class="caret"></span></a></td>
                     <td align="center" valign="middle"><a href="#" class="white-text templatemo-sort-by">Ngày tạo<span class=""></span></a></td>
                     <td align="center" valign="middle"><a href="#" class="white-text templatemo-sort-by">Cập nhật<span class=""></span></a></td>
-                   <td align="center" valign="middle"><a href="#" class="white-text templatemo-sort-by">Người tạo<span class=""></span></a></td>
                     <td align="center" valign="middle">Chức năng</td>
                   </tr>
                 </thead>
@@ -78,8 +78,6 @@
                     <td>${objBook.author}</td>
 					<td>${objBook.created_at}</td>
 					<td>${objBook.updated_at}</td>
-					<td>${objBook.idUser}</td>
-                    
                     <td align="center" valign="middle">
                     	<a href="${urlShowDetailBook}/${objBook.idBook}" class="fa fa-eye" title="Xem"></a>&nbsp;
                     	<a href="${urlShowEditBook}/${objBook.idBook}"  class="fa fa-edit" title="Sửa"></a>&nbsp;
