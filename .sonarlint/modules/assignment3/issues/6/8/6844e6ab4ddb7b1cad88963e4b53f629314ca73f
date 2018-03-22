@@ -1,0 +1,23 @@
+
+q
+squid:S106v"9Replace this use of System.out or System.err by a logger.(Âû¨ûÿÿÿÿ8ü•ø€¤,HÕRMAJORZ
+CODE_SMELL
+gsquid:S24415":Make "User" serializable or don't store it in the session.(Ï±Â÷8ü•ø€¤,HÖRMAJORZBUG
+l
+squid:S106^"9Replace this use of System.out or System.err by a logger.(µ¯ó•8ñù€¤,HÙRMAJORZ
+CODE_SMELL
+k
+squid:S1060"9Replace this use of System.out or System.err by a logger.(Ì³u8ñ¨ãñ¡,HÁRMAJORZ
+CODE_SMELL
+qsquid:S1197Q"8Move the array designator from the variable to the type.(°Öø³ıÿÿÿÿ8ü•ø€¤,HÔRMINORZ
+CODE_SMELL
+l
+squid:S106."9Replace this use of System.out or System.err by a logger.(Ô‚ëŸ8®ıÈñ ,HÃRMAJORZ
+CODE_SMELL
+‡squid:S1192"KDefine a constant instead of duplicating this literal "userLogin" 10 times.(‰“ªáÿÿÿÿÿ8ıÄèû ,HÄRCRITICALZ
+CODE_SMELL
+gsquid:S2441`":Make "User" serializable or don't store it in the session.(Ï±Â÷8¢Á«Î ,HÆRMAJORZBUG
+squid:S1192 "TDefine a constant instead of duplicating this literal "redirect:show-login" 5 times.(óÄ—Æüÿÿÿÿ8Ü¦™ü ,HÅRCRITICALZ
+CODE_SMELL
+Osquid:S1643V"Use a StringBuilder instead.(˜é†`8ü•ø€¤,HÓRMINORZ
+CODE_SMELL

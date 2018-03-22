@@ -1,0 +1,64 @@
+
+m
+squid:S106Æ"9Replace this use of System.out or System.err by a logger.(®°‘•8¸Åº£,HóRMAJORZ
+CODE_SMELL
+…squid:S1192%"IDefine a constant instead of duplicating this literal "listUser" 4 times.(ùÁˆÚúÿÿÿÿ8ùºÜï¡,HåRCRITICALZ
+CODE_SMELL
+qsquid:S1197X"8Move the array designator from the variable to the type.(°Öø³ıÿÿÿÿ8ÉÈÓÿ£,HáRMINORZ
+CODE_SMELL
+Osquid:S1643]"Use a StringBuilder instead.(˜é†`8¸Åº£,H÷RMINORZ
+CODE_SMELL
+m
+squid:S106€"9Replace this use of System.out or System.err by a logger.(ä®°8¸Åº£,HãRMAJORZ
+CODE_SMELL
+squid:S1192+"TDefine a constant instead of duplicating this literal "redirect:show-login" 3 times.(óÄ—Æüÿÿÿÿ8¯Õ¾ç£,HèRCRITICALZ
+CODE_SMELL
+q
+squid:S106$"9Replace this use of System.out or System.err by a logger.(—‚ïËşÿÿÿÿ8šƒ¤ë£,HöRMAJORZ
+CODE_SMELL
+†squid:S1192 "JDefine a constant instead of duplicating this literal "userLogin" 6 times.(‰“ªáÿÿÿÿÿ8ÃÿŠ¡,HßRCRITICALZ
+CODE_SMELL
+m
+squid:S106…"9Replace this use of System.out or System.err by a logger.(è¥ø8Š÷’£,HëRMAJORZ
+CODE_SMELL
+l
+squid:S106`"9Replace this use of System.out or System.err by a logger.(µ¯ó•8Â»”˜¡,HàRMAJORZ
+CODE_SMELL
+q
+squid:S106r"9Replace this use of System.out or System.err by a logger.(Š•éùÿÿÿÿ8‚«­Ó£,HâRMAJORZ
+CODE_SMELL
+qsquid:S1197:"8Move the array designator from the variable to the type.(°Öø³ıÿÿÿÿ8¸Åº£,HçRMINORZ
+CODE_SMELL
+m
+squid:S106‚"9Replace this use of System.out or System.err by a logger.(¤ª¯8ùºÜï¡,HäRMAJORZ
+CODE_SMELL
+r
+squid:S106´"9Replace this use of System.out or System.err by a logger.(¡¢ıŒøÿÿÿÿ8ª¿­ˆ¡,HïRMAJORZ
+CODE_SMELL
+k
+squid:S106B"9Replace this use of System.out or System.err by a logger.(Ì³u8İå¼£,HìRMAJORZ
+CODE_SMELL
+squid:S11923"HDefine a constant instead of duplicating this literal "objUser" 3 times.(÷í£’8İîÌ£,HéRCRITICALZ
+CODE_SMELL
+r
+squid:S106"9Replace this use of System.out or System.err by a logger.(ä¹²˜ùÿÿÿÿ8ö÷ã¼£,HæRMAJORZ
+CODE_SMELL
+Osquid:S1643?"Use a StringBuilder instead.(˜é†`8¸Åº£,HğRMINORZ
+CODE_SMELL
+r
+squid:S106®"9Replace this use of System.out or System.err by a logger.(Âû¨ûÿÿÿÿ8ùºÜï¡,HúRMAJORZ
+CODE_SMELL
+m
+squid:S106µ"9Replace this use of System.out or System.err by a logger.(İŠ–é8ÎÑ³Ó£,HûRMAJORZ
+CODE_SMELL
+l
+squid:S106"9Replace this use of System.out or System.err by a logger.(Ì³u8ñÌ›ü£,HíRMAJORZ
+CODE_SMELL
+m
+squid:S106œ"9Replace this use of System.out or System.err by a logger.(İŠ–é8²ºÿè£,HüRMAJORZ
+CODE_SMELL
+squid:S1192E"HDefine a constant instead of duplicating this literal "msgUser" 8 times.(Ñ¡ıË8ùºÜï¡,HøRCRITICALZ
+CODE_SMELL
+m
+squid:S106Å"9Replace this use of System.out or System.err by a logger.(…Ø§¾8ùºÜï¡,HòRMAJORZ
+CODE_SMELL
