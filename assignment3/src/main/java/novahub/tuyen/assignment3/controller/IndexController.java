@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import novahub.tuyen.assignment3.entities.User;
+import novahub.tuyen.assignment3.library.ChuanHoaChuoi;
 import novahub.tuyen.assignment3.library.MD5Library;
-import novahub.tuyen.assignment3.library.XoaTrang;
 import novahub.tuyen.assignment3.service.UserService;
 
 @Controller
@@ -77,7 +77,7 @@ public class IndexController {
   @RequestMapping(value = { "/editUserLogin" }, method = RequestMethod.POST)
   public String editUserLogin(@ModelAttribute(value = "objUser") User objUser,HttpSession session, Model model) {
     User userLogin = (User) session.getAttribute("userLogin");
-    XoaTrang.deletespace(objUser.getFirstName());
+    ChuanHoaChuoi.chuanHoa(objUser.getFirstName());
     String tmp[] = (objUser.getFirstName()).split(" ");
     String ten = tmp[tmp.length - 1];
     objUser.setLastName(ten);

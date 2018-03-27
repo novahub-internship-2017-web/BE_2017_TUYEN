@@ -19,7 +19,7 @@ public class BookDao {
 
   public List<Book> getListBook() {
 
-    String sql = "SELECT * FROM book";
+    String sql = "SELECT * FROM book ORDER BY idBook DESC";
     return jdbcTemplate.query(sql, new BookMapper());
   }
 
@@ -29,7 +29,7 @@ public class BookDao {
   }
 
   public List<Book> getListBookByUserLogin(int idUser) {
-    String sql = "SELECT * FROM book WHERE idUser = ?";
+    String sql = "SELECT * FROM book WHERE idUser = ?  ORDER BY idBook DESC";
     return jdbcTemplate.query(sql, new BookMapper(), idUser);
   }
 
@@ -42,10 +42,10 @@ public class BookDao {
   }
 
   public int editBook(Book objBook) {
-    String sql = "UPDATE book SET title = ?, author = ?,description = ?, updated_at = ? WHERE idBook = ? ";
+    String sql = "UPDATE book SET title = ?, author = ?,description = ?, updated_at = ?, pictureBook = ? WHERE idBook = ? ";
     int result = 0;
     result = jdbcTemplate.update(sql, objBook.getTitle(), objBook.getAuthor(), objBook.getDescription(),
-        objBook.getUpdated_at(), objBook.getIdBook());
+        objBook.getUpdated_at(),objBook.getPictureBook(), objBook.getIdBook());
     return result;
   }
 

@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import novahub.tuyen.assignment3.entities.User;
+import novahub.tuyen.assignment3.library.ChuanHoaChuoi;
 import novahub.tuyen.assignment3.library.MD5Library;
-import novahub.tuyen.assignment3.library.XoaTrang;
+import novahub.tuyen.assignment3.library.RenameFileLibrary;
 import novahub.tuyen.assignment3.service.UserService;
 
 @Controller
@@ -35,7 +36,6 @@ public class UserController {
 			User objUser = (User) session.getAttribute("userLogin");
 			if (objUser.getIdRole() == 1) {
 				// nếu là admin thì mới cho chuyển qua chỉnh sửa người dùng
-				System.out.println("chiều dài_ " + userService.getListUser().size());
 				modelMap.addAttribute("listUser", userService.getListUser());
 				return "user";
 			} else {
@@ -54,25 +54,11 @@ public class UserController {
 		return "addUser";
 	}
 
-	/*
-	 * @RequestMapping(value = { "/addUser" }, method = RequestMethod.POST) public
-	 * String addUser(@ModelAttribute(value = "objUser") User objUser, Model model)
-	 * { XoaTrang.deletespace(objUser.getFirstName()); String tmp[] =
-	 * (objUser.getFirstName()).split(" "); String ten = tmp[tmp.length - 1];
-	 * objUser.setLastName(ten); String ho = ""; for (int i = 0; i < tmp.length - 1;
-	 * i++) { ho += tmp[i] + " "; } objUser.setFirstName(ho);
-	 * System.out.println(objUser.toString()); int resultAdd =
-	 * userService.addUser(objUser); if (resultAdd == 1) {
-	 * model.addAttribute("msgUser", "Thêm thành công!"); } else {
-	 * model.addAttribute("msgUser",
-	 * "Có lỗi trong quá trình xử lý thêm người dùng!"); } return "redirect:user"; }
-	 */
-
 	@RequestMapping(value = { "/addUser" }, method = RequestMethod.POST)
 	public String addUser(@ModelAttribute(value = "objUser") User objUser,
 			@RequestParam(value = "fileUpload") CommonsMultipartFile commonsMultipartFiles, Model model,
-			HttpServletRequest request) {
-		XoaTrang.deletespace(objUser.getFirstName());
+			HttpServletRequest request) throws IOException {
+		ChuanHoaChuoi.chuanHoa(objUser.getFirstName());
 		String tmp[] = (objUser.getFirstName()).split(" ");
 		String ten = tmp[tmp.length - 1];
 		objUser.setLastName(ten);
@@ -82,14 +68,17 @@ public class UserController {
 		}
 		objUser.setFirstName(ho);
 		// upload File
-		// ten file
+		
+		// ten anh
 		String nameFile = commonsMultipartFiles.getOriginalFilename();
-		System.out.println("Teen file: " + nameFile);
-		// duong dan anh
+		nameFile = RenameFileLibrary.renameFile(nameFile);
+		System.out.println("Tên ảnh: " + nameFile);
+		
 		// tạo files chứa hình ảnh
 		if (!"".equals(nameFile)) {
-			String dirFile = request.getSession().getServletContext().getRealPath("/") + "resources/images";
-			System.out.println("Link: " + dirFile);
+			objUser.setPicture(nameFile);
+			String dirFile = request.getSession().getServletContext().getRealPath("/") + "resources/images/";
+			System.out.println("Link đến thư mục ảnh: " + dirFile);
 			File fileDir = new File(dirFile);
 			if (!fileDir.exists()) {
 				fileDir.mkdir();
@@ -97,14 +86,11 @@ public class UserController {
 			try {
 				commonsMultipartFiles.transferTo(new File(fileDir + File.separator + nameFile));
 				System.out.println("Upload file thành công!");
-				model.addAttribute("filename", nameFile);
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
 				System.out.println("Upload file thất bại!");
 			}
 		}
-		objUser.setPicture(nameFile);
-		System.out.println(objUser.toString());
+		System.out.println("Thông tin cần thêm thêm: "+objUser.toString());
 		int resultAdd = userService.addUser(objUser);
 		if (resultAdd == 1) {
 			model.addAttribute("msgUser", "Thêm thành công!");
@@ -123,9 +109,11 @@ public class UserController {
 	}
 
 	@RequestMapping(value = { "/editUser/{id}" }, method = RequestMethod.POST)
-	public String editUser(@ModelAttribute(value = "objUser") User objUser, Model model, @PathVariable int id) {
+	public String editUser(@ModelAttribute(value = "objUser") User objUser, Model model, @PathVariable int id,
+			@RequestParam(value = "fileUpload") CommonsMultipartFile commonsMultipartFiles,
+			HttpServletRequest request) {
 		objUser.setIdUser(id);
-		XoaTrang.deletespace(objUser.getFirstName());
+		ChuanHoaChuoi.chuanHoa(objUser.getFirstName());
 		String tmp[] = (objUser.getFirstName()).split(" ");
 		String ten = tmp[tmp.length - 1];
 		objUser.setLastName(ten);
@@ -134,26 +122,87 @@ public class UserController {
 			ho += tmp[i] + " ";
 		}
 		objUser.setFirstName(ho);
+
+		
+		// xu ly upload ảnh
+
+		String nameFile = commonsMultipartFiles.getOriginalFilename();
+		if (nameFile.equals("")) {
+			System.out.println("K chọn ảnh mới");
+			// không chon anh moi thi mac dinh giu nguyen anh cu
+			nameFile = userService.getUserById(id).getPicture();
+			objUser.setPicture(nameFile);
+			System.out.println("Tên ảnh cũ : " + nameFile);
+		} else {
+			// chon anh moi
+			// xoa anh cu
+			// lay duong dan anh cu
+			System.out.println("Chọn ảnh mới");
+			
+			if(!"".equals(userService.getUserById(id).getPicture())){ // nếu có file ảnh thì xóa file ảnh đó!
+				// thực hiện chức năng xóa hình ảnh 
+				String urlFileDel = request.getSession().getServletContext().getRealPath("/") + "resources/images"
+						+ File.separator + userService.getUserById(id).getPicture();
+				System.out.println("anh cần xóa: "+urlFileDel);
+				File delFile = new File(urlFileDel);
+				if(delFile.exists()){
+					delFile.delete();
+				}
+			}
+			
+			//tên ảnh mới
+			nameFile = RenameFileLibrary.renameFile(nameFile);
+			objUser.setPicture(nameFile);
+			System.out.println("Tên ảnh mới: " + nameFile);
+			// duong dan anh
+			// tạo files chứa hình ảnh
+			if (!"".equals(nameFile)) {
+				String dirFile = request.getSession().getServletContext().getRealPath("/") + "resources/images/";
+				System.out.println("Link ảnh mới: " + dirFile);
+				File fileDir = new File(dirFile);
+				if (!fileDir.exists()) {
+					fileDir.mkdir();
+				}
+				try {
+					commonsMultipartFiles.transferTo(new File(fileDir + File.separator + nameFile));
+					System.out.println("Upload file thành công!");
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+					System.out.println("Upload file thất bại!");
+				}
+			}
+
+		}
+		
 		System.out.println("thông tin cần update: " + objUser.toString());
-		if (objUser.getEmail() != null) {
-			userService.editUser(objUser);
+		if (userService.editUser(objUser) != 0) {
 			model.addAttribute("msgUser", "Cập nhật thành công!");
 		} else {
 			model.addAttribute("msgUser", "Lỗi cập nhật!");
 		}
 		model.addAttribute("listUser", userService.getListUser());
 		return "user";
-	}
+	} 
 
 	@RequestMapping(value = { "/deleteUser/{id}" })
-	public String deleteUser(@PathVariable int id, Model model) {
+	public String deleteUser(@PathVariable int id, Model model, HttpServletRequest request) {
 		if (userService.getUserById(id).getIdRole() == 1) {
 			// không được phép xóa admin
 			model.addAttribute("msgUser", "Không được xóa admin!");
 		} else {
-			int result = userService.delUser(id);
-			System.out.println("result: " + result);
-			if (result == 0) {
+			System.out.println("Thuc hien xoa: ");
+			if(!"".equals(userService.getUserById(id).getPicture())){ // nếu có file ảnh thì xóa file ảnh đó!
+				// thực hiện chức năng xóa hình ảnh 
+				System.out.println("Thuc hien xoa anh!");
+				String urlFileDel = request.getSession().getServletContext().getRealPath("/") + "resources/images"
+						+ File.separator + userService.getUserById(id).getPicture();
+				System.out.println("anh cần xóa: "+urlFileDel);
+				File delFile = new File(urlFileDel);
+				if(delFile.exists()){
+					delFile.delete();
+				}
+			}
+			if (userService.delUser(id) != 0) {
 				// xóa thành công
 				model.addAttribute("msgUser", "Xóa thành công!");
 			} else {

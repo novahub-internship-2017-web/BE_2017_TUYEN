@@ -62,10 +62,11 @@
                 <thead>
                   <tr>
                     <td align="center" valign="middle" ><a href="#" class="white-text templatemo-sort-by">ID<span class=""></span></a></td>
-                    <td><a href="#" class="white-text templatemo-sort-by">Tên sách <span class="caret"></span></a></td>
-                    <td><a href="#" class="white-text templatemo-sort-by">Tác giả <span class="caret"></span></a></td>
+                    <td><a href="#" class="white-text templatemo-sort-by">Tên sách <span class=""></span></a></td>
+                    <td><a href="#" class="white-text templatemo-sort-by">Tác giả <span class=""></span></a></td>
                     <td align="center" valign="middle"><a href="#" class="white-text templatemo-sort-by">Ngày tạo<span class=""></span></a></td>
                     <td align="center" valign="middle"><a href="#" class="white-text templatemo-sort-by">Cập nhật<span class=""></span></a></td>
+                   <td align="center" valign="middle"><a href="#" class="white-text templatemo-sort-by">Ảnh<span class=""></span></a></td>
                     <td align="center" valign="middle">Chức năng</td>
                   </tr>
                 </thead>
@@ -78,10 +79,19 @@
                     <td>${objBook.author}</td>
 					<td>${objBook.created_at}</td>
 					<td>${objBook.updated_at}</td>
+					<td>
+                     <img class="img" style="width:50px;height:70px;" src="<%=request.getContextPath()%>/resources/images/${objBook.pictureBook}" />
+                    </td>
                     <td align="center" valign="middle">
-                    	<a href="${urlShowDetailBook}/${objBook.idBook}" class="fa fa-eye" title="Xem"></a>&nbsp;
-                    	<a href="${urlShowEditBook}/${objBook.idBook}"  class="fa fa-edit" title="Sửa"></a>&nbsp;
-                    	<a href="${urlDeleteBook}/${objBook.idBook}" onclick="return confirm('Bạn muốn xóa không ?')"  class="fa fa-trash-o" title="Xóa"></a>
+                    	<a href="${urlShowDetailBook}/${objBook.idBook}" class="" title="Xem">
+                    		<img alt="Xem!" title="Xem" src="<%=request.getContextPath()%>/resources/images/view.png">
+                    	</a>&nbsp;
+                    	<a href="${urlShowEditBook}/${objBook.idBook}"  class="" title="Sửa">
+                    		<img alt="Chỉnh sửa!" title="Sửa" src="<%=request.getContextPath()%>/resources/images/edit.png">
+                    	</a>&nbsp;
+                    	<a href="${urlDeleteBook}/${objBook.idBook}" onclick="return confirm('Bạn muốn xóa không ?')"  class="" title="Xóa">
+                    		<img alt="Xóa!" title="Xóa" src="<%=request.getContextPath()%>/resources/images/delete.png">
+                    	</a>
                     </td>
                     
                   </tr>

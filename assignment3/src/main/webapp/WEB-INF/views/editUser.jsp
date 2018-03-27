@@ -37,7 +37,7 @@
           <div class="templatemo-content-widget white-bg">
             <h2 class="margin-bottom-10">Chỉnh sửa thông tin người dùng</h2>
             <p style="color: red">(*) là bắt buộc,không được bỏ trống những nội dung này</p>
-            <form:form modelAttribute="objUser" id="form-editUser" action="${pageContext.request.contextPath}/editUser/${objUser.idUser}" class="templatemo-login-form" method="POST" >
+            <form:form modelAttribute="objUser" id="form-editUser" action="${pageContext.request.contextPath}/editUser/${objUser.idUser}" class="templatemo-login-form" method="POST" enctype="multipart/form-data">
               <div class="row form-group">
                 <div class="col-lg-6 col-md-6 form-group">                  
                     <label for="inputFirstName">Họ và tên</label> <span style="color: red">(*)</span>
@@ -83,9 +83,10 @@
               <div class="row form-group">
                 <div class="col-lg-12">
                   <label class="control-label templatemo-block">Ảnh đại diện</label> 
-                  <form:input path="picture" type="file" name="fileToUpload" id="fileToUpload" class="filestyle" data-buttonName="btn-primary" data-buttonBefore="true" data-icon="false"></form:input>
+                  <input  type="file" name="fileUpload" id="fileUpload" class="filestyle" data-buttonName="btn-primary" data-buttonBefore="true" data-icon="false"></input>
                   <p>Dung lượng không quá 5 MB.</p>                  
                 </div>
+                <img class="img" style="width:350px;height:190px;" src="${pageContext.request.contextPath}/resources/images/${objUser.picture}" />
               </div>
               <div class="form-group text-right">
                 <button type="submit" class="templatemo-blue-button">Cập nhật</button>

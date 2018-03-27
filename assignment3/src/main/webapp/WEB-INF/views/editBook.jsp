@@ -34,7 +34,7 @@
           <div class="templatemo-content-widget white-bg">
             <h2 class="margin-bottom-10">Chỉnh sửa sách</h2>
             <p style="color: red">(*) là bắt buộc,không được bỏ trống những nội dung này!</p>
-            <form:form action="${pageContext.request.contextPath}/editBook/${objBook.idBook}" id="form-editBook" modelAttribute="objBook" class="templatemo-login-form" method="POST" >
+            <form:form action="${pageContext.request.contextPath}/editBook/${objBook.idBook}" id="form-editBook" modelAttribute="objBook" class="templatemo-login-form" method="POST" enctype="multipart/form-data" >
               <div class="row form-group">
                 <div class="col-lg-6 col-md-6 form-group">                  
                     <label for="inputFirstName">Tên sách</label> <span style="color: red">(*)</span>
@@ -55,9 +55,10 @@
                 <div class="col-lg-12">
                   <label class="control-label templatemo-block">Ảnh bìa</label> 
                   <!-- <input type="file" name="fileToUpload" id="fileToUpload" class="margin-bottom-10"> -->
-                  <form:input path="pictureBook" type="file" name="fileToUpload" id="fileToUpload" class="filestyle" data-buttonName="btn-primary" data-buttonBefore="true" data-icon="false"></form:input>
+                  <input  type="file" name="fileUpload" id="" class="filestyle" data-buttonName="btn-primary" data-buttonBefore="true" data-icon="false"></input>
                   <p style="color: red;" >Dung lượng không quá 5MB</p>                  
                 </div>
+                <img class="img" style="width:190px;height:350px;" src="${pageContext.request.contextPath}/resources/images/${objBook.pictureBook}" />
               </div>
               <div class="form-group text-right">
                 <button type="submit" class="templatemo-blue-button">Chỉnh sửa</button>

@@ -143,12 +143,16 @@ function openUser(id) {
                      <img class="img" style="width:50px;height:50px;" src="<%=request.getContextPath()%>/resources/images/${objUser.picture}" />
                     </td>
                     <td align="center" valign="middle">
-                    	<a href="${urlShowEditUser}/${objUser.idUser}" class="fa fa-edit"></a>&nbsp;
+                    	<a href="${urlShowEditUser}/${objUser.idUser}" class="">
+                    		<img alt="Chỉnh sửa!" title="Sửa" src="<%=request.getContextPath()%>/resources/images/edit.png">
+                    	</a>&nbsp;
 						<c:choose >
 							<c:when test="${objUser.idRole == 1}">
 							</c:when>
 							<c:otherwise>
-							<a onclick="return confirm('Bạn muốn xóa không ?')" href="${urlDeleteUser}/${objUser.idUser}" class="fa fa-trash-o" title="Xóa"></a>
+							<a onclick="return confirm('Bạn muốn xóa không ?')" href="${urlDeleteUser}/${objUser.idUser}" class="" title="Xóa">
+								<img alt="Xóa!" title="Xóa" src="<%=request.getContextPath()%>/resources/images/delete.png">
+							</a>
 							</c:otherwise>
 						</c:choose>
                     	

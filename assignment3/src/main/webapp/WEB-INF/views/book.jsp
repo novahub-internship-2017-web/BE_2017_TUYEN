@@ -16,7 +16,6 @@
     <link href="<%=request.getContextPath()%>/resources/css/font-awesome.min.css" rel="stylesheet">
     <link href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="<%=request.getContextPath()%>/resources/css/templatemo-style.css" rel="stylesheet">
-    
 
   </head>
   <body>  
@@ -26,7 +25,7 @@
 	  <c:url value="/show-addBook" var="urlShowAddBook"></c:url>
 	  <c:url value="/show-editBook" var="urlShowEditBook"></c:url>
 	  <c:url value="/deleteBook" var="urlDeleteBook"></c:url>
-	 <%--  <c:url value="/searchBook" var="urlSearchBook"/> --%> 
+	 <c:url value="/json" var="urlJson"/> 
     <!-- Left  column -->
     <div class="templatemo-flex-row">
       <div class="templatemo-sidebar">
@@ -37,6 +36,7 @@
       
         <div class="templatemo-content-container">
         
+        
         <h3 style="color: red">${msgBook}</h3>  <br>
         <div class="pagination-wrap">
             <ul class="pagination">
@@ -45,20 +45,24 @@
             <li><a href="${urlListAllBook}" class="fa fa-eye" title="Xem toàn bộ sách">&nbsp;&nbsp;Toàn bộ sách</a></li>
             </c:if>
               <li><a href="${urlShowAddBook}" class="fa fa-plus-square" title="Thêm sách">&nbsp;&nbsp;Thêm sách</a></li>
+              
+              <li><a href="${urlJson}" class="fa fa-plus-square" title="Thêm sách">&nbsp;&nbsp;JSON</a></li>
             </ul>
           </div>
          
           <div class="templatemo-content-widget no-padding">
            <!-- Search box -->
-        <form:form modelAttribute="objBook" method="POST" action="${pageContext.request.contextPath}/searchBook" class="templatemo-search-form" role="search" >
+  <form:form modelAttribute="objBook" method="POST" action="${pageContext.request.contextPath}/searchBook" class="templatemo-search-form" role="search" >
           <div class="input-group">
               <button type="submit" class="fa fa-search"></button>
               <input value="${keySearch}" required="required" type="search" class="form-control" placeholder="Nhập nội dung bạn muốn tìm kiếm" name="keySearch" id="srch-term"></input>
           </div>
         </form:form>
+        
         <div class="mobile-menu-icon">
             <i class="fa fa-bars"></i>
-         </div>
+         </div> 
+         <br>
             <div class="panel panel-default table-responsive">
               <table class="table table-striped table-bordered templatemo-user-table">
                 <thead>
@@ -68,6 +72,7 @@
                     <td align="center" valign="middle"><a href="#" class="white-text templatemo-sort-by">Tác giả <span class=""></span></a></td>
                     <td align="center" valign="middle"><a href="#" class="white-text templatemo-sort-by">Ngày tạo<span class=""></span></a></td>
                     <td align="center" valign="middle"><a href="#" class="white-text templatemo-sort-by">Cập nhật<span class=""></span></a></td>
+                    <td align="center" valign="middle"><a href="#" class="white-text templatemo-sort-by">Ảnh<span class=""></span></a></td>
                     <td align="center" valign="middle">Chức năng</td>
                   </tr>
                 </thead>
@@ -80,11 +85,19 @@
                     <td>${objBook.author}</td>
 					<td>${objBook.created_at}</td>
 					<td>${objBook.updated_at}</td>
-					
+					<td>
+                     <img class="img" style="width:50px;height:70px;" src="<%=request.getContextPath()%>/resources/images/${objBook.pictureBook}" />
+                    </td>
                     <td align="center" valign="middle">
-                    	<a href="${urlShowDetailBook}/${objBook.idBook}" class="fa fa-eye" title="Xem"></a>&nbsp;
-                    	<a href="${urlShowEditBook}/${objBook.idBook}" class="fa fa-edit" title="Sửa"></a>&nbsp;
-                    	<a href="${urlDeleteBook}/${objBook.idBook}" onclick="return confirm('Bạn muốn xóa không ?')" class="fa fa-trash-o" title="Xóa"></a>
+                    	<a href="${urlShowDetailBook}/${objBook.idBook}" class="" title="Xem">
+                    		<img alt="Xem!" title="Xem" src="<%=request.getContextPath()%>/resources/images/view.png">
+                    	</a>&nbsp;
+                    	<a href="${urlShowEditBook}/${objBook.idBook}" class="" title="Sửa">
+                    		<img alt="Chỉnh sửa!" title="Sửa" src="<%=request.getContextPath()%>/resources/images/edit.png">
+                    	</a>&nbsp;
+                    	<a href="${urlDeleteBook}/${objBook.idBook}" onclick="return confirm('Bạn muốn xóa không ?')" class="" title="Xóa">
+                    		<img alt="Xóa!" title="Xóa" src="<%=request.getContextPath()%>/resources/images/delete.png">
+                    	</a>
                     </td>
                     
                   </tr>
