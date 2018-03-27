@@ -1,8 +1,14 @@
-package week3.tuyen.assignment1;
+package tuyen.novahub.view;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+
+import tuyen.novahub.controller.NameComparator;
+import tuyen.novahub.controller.SalaryComparator;
+import tuyen.novahub.entities.Employees;
+import tuyen.novahub.entities.Person;
+import tuyen.novahub.entities.Teacher;
 
 public class StaffManagement {
 

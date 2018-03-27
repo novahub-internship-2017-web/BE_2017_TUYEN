@@ -1,8 +1,8 @@
-package week3.tuyen.assignment1;
+package tuyen.novahub.entities;
 
 import java.util.Scanner;
 
-import week3.tuyen.define.Define;
+import tuyen.novahub.define.Define;
 
 public class Employees extends Person {
   String        department;

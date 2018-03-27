@@ -1,6 +1,8 @@
-package week3.tuyen.assignment1;
+package tuyen.novahub.controller;
 
 import java.util.Comparator;
+
+import tuyen.novahub.entities.Person;
 
 public class NameComparator implements Comparator<Person> {
 

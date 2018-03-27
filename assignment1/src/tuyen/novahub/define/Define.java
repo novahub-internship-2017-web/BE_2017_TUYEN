@@ -1,4 +1,4 @@
-package week3.tuyen.define;
+package tuyen.novahub.define;
 
 public class Define {
   public static final double BACHELOR         = 300;
