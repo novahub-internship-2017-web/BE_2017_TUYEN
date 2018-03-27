@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>assignment2</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+<error-page>
+    <error-code>404</error-code>
+    <location>/loi-khong-tim-thay-trang</location>
+  </error-page>
+  
+  
+  
+   <servlet>
+    <servlet-name>AdminIndexController</servlet-name>
+    <servlet-class>tuyen.novahub.controller.AdminIndexController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminIndexController</servlet-name>
+    <url-pattern>/admin/index</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>AdminShowLoginController</servlet-name>
+    <servlet-class>tuyen.novahub.controller.AdminShowLoginController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminShowLoginController</servlet-name>
+    <url-pattern>/admin/show-login</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>AdminLoginController</servlet-name>
+    <servlet-class>tuyen.novahub.controller.AdminLoginController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminLoginController</servlet-name>
+    <url-pattern>/admin/login</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>AdminLogoutController</servlet-name>
+    <servlet-class>tuyen.novahub.controller.AdminLogoutController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminLogoutController</servlet-name>
+    <url-pattern>/admin/logout</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>AdminDeleteController</servlet-name>
+    <servlet-class>tuyen.novahub.controller.AdminDeleteController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminDeleteController</servlet-name>
+    <url-pattern>/admin/delete</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>AdminShowAddUserController</servlet-name>
+    <servlet-class>tuyen.novahub.controller.AdminShowAddUserController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminShowAddUserController</servlet-name>
+    <url-pattern>/admin/show-addUser</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>AdminAddUserController</servlet-name>
+    <servlet-class>tuyen.novahub.controller.AdminAddUserController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminAddUserController</servlet-name>
+    <url-pattern>/admin/addUser</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>AdminShowEditUserController</servlet-name>
+    <servlet-class>tuyen.novahub.controller.AdminShowEditUserController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminShowEditUserController</servlet-name>
+    <url-pattern>/admin/show-editUser</url-pattern>
+  </servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>AdminEditUserController</servlet-name>
+		<servlet-class>tuyen.novahub.controller.AdminEditUserController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminEditUserController</servlet-name>
+		<url-pattern>/admin/editUser</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AdminSortUserController</servlet-name>
+		<servlet-class>tuyen.novahub.controller.AdminSortUserController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminSortUserController</servlet-name>
+		<url-pattern>/admin/sort</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AdminSearchController</servlet-name>
+		<servlet-class>tuyen.novahub.controller.AdminSearchController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminSearchController</servlet-name>
+		<url-pattern>/admin/search</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AdminShowChangePasswordController</servlet-name>
+		<servlet-class>tuyen.novahub.controller.AdminShowChangePasswordController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminShowChangePasswordController</servlet-name>
+		<url-pattern>/admin/show-changePassword</url-pattern>
+	</servlet-mapping>
+  
+  <servlet>
+		<servlet-name>AdminChangePasswordController</servlet-name>
+		<servlet-class>tuyen.novahub.controller.AdminChangePasswordController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminChangePasswordController</servlet-name>
+		<url-pattern>/admin/changePassword</url-pattern>
+	</servlet-mapping>
+  
+  <servlet>
+    <servlet-name>AdminShow404Controller</servlet-name>
+    <servlet-class>tuyen.novahub.controller.AdminShow404Controller</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminShow404Controller</servlet-name>
+    <url-pattern>/loi-khong-tim-thay-trang</url-pattern>
+  </servlet-mapping>
+  
+</web-app>
