@@ -8,8 +8,9 @@ Description
 - Logout
  
  Guide start projec
-- clone this repository
-- import database quanlycanbo.sql
-- import project Week5_2 and run by eclipse
+- clone this repository (link clone https://github.com/novahub-internship-2017-web/BE_2017_TUYEN.git)
+- import database quanlycanbo.sql from ../assignment2/WebContent/WEB-INF/resource/quanlycanbo.sql (use mySql)
+- use server tomcat version 8.5
+- import project assignment2 and run by eclipse
     + account admin: username = admin , password = 654321
     + account user:  username = tuyen, password = 123456
