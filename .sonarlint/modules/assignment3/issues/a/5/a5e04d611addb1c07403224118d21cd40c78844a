@@ -1,0 +1,21 @@
+
+squid:S1192P"HDefine a constant instead of duplicating this literal "msgBook" 7 times.(è¼¥…8Ğ³û‹¤,HŠRCRITICALZ
+CODE_SMELL
+r
+squid:S106¢"9Replace this use of System.out or System.err by a logger.(Ôß§Óıÿÿÿÿ8…·û¤,H‹RMAJORZ
+CODE_SMELL
+„squid:S1192"HDefine a constant instead of duplicating this literal "objBook" 5 times.(ÌÙ“îøÿÿÿÿ8õëÔõ¡,HŒRCRITICALZ
+CODE_SMELL
+m
+squid:S106£"9Replace this use of System.out or System.err by a logger.(ÆÀûı8…·û¤,HRMAJORZ
+CODE_SMELL
+…squid:S1192,"IDefine a constant instead of duplicating this literal "listBook" 4 times.(‡é„úÿÿÿÿ8±—‡¤,HRCRITICALZ
+CODE_SMELL
+‹squid:S00117j"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(æ¥õñşÿÿÿÿ8 ïŒ¤,HRMINORZ
+CODE_SMELL
+†squid:S1192"JDefine a constant instead of duplicating this literal "userLogin" 8 times.(‰“ªáÿÿÿÿÿ8Ê¤ƒÙ¡,HRCRITICALZ
+CODE_SMELL
+squid:S1192 "TDefine a constant instead of duplicating this literal "listBookByUserLogin" 4 times.(‡Ééàıÿÿÿÿ8ø½ÊŒ¤,H‘RCRITICALZ
+CODE_SMELL
+‹squid:S00117J"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(æ¥õñşÿÿÿÿ8Íó°Š¤,H’RMINORZ
+CODE_SMELL

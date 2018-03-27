@@ -1,0 +1,17 @@
+
+m
+squid:S106¦"9Replace this use of System.out or System.err by a logger.(ù˜Ê³8ú¡ğÓ£,HÏRMAJORZ
+CODE_SMELL
+m
+squid:S106„"9Replace this use of System.out or System.err by a logger.(¤ŠçÀ8½«ÁŒ¡,HRMAJORZ
+CODE_SMELL
+r
+squid:S106­"9Replace this use of System.out or System.err by a logger.(µÔ¥—ûÿÿÿÿ8ıÀÃë£,H¡RMAJORZ
+CODE_SMELL
+~squid:S11922"GDefine a constant instead of duplicating this literal "idRole" 3 times.(²Ñ£÷8Ùóş£,H RCRITICALZ
+CODE_SMELL
+Œsquid:S2077€"RUse a variable binding mechanism to construct this query instead of concatenation.(°²¯´8Ô¥ô¡,HĞRBLOCKERZVULNERABILITY
+l
+squid:S106z"9Replace this use of System.out or System.err by a logger.(¯ÿïª8êÿÚş£,HŸRMAJORZ
+CODE_SMELL
+squid:S2077S"RUse a variable binding mechanism to construct this query instead of concatenation.(ÓŒÉÙøÿÿÿÿ8··‰¡,H›RBLOCKERZVULNERABILITY
