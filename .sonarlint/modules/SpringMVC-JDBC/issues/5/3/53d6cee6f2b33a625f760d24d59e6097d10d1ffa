@@ -1,13 +1,0 @@
-
-~squid:S1192"NDefine a constant instead of duplicating this literal "customer-list" 4 times.(îüºH‚RCRITICALZ
-CODE_SMELL
-ysquid:S1192"IDefine a constant instead of duplicating this literal "customer" 3 times.(¾’úHƒRCRITICALZ
-CODE_SMELL
-‚squid:S1192"MDefine a constant instead of duplicating this literal "listCustomer" 4 times.(Ö“ø—úÿÿÿÿH„RCRITICALZ
-CODE_SMELL
-l
-squid:S1067"9Replace this use of System.out or System.err by a logger.(˜ƒËî8¼Ó‰Ç¡,H«RMAJORZ
-CODE_SMELL
-l
-squid:S106/"9Replace this use of System.out or System.err by a logger.(áàô®8Ï­‡Ç¡,HªRMAJORZ
-CODE_SMELL

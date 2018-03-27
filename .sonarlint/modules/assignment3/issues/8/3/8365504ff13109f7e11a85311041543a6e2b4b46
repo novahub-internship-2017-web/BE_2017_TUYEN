@@ -1,23 +1,0 @@
-
-osquid:S00107"AConstructor has 8 parameters, which is greater than 7 authorized.(๕ญ๓HฆRMAJORZ
-CODE_SMELL
-squid:S00116"URename this field "created_at" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ฃ๓ล๓๚ÿÿÿÿ8็Ûูก,HงRMINORZ
-CODE_SMELL
-squid:S00116"URename this field "updated_at" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(พวล8็Ûูก,HฉRMINORZ
-CODE_SMELL
-squid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ิฅ8็Ûูก,HจRMINORZ
-CODE_SMELL
-squid:S00100B"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ฃ๑ฉฎ8็Ûูก,HชRMINORZ
-CODE_SMELL
-squid:S00117E"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(๋ýÜม8็Ûูก,HกRMINORZ
-CODE_SMELL
-squid:S00100?"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ฮูๅÿÿÿÿÿ8็Ûูก,HคRMINORZ
-CODE_SMELL
-squid:S00117?"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ฮูๅÿÿÿÿÿ8็Ûูก,HฃRMINORZ
-CODE_SMELL
-squid:S00100E"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(๋ýÜม8็Ûูก,HขRMINORZ
-CODE_SMELL
-squid:S00100<"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ฎฃู๘ÿÿÿÿ8็Ûูก,HฅRMINORZ
-CODE_SMELL
-squid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(๕ญ๓8็Ûูก,HซRMINORZ
-CODE_SMELL
