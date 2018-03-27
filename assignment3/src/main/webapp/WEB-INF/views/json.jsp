@@ -29,12 +29,29 @@
 </style>
 <script type="text/javascript">
  function addBookJson(){
-   alert("Them sach!");
+  // alert("Them sach!");
    var newBook = {}
    newBook["title"] = $('#title').val();
    newBook["author"]= $('#author').val(); 
    newBook["description"]= $('#description').val(); 
-   alert(newBook);
+  // alert(newBook);
+   if ($('#title').val() == ''){
+       alert('Bạn chưa nhập tiêu đề!');
+       return false;
+   }
+   if ($('#title').val().length > 40 ){
+       alert('Tiêu đề không quá 40 ký tự!!');
+       return false;
+   }
+   if ($('#author').val() == ''){
+       alert('Bạn chưa nhập tên tác giả!');
+       return false;
+   }
+   
+   if ($('#author').val().length > 40 ){
+       alert('Tiêu đề không quá 40 ký tự!!');
+       return false;
+   }
    $.ajax({
     type: "post",
     contentType : "application/json",
@@ -92,7 +109,7 @@
 <script type="text/javascript">
 
 function listBookJson(){
-	 alert('Tất cả sách');
+	// alert('Tất cả sách');
     $.ajax({
       url : '<%=request.getContextPath()%>/json/listBook',
       type : "GET",
@@ -138,10 +155,14 @@ function listBookJson(){
 
 <script type="text/javascript">
 function searchJson(){
-  alert('Bạn đang tìm kiếm!');
+//  alert('Bạn đang tìm kiếm!');
   var key = $('#keywordJson').val();
     var searchBook = {}
     searchBook["title"] = $('#keywordJson').val(); 
+    if ($('#keywordJson').val() == ''){
+        alert('Bạn chưa nhập từ khóa');
+        return false;
+    }
 $.ajax({
   url : "${pageContext.request.contextPath}/json/search",
   type : "GET",
@@ -222,7 +243,7 @@ $.ajax({
        	  </div> -->
        	  <div class="templatemo-search-form">
        	    <div class="mobile-menu-icon">
-            <i class="fa fa-bars"></i>
+            <i class="fa fa-search"></i>
         	</div>
        	  <div class="input-group">
               <button  onclick="return searchJson();" type="submit" class="fa fa-search"></button>
@@ -237,12 +258,12 @@ $.ajax({
           </div>   
     
     <div id="formAddBook" class="modal text-center">
-           <form class="modal-content animate" name="addBook" id="addBook" method="post"> 
+           <form class="modal-content animate" name="" method="post"> 
            <br><h3>Thêm sách mới</h3><br>
         <table style=" width:100%"  class="">
          <tr>
           <td><label ><b>Tiêu đề</b></label></td>
-          <td><input type="text" name="title" id="title" class="form-control" required="required"></td>
+          <td><input type="text" name="title" id="title" class="form-control" required></td>
          </tr>
           <tr>
           <td><br></td>
@@ -250,7 +271,7 @@ $.ajax({
          </tr>
          <tr>
           <td><label ><b>Tác giả</b></label></td>
-          <td> <input type="text" name="author" id="author" class="form-control" required="required"></td>
+          <td> <input type="text" name="author" id="author" class="form-control" required></td>
          </tr>
           <tr>
           <td><br></td>
@@ -294,7 +315,5 @@ $.ajax({
     <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/templatemo-script.js"></script>        <!-- Templatemo Script -->
   
   	<script src="<%=request.getContextPath()%>/resources/js/jquery-3.1.1.min.js" type="text/javascript"></script> 
-	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery.validate.min.js"></script>
-  	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/validate.js"></script>
 </body>
 </html>

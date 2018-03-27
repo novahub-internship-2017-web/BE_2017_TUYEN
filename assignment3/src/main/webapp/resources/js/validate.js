@@ -32,6 +32,47 @@ $(document).ready( function () {
 });
 
 
+
+
+
+$(document).ready( function () {
+	$("#addBookJson").validate( {
+		rules: {
+			"title": {
+				required: true,
+				minlength: 4,
+				maxlength: 40
+			},
+			"author": {
+				required: true,				
+				minlength: 6,
+				maxlength: 40
+			},
+			
+			
+		},
+		messages: {
+			"title": {
+				required: "Không được bỏ trống!",
+				minlength: "Tối thiểu 4 kí tự!",
+				maxlength: "Tối đa 40 kí tự!"
+			},
+			"author": {
+					required: "Không được để trống!",					
+					minlength: "Tối thiểu 6 kí tự!",
+					maxlength: "Tối đa 40 kí tự!"
+			},	
+			
+		}
+	});
+
+});
+
+
+
+
+
+
 $(document).ready( function () {
 	$("#form-editBook").validate( {
 		rules: {
