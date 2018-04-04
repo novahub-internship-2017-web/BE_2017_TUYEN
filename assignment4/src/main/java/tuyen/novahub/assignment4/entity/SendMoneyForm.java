@@ -1,4 +1,4 @@
-package tuyen.novahub.assignment4.form;
+package tuyen.novahub.assignment4.entity;
 
 public class SendMoneyForm {
 	 

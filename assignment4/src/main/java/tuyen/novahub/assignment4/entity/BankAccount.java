@@ -44,4 +44,17 @@ public class BankAccount {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
+		public BankAccount() {
+			super();
+		}
+
+		public BankAccount(Long id, String fullName, double balance) {
+			super();
+			this.id = id;
+			this.fullName = fullName;
+			this.balance = balance;
+		}
+    
+    
 }
