@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE HTML>
+ <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Bank</title>
@@ -23,12 +23,12 @@ th, td {
             <th>Full Name</th>
             <th>Balance</th>
         </tr>
-        <tr th:each="accountInfo : ${accountInfos}">
-            <td th:utext="${accountInfo.id}">..</td>
-            <td th:utext="${accountInfo.fullName}">..</td>
-            <td th:utext="${accountInfo.balance}">..</td>
+        <tr th:each="listUser : ${listUser}">
+            <td th:utext="${listUser.idUser}">..</td>
+            <td th:utext="${listUser.email}">..</td>
+            <td th:utext="${listUser.lastName}">..</td>
         </tr>
  
     </table>
 </body>
-</html> -->
+</html>

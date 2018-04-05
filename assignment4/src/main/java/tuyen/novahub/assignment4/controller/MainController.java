@@ -17,14 +17,14 @@ public class MainController {
     @Autowired
     private BankAccountDAO bankAccountDAO;
  
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+   /* @RequestMapping(value = "/accountsPage", method = RequestMethod.GET)
     public String showBankAccounts(Model model) {
-        List<BankAccount> list = bankAccountDAO.findByFullName("");
+        List<BankAccount> list = bankAccountDAO.findByFullName("Linh");
  
         model.addAttribute("accountInfos", list);
  
         return "accountsPage";
-    }
+    }*/
  
   
 }

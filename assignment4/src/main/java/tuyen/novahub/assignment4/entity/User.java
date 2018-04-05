@@ -11,7 +11,7 @@ import javax.persistence.Table;
 public class User {
 	@Id
 	@GeneratedValue
-	@Column(name = "idUser", nullable = false)
+	@Column(name = "id_user", nullable = false)
 	int							idUser;
 	
 	@Column(name = "email", length = 100, nullable = false)
@@ -20,10 +20,10 @@ public class User {
 	@Column(name = "password", length = 100, nullable = false)
 	private String	password;
 	
-	@Column(name = "firstName", length = 100, nullable = true)
+	@Column(name = "first_name", length = 100, nullable = true)
 	private String	firstName;
 	
-	@Column(name = "lastName", length = 100, nullable = true)
+	@Column(name = "last_name", length = 100, nullable = true)
 	private String	lastName;
 	
 	@Column(name = "enabled", nullable = false)
@@ -32,7 +32,7 @@ public class User {
 	@Column(name = "avatar", length = 100, nullable = true)
 	private String	avatar;
 	
-	@Column(name = "idRole", nullable = false)
+	@Column(name = "id_role", nullable = false)
 	private String	idRole;
 	
 	public User() {
