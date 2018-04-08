@@ -18,13 +18,22 @@ public class AdminUserController {
 	UserService userService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String showBankAccounts(Model model) {
+	public String showListUser(Model model) {
 		List<User> list = userService.findAll();
 		System.out.println("Size: " + list.size());
 		System.out.println(list.toString());
 		model.addAttribute("listUser", list);
 		
 		return "/admin/user";
+	}
+	
+	@RequestMapping(value = "/listUser", method = RequestMethod.GET)
+	public List<User> showListUserJson(Model model) {
+		List<User> list = userService.findAll();
+		System.out.println("Size json: " + list.size());
+		System.out.println(list.toString());
+		model.addAttribute("listUser json", list);
+		return list;
 	}
 	
 }
