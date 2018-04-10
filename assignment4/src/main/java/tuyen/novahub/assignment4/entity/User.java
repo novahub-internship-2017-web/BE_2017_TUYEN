@@ -34,7 +34,7 @@ public class User {
 	private String	avatar;
 	
 	@Column(name = "id_role", nullable = false)
-	private int	idRole;
+	private int			idRole;
 	
 	public User() {
 		super();

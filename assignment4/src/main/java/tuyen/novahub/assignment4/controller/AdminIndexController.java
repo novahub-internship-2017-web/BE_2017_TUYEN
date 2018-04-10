@@ -18,22 +18,19 @@ public class AdminIndexController {
 	UserService userService;
 	
 	@RequestMapping(value = "/404", method = RequestMethod.GET)
-  public String error(Model model) {
-      return "/admin/404";
-  }
-	@RequestMapping(value = "/dang-nhap", method = RequestMethod.GET)
-  public String login(Model model) {
-      return "/admin/login";
-  }
+	public String error(Model model) {
+		return "/admin/404";
+	}
 	
+	@RequestMapping(value = "/dang-nhap", method = RequestMethod.GET)
+	public String login(Model model) {
+		return "/admin/login";
+	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String showListUser(Model model) {
 		List<User> list = userService.findAll();
-		System.out.println("Size: " + list.size());
-		System.out.println(list.toString());
 		model.addAttribute("listUser", list);
-		
 		return "/admin/user";
 	}
 }

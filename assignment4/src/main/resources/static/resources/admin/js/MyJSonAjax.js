@@ -1,18 +1,16 @@
 function listUserJson(){
-	 alert('All users');
     $.ajax({
       url : "/listUser",
       type : "GET",
       contentType : "application/json",
       dataType : 'json',        
       success : function(data) {
-    	alert('success');
         if(data.length > 0){
         	var title = '<table class="table table-striped table-advance table-hover">'
            				+'<tbody>'
             			+'<tr>'
-              			+'<th><i class="icon_profile"></i> Full Name</th>'
-              			+'<th><i class="icon_mail_alt"></i> Email</th>'
+              			+'<th><i class=""></i> Full Name</th>'
+              			+'<th><i class=""></i> Email</th>'
               			+'<th><i class=""></i> Active</th>'
               			+'<th><i class=""></i> Role</th>'
               			+'<th><i class="icon_cogs"></i> Action</th>'
@@ -36,9 +34,8 @@ function listUserJson(){
                    		+'</td>' 
                    		+'<td>'
                     	+'<div class="btn-group">'
-                        /* +'<a class="btn btn-success" href="#" title="Edit book!"><i class="icon_camera_alt"></i></a>' */
-                        +'<a class="btn btn-success" href="#" title="Edit book!"><i class="icon_pencil-edit"></i></a>'
-                        +'<a class="btn btn-danger" onclick="return deleteUser('+data[i].idUser+')" href="#" title="Delete book!"><i class="icon_close_alt2"></i></a>'
+                    	+'<a class="btn btn-success" onclick="showEditUser('+data[i].idUser+')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
+                        +'<a class="btn btn-danger" onclick="return deleteUser('+data[i].idUser+')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'   
                         +'</div>'
                         +'</td>'
                  		+'</tr>';
@@ -59,15 +56,46 @@ function listUserJson(){
     });
    }
 
+//
+//$("#formAddUser").submit(function(event) {
+//	alert('erroreeeee!');
+//    event.preventDefault();
+//    if($("#formAddUser").valid() ) {
+//    	alert('ddderror!');
+//    	addUserJson();
+//    }else{
+//    	$(document).ready( function () {
+//    		alert('hrhihi!');
+//    		$("#formAddUser").validate( {
+//    			rules: {
+//    				"firstName": {
+//    					required: true,
+//    					minlength: 4,
+//    					maxlength: 40
+//    				},
+//    			},
+//    			messages: {
+//    				"firstName": {
+//    					required: "Không được bỏ trống!",
+//    					minlength: "Tối thiểu 4 kí tự!",
+//    					maxlength: "Tối đa 40 kí tự!"
+//    				},
+//    				
+//    			}
+//    		});
+//
+//    	});
+//    }
+//});
+
 function addUserJson(){
-	// alert("add user!");
    var newUser = {}
    newUser["firstName"] = $('#firstName').val();
    newUser["lastName"] = $('#lastName').val();
    newUser["email"]= $('#email').val(); 
    newUser["idRole"]= $('#idRole').val(); 
    newUser["password"]= $('#password').val(); 
-   if ($('#firstName').val() == ''){
+   /*if ($('#firstName').val() == ''){
        alert('FirstName can not be empty!');
        return false;
    }
@@ -95,7 +123,7 @@ function addUserJson(){
    if ($('#rePassword').val() != $('#password').val()){
        alert('confirm password must be like password!');
        return false;
-   }
+   }*/
    $.ajax({
     type: "post",
     contentType : "application/json",
@@ -105,12 +133,11 @@ function addUserJson(){
     data:JSON.stringify(newUser),
     success: function(data){
     document.getElementById('formAddUser').style.display='none';
-    alert('success');
     	var title = '<table class="table table-striped table-advance table-hover">'
        				+'<tbody>'
         			+'<tr>'
-          			+'<th><i class="icon_profile"></i> Full Name</th>'
-          			+'<th><i class="icon_mail_alt"></i> Email</th>'
+          			+'<th><i class=""></i> Full Name</th>'
+          			+'<th><i class=""></i> Email</th>'
           			+'<th><i class=""></i> Active</th>'
           			+'<th><i class=""></i> Role</th>'
           			+'<th><i class="icon_cogs"></i> Action</th>'
@@ -125,7 +152,7 @@ function addUserJson(){
     		   nameRole = 'mod';
     	   }
     	   var row = '<tr>'
-              		+'<td>'+data[i].firstName+'</td>'
+    		   		+'<td>'+data[i].firstName+' '+data[i].lastName+'</td>'
                		+'<td>'+data[i].email+'</td>'
                		+'<td>'
                		+'<input type="checkbox" '+check+'>'
@@ -134,8 +161,8 @@ function addUserJson(){
                		+'</td>' 
                		+'<td>'
                 	+'<div class="btn-group">'
-                    +'<a class="btn btn-success" href="#" title="Edit book!"><i class="icon_pencil-edit"></i></a>'
-                    +'<a class="btn btn-danger" href="#" title="Delete book!"><i class="icon_close_alt2"></i></a>'
+                	+'<a class="btn btn-success" onclick="showEditUser('+data[i].idUser+')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
+                    +'<a class="btn btn-danger" onclick="return deleteUser('+data[i].idUser+')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>' 
                     +'</div>'
                     +'</td>'
              		+'</tr>';
@@ -160,21 +187,18 @@ function addUserJson(){
  
  
  function deleteUser(idUser){
-	 alert('delete user');
-	 alert(idUser)
     $.ajax({
       url : "/deleteUser/"+idUser,
       type : "GET",
       contentType : "application/json",
       dataType : 'json',        
       success : function(data) {
-    	alert('delete success');
         if(data.length > 0){
         	var title = '<table class="table table-striped table-advance table-hover">'
            				+'<tbody>'
             			+'<tr>'
-              			+'<th><i class="icon_profile"></i> Full Name</th>'
-              			+'<th><i class="icon_mail_alt"></i> Email</th>'
+              			+'<th><i class=""></i> Full Name</th>'
+              			+'<th><i class=""></i> Email</th>'
               			+'<th><i class=""></i> Active</th>'
               			+'<th><i class=""></i> Role</th>'
               			+'<th><i class="icon_cogs"></i> Action</th>'
@@ -198,9 +222,8 @@ function addUserJson(){
                    		+'</td>' 
                    		+'<td>'
                     	+'<div class="btn-group">'
-                        /* +'<a class="btn btn-success" href="#" title="Edit book!"><i class="icon_camera_alt"></i></a>' */
-                        +'<a class="btn btn-success" href="#" title="Edit book!"><i class="icon_pencil-edit"></i></a>'
-                        +'<a class="btn btn-danger" href="#" title="Delete book!"><i class="icon_close_alt2"></i></a>'
+                    	+'<a class="btn btn-success" onclick="showEditUser('+data[i].idUser+')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
+                        +'<a class="btn btn-danger" onclick="deleteUser('+data[i].idUser+')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>' 
                         +'</div>'
                         +'</td>'
                  		+'</tr>';
@@ -220,3 +243,107 @@ function addUserJson(){
           }
     });
    }
+ 
+ function showEditUser(idUser){
+	 document.getElementById('formEditUser').style.display='block';
+    $.ajax({
+      url : "/showEditUser/"+idUser,
+      type : "GET",
+      contentType : "application/json",
+      dataType : 'json',        
+      success : function(data) {
+    	if(data != null){
+    		$('#formEditUser').find('#emailEdit').val(data.email);
+        	$('#formEditUser').find('#firstNameEdit').val(data.firstName);
+        	$('#formEditUser').find('#lastNameEdit').val(data.lastName);
+        	$('#formEditUser').find('#idRoleEdit').val(data.idRole);
+        	$('#formEditUser').find('#idUserEdit').val(data.idUser);
+    	}else{
+    		document.getElementById('formEditUser').style.display='none';
+    		$('#msgResult').html('Error edited user!');
+    	}
+        },
+        error: function(){      
+           alert('error!');
+          }
+    });
+   }
+ 
+ function editUser(){
+	   var newUser = {}
+	   newUser["firstName"] = $('#firstNameEdit').val();
+	   newUser["lastName"] = $('#lastNameEdit').val();
+	   newUser["email"]= $('#emailEdit').val(); 
+	   newUser["idRole"]= $('#idRoleEdit').val(); 
+	   newUser["idUser"]= $('#idUserEdit').val(); 
+	   if ($('#firstNameEdit').val() == ''){
+	       alert('FirstName can not be empty!');
+	       return false;
+	   }
+	   if ($('#firstNameEdit').val().length > 40 ){
+	       alert('FirstName is no more than 40 characters!');
+	       return false;
+	   }
+	   if ($('#lastNameEdit').val() == ''){
+	       alert('LastName can not be empty!');
+	       return false;
+	   }
+	   if ($('#lastNameEdit').val().length > 40 ){
+	       alert('LastName is no more than 40 characters!');
+	       return false;
+	   }
+	   
+	   $.ajax({
+	    type: "POST",
+	    contentType : "application/json",
+	    dataType : 'json',
+	    url: '/editUser',
+	    cache: false,    
+	    data:JSON.stringify(newUser),
+	    success: function(data){
+	    document.getElementById('formEditUser').style.display='none';
+	    	var title = '<table class="table table-striped table-advance table-hover">'
+	       				+'<tbody>'
+	        			+'<tr>'
+	          			+'<th><i class=""></i> Full Name</th>'
+	          			+'<th><i class=""></i> Email</th>'
+	          			+'<th><i class=""></i> Active</th>'
+	          			+'<th><i class=""></i> Role</th>'
+	          			+'<th><i class="icon_cogs"></i> Action</th>'
+	       				+' </tr>';
+	       for (var i = 0; i < data.length; i++) {
+	    	   var check = null;
+	    	   var nameRole = 'admin';
+	    	   if(data[i].enabled == 1){
+	    		   check='checked="checked"';
+	    	   }
+	    	   if(data[i].idRole != 1){
+	    		   nameRole = 'mod';
+	    	   }
+	    	   var row = '<tr>'
+	    		   		+'<td>'+data[i].firstName+' '+data[i].lastName+'</td>'
+	               		+'<td>'+data[i].email+'</td>'
+	               		+'<td>'
+	               		+'<input type="checkbox" '+check+'>'
+	               		+'</td>'
+	                	+'<td>'+nameRole
+	               		+'</td>' 
+	               		+'<td>'
+	                	+'<div class="btn-group">'
+	                    +'<a class="btn btn-success" onclick="showEditUser('+data[i].idUser+')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
+	                    +'<a class="btn btn-danger" onclick="deleteUser('+data[i].idUser+')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>' 
+	                    +'</div>'
+	                    +'</td>'
+	             		+'</tr>';
+	    	   title = title + row; 		
+	       }
+	       title = title + '</tbody>'
+	       				 + '</table>';
+	       $('#result').html(title);
+	       $('#msgResult').html('Successfully edited user!');
+	    },
+	    error: function(){      
+	       alert('Error edit new user!');
+	      }
+	   });
+	  }

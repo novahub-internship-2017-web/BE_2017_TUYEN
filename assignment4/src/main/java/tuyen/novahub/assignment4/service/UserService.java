@@ -18,25 +18,20 @@ public class UserService {
 	UserRepository userRepository;
 	
 	public List<User> findAll() {
-    return userRepository.findAll();
-  }
-	/*public List<User> findAllNoDel() {
-    return userRepository.findAllNoDel();
-  }
-*/
+		return userRepository.findAll();
+	}
 	
 	public User save(User newUser) {
 		return userRepository.save(newUser);
 		
 	}
-
+	
 	public void deleteById(int idUser) {
 		userRepository.deleteById(idUser);
 	}
-
+	
 	public Optional<User> findById(int idUser) {
 		return userRepository.findById(idUser);
 	}
-
-
+	
 }
