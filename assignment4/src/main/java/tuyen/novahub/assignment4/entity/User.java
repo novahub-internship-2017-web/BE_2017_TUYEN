@@ -3,6 +3,7 @@ package tuyen.novahub.assignment4.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -10,7 +11,7 @@ import javax.persistence.Table;
 @Table(name = "user")
 public class User {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_user", nullable = false)
 	int							idUser;
 	
@@ -33,14 +34,14 @@ public class User {
 	private String	avatar;
 	
 	@Column(name = "id_role", nullable = false)
-	private String	idRole;
+	private int	idRole;
 	
 	public User() {
 		super();
 	}
 	
 	public User(int idUser, String email, String password, String firstName, String lastName, int enabled, String avatar,
-	    String idRole) {
+	    int idRole) {
 		super();
 		this.idUser = idUser;
 		this.email = email;
@@ -108,11 +109,11 @@ public class User {
 		this.avatar = avatar;
 	}
 	
-	public String getIdRole() {
+	public int getIdRole() {
 		return idRole;
 	}
 	
-	public void setIdRole(String idRole) {
+	public void setIdRole(int idRole) {
 		this.idRole = idRole;
 	}
 	
