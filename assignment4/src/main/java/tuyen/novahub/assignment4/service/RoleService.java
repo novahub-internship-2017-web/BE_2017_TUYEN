@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tuyen.novahub.assignment4.dao.RoleRepository;
-import tuyen.novahub.assignment4.entity.Role;
+import tuyen.novahub.assignment4.model.Role;
 
 @Service
 @Transactional

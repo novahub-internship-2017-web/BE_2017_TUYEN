@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import tuyen.novahub.assignment4.entity.User;
+import tuyen.novahub.assignment4.model.User;
 import tuyen.novahub.assignment4.service.UserService;
 
 @RestController
@@ -70,7 +70,7 @@ public class AdminUserController {
 		return userService.findAll();
 	}
 	
-	@RequestMapping(value = "/changeStatus/{idUser}&{enabled}", method = RequestMethod.GET)
+	@RequestMapping(value = "/changeStatus/{idUser}/{enabled}", method = RequestMethod.GET)
 	public void changeStatus(Model model, @PathVariable int idUser,@PathVariable int enabled) {
 		Optional<User> changeUser = userService.findById(idUser);
 		System.out.println("hihi");
@@ -87,5 +87,6 @@ public class AdminUserController {
 					changeUser.get().getAvatar(), changeUser.get().getIdRole());
 			userService.save(objUser);
 		}
+		//return userService.findAll();
 	}
 }

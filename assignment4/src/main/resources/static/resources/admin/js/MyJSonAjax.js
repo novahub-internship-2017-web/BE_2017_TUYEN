@@ -56,38 +56,37 @@ function listUserJson(){
     });
    }
 
+
+//validate
+//$(document).ready( function () {
+//	$("#formAddUser").validate( {
+//		rules: {
+//			firstName: {
+//				required: true,
+//				minlength: 4,
+//				maxlength: 40
+//			},
+//		},
+//		messages: {
+//			firstName: {
+//				required: "Không được bỏ trống!",
+//				minlength: "Tối thiểu 4 kí tự!",
+//				maxlength: "Tối đa 40 kí tự!"
+//			},
+//			
+//		}
+//	});
 //
-//$("#formAddUser").submit(function(event) {
-//	alert('erroreeeee!');
-//    event.preventDefault();
-//    if($("#formAddUser").valid() ) {
-//    	alert('ddderror!');
-//    	addUserJson();
-//    }else{
-//    	$(document).ready( function () {
-//    		alert('hrhihi!');
-//    		$("#formAddUser").validate( {
-//    			rules: {
-//    				"firstName": {
-//    					required: true,
-//    					minlength: 4,
-//    					maxlength: 40
-//    				},
-//    			},
-//    			messages: {
-//    				"firstName": {
-//    					required: "Không được bỏ trống!",
-//    					minlength: "Tối thiểu 4 kí tự!",
-//    					maxlength: "Tối đa 40 kí tự!"
-//    				},
-//    				
-//    			}
-//    		});
-//
-//    	});
-//    }
 //});
 
+
+
+//$("#formAddUser").submit(function(event) {
+//    event.preventDefault(); //no submit
+//    if($("#formAddUser").valid() ) {
+//    	addUserJson();
+//    }
+//});
 function addUserJson(){
    var newUser = {}
    newUser["firstName"] = $('#firstName').val();
@@ -347,3 +346,58 @@ function addUserJson(){
 	      }
 	   });
 	  }
+ 
+ function changeStatus(idUser){
+	// alert('change: '+idUser);
+    $.ajax({
+      url : "/changeStatus/"+idUser,
+      type : "GET",
+      contentType : "application/json",
+      dataType : 'json', 
+     /* success: function(data){
+  	    document.getElementById('formEditUser').style.display='none';
+  	    	var title = '<table class="table table-striped table-advance table-hover">'
+  	       				+'<tbody>'
+  	        			+'<tr>'
+  	          			+'<th><i class=""></i> Full Name</th>'
+  	          			+'<th><i class=""></i> Email</th>'
+  	          			+'<th><i class=""></i> Active</th>'
+  	          			+'<th><i class=""></i> Role</th>'
+  	          			+'<th><i class="icon_cogs"></i> Action</th>'
+  	       				+' </tr>';
+  	       for (var i = 0; i < data.length; i++) {
+  	    	   var check = null;
+  	    	   var nameRole = 'admin';
+  	    	   if(data[i].enabled == 1){
+  	    		   check='checked="checked"';
+  	    	   }
+  	    	   if(data[i].idRole != 1){
+  	    		   nameRole = 'mod';
+  	    	   }
+  	    	   var row = '<tr>'
+  	    		   		+'<td>'+data[i].firstName+' '+data[i].lastName+'</td>'
+  	               		+'<td>'+data[i].email+'</td>'
+  	               		+'<td>'
+  	               		+'<input type="checkbox" '+check+'>'
+  	               		+'</td>'
+  	                	+'<td>'+nameRole
+  	               		+'</td>' 
+  	               		+'<td>'
+  	                	+'<div class="btn-group">'
+  	                    +'<a class="btn btn-success" onclick="showEditUser('+data[i].idUser+')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
+  	                    +'<a class="btn btn-danger" onclick="deleteUser('+data[i].idUser+')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>' 
+  	                    +'</div>'
+  	                    +'</td>'
+  	             		+'</tr>';
+  	    	   title = title + row; 		
+  	       }
+  	       title = title + '</tbody>'
+  	       				 + '</table>';
+  	       $('#result').html(title);
+  	       $('#msgResult').html('Successfully change status user!');
+  	    },
+  	    error: function(){      
+  	       alert('Error change status user!');
+  	      }*/
+    });
+   }

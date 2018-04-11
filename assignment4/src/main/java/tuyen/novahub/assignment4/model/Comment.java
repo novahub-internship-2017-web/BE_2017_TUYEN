@@ -1,4 +1,4 @@
-package tuyen.novahub.assignment4.entity;
+package tuyen.novahub.assignment4.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

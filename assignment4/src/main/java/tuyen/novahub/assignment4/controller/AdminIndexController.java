@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import tuyen.novahub.assignment4.entity.User;
+import tuyen.novahub.assignment4.model.User;
 import tuyen.novahub.assignment4.service.UserService;
 
 @Controller
@@ -29,7 +29,7 @@ public class AdminIndexController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String showListUser(Model model) {
-		List<User> list = userService.findAll();
+		List<User> list = userService.findAllByEnabled(1);
 		model.addAttribute("listUser", list);
 		return "/admin/user";
 	}

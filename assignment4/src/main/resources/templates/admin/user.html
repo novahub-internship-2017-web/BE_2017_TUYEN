@@ -17,7 +17,6 @@
   <!-- Custom styles -->
   <link href="/resources/admin/css/style.css" rel="stylesheet">
   <link href="/resources/admin/css/style-responsive.css" rel="stylesheet" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <style>
 .modal{
     z-index:10;
@@ -39,15 +38,6 @@
 }
 </style>
 <script type="text/javascript">
-function changeStatus(idUser,enabled){
-	 alert('change: '+idUser);
-    $.ajax({
-      url : "/changeStatus/"+idUser,
-      type : "GET",
-      contentType : "application/json",
-      dataType : 'json',        
-    });
-   }
 </script>
 
 </head>
@@ -176,7 +166,7 @@ function changeStatus(idUser,enabled){
                     <td th:text="${listUser.firstName}+' '+${listUser.lastName}">..</td>
                     <td th:utext="${listUser.email}"></td>
                     <td>
-                    	<input type="checkbox" th:checked="${listUser.enabled == 1}"  th:onchange="'changeStatus(\''+${listUser.idUser}+'&'+${listUser.enabled}+'\');'">
+                    	<input type="checkbox" th:checked="${listUser.enabled == 1}"  th:onclick="'changeStatus(\''+${listUser.idUser}+'&'+${listUser.enabled}+'\');'">
                     </td>
                      <td> 
                      	<!-- <span th:if="${listUser.idRole == 1}" th:text="admin"></span> -->
@@ -208,7 +198,7 @@ function changeStatus(idUser,enabled){
            <br><h3>ADD NEW USER</h3><br>
         <table style=" width:100%"  class="">
         <tr>
-          <td><label ><b>FirstName</b></label></td>
+          <td><label ><b>FirstName<span style="color: red">(*)</span></b></label></td>
           <td><input type="text" name="firstName" id="firstName" class="form-control" required></td>
          </tr>
           <tr>
@@ -216,7 +206,7 @@ function changeStatus(idUser,enabled){
           <td><br></td>
          </tr>
          <tr>
-          <td><label ><b>LastName</b></label></td>
+          <td><label ><b>LastName<span style="color: red">(*)</span></b></label></td>
           <td><input type="text" name="lastName" id="lastName" class="form-control" required></td>
          </tr>
           <tr>
@@ -224,7 +214,7 @@ function changeStatus(idUser,enabled){
           <td><br></td>
          </tr>
          <tr>
-          <td><label ><b>Email</b></label></td>
+          <td><label ><b>Email<span style="color: red">(*)</span></b></label></td>
           <td><input type="email" name="email" id="email" class="form-control" required></td>
          </tr>
           <tr>
@@ -248,7 +238,7 @@ function changeStatus(idUser,enabled){
          </tr>
          
          <tr>
-          <td><label ><b>Password</b></label></td>
+          <td><label ><b>Password<span style="color: red">(*)</span></b></label></td>
           <td> <input type="password" name="password" id="password" class="form-control" required></td>
          </tr>
          <tr>
@@ -256,7 +246,7 @@ function changeStatus(idUser,enabled){
           <td><br></td>
          </tr>
          <tr>
-          <td><label ><b>Confirm Password</b></label></td>
+          <td><label ><b>Confirm Password<span style="color: red">(*)</span></b></label></td>
           <td> <input type="password" name="rePassword" id="rePassword" class="form-control" required></td>
          </tr>
          <tr>
@@ -284,13 +274,14 @@ function changeStatus(idUser,enabled){
     <div id="formEditUser" class="modal text-center">
            <form class="modal-content animate" name="" method="post"> 
            <br><h3>EDIT USER</h3><br>
+          <!--  <p style="color: red">(*)Not be empty!</p> -->
         <table style=" width:100%"  class="">
         <tr>
           <td><input type="hidden" id="idUserEdit" name="idUserEdit"></td>
           <td><br></td>
          </tr>
         <tr>
-          <td><label ><b>FirstName</b></label></td>
+          <td><label ><b>FirstName<span style="color: red">(*)</span></b></label></td>
           <td><input type="text" name="firstName" id="firstNameEdit" class="form-control" required></td>
          </tr>
           <tr>
@@ -298,7 +289,7 @@ function changeStatus(idUser,enabled){
           <td><br></td>
          </tr>
          <tr>
-          <td><label ><b>LastName</b></label></td>
+          <td><label ><b>LastName<span style="color: red">(*)</span></b></label></td>
           <td><input type="text" name="lastName" id="lastNameEdit" class="form-control" required></td>
          </tr>
           <tr>
@@ -306,7 +297,7 @@ function changeStatus(idUser,enabled){
           <td><br></td>
          </tr>
          <tr>
-          <td><label ><b>Email</b></label></td>
+          <td><label ><b>Email<span style="color: red">(*)</span></b></label></td>
           <td><input type="email" name="email" id="emailEdit" class="form-control" disabled="disabled" required></td>
          </tr>
           <tr>
@@ -359,7 +350,10 @@ function changeStatus(idUser,enabled){
   <script src="/resources/admin/js/jquery.nicescroll.js" type="text/javascript"></script>
   <!--custom script for all page-->
   <script src="/resources/admin/js/scripts.js" type="text/javascript"></script>
- <script src="/resources/admin/js/MyJSonAjax.js" type="text/javascript"></script> 
+<!--   <script src="/resources/admin/js/validate.js" type="text/javascript"></script> -->
+  <script src="/resources/admin/js/MyJSonAjax.js" type="text/javascript"></script> 
+  
+ 
 </body>
 
 </html>

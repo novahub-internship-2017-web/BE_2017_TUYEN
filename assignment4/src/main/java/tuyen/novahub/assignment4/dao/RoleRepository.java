@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import tuyen.novahub.assignment4.entity.Role;
+import tuyen.novahub.assignment4.model.Role;
 
 public interface RoleRepository extends CrudRepository<Role, Long>{
 
