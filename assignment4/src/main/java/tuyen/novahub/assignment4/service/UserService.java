@@ -37,5 +37,10 @@ public class UserService {
 	public List<User> findAllByEnabled(int i) {
 		return userRepository.findAllByEnabled(i);
 	}
+
+	public User findByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
+	
 	
 }

@@ -52,7 +52,7 @@
       </div>
 
       <!--logo start-->
-      <a href="index.html" class="logo">Book <span class="lite"> Management</span></a>
+      <a href="/" class="logo">Book <span class="lite"> Management</span></a>
       <!--logo end-->
 
       <div class="nav search-row" id="top_menu">
@@ -106,7 +106,7 @@
         <!-- sidebar menu start-->
         <ul class="sidebar-menu">
           <li class="">
-            <a class="" href="index.html">
+            <a class="" href="/allUser">
                           <i class="icon_profile"></i>
                           <span>Users</span>
             </a>
@@ -118,13 +118,13 @@
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
             <ul class="sub">
-              <li><a class="" href="profile.html">My Book</a></li>
-              <li><a class="" href="login.html"><span>All Book</span></a></li>
+              <li><a class="" href="/myBook">My Book</a></li>
+              <li><a class="" href="/"><span>All Book</span></a></li>
             </ul>
           </li>
           
           <li class="">
-            <a class="" href="index.html">
+            <a class="" href="/comment">
                           <i class="icon_comment_alt"></i>
                           <span>Comment</span>
             </a>
@@ -164,7 +164,7 @@
                   </tr>
                   <tr th:each="listUser : ${listUser}">
                     <td th:text="${listUser.firstName}+' '+${listUser.lastName}">..</td>
-                    <td th:utext="${listUser.email}"></td>
+                    <td th:text="${listUser.email}"></td>
                     <td>
                     	<input type="checkbox" th:checked="${listUser.enabled == 1}"  th:onclick="'changeStatus(\''+${listUser.idUser}+'&'+${listUser.enabled}+'\');'">
                     </td>

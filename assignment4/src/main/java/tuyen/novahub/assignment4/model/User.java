@@ -9,7 +9,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User{
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_user", nullable = false)
@@ -51,6 +52,14 @@ public class User {
 		this.enabled = enabled;
 		this.avatar = avatar;
 		this.idRole = idRole;
+	}
+	
+	public User(User user) {
+		this.idUser = user.getIdUser();
+    this.email = user.getEmail();
+    this.password = user.getPassword();
+    this.enabled = user.getEnabled();
+    this.idRole = user.getIdRole();
 	}
 	
 	public int getIdUser() {
@@ -116,6 +125,8 @@ public class User {
 	public void setIdRole(int idRole) {
 		this.idRole = idRole;
 	}
+	
+	
 	
 	@Override
 	public String toString() {

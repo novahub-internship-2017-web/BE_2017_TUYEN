@@ -5,10 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import tuyen.novahub.assignment4.model.Book;
 import tuyen.novahub.assignment4.model.User;
+import tuyen.novahub.assignment4.service.BookService;
 import tuyen.novahub.assignment4.service.UserService;
 
 @Controller
@@ -16,21 +19,38 @@ public class AdminIndexController {
 	
 	@Autowired
 	UserService userService;
+	@Autowired
+	BookService bookService;
 	
 	@RequestMapping(value = "/404", method = RequestMethod.GET)
 	public String error(Model model) {
 		return "/admin/404";
 	}
 	
-	@RequestMapping(value = "/dang-nhap", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
 		return "/admin/login";
 	}
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/allUser", method = RequestMethod.GET)
 	public String showListUser(Model model) {
 		List<User> list = userService.findAllByEnabled(1);
 		model.addAttribute("listUser", list);
 		return "/admin/user";
+	}
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String showListBook(Model model) {
+		List<Book> list = bookService.findAllByEnabled(1);
+		model.addAttribute("listBook", list);
+		return "/admin/book";
+	}
+	
+	@RequestMapping(value = "/detailBook/{idBook}", method = RequestMethod.GET)
+	public String showDetailBook(Model model, @PathVariable int idBook) {
+		Book objBook = bookService.findByIdBook(idBook);
+		System.out.println("bookDetail: "+objBook.toString());
+		model.addAttribute("objBook", objBook);
+		return "/admin/detailBook";
 	}
 }

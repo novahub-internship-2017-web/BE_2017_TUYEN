@@ -20,4 +20,8 @@ public class RoleService {
     return roleRepository.findAll();
   }
 
+//	public List<String> findRoleByEmail(String email) {
+//		return roleRepository.findRoleByEmail(email);
+//	}
+
 }
