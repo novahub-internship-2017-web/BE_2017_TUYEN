@@ -58,35 +58,37 @@ function listUserJson(){
 
 
 //validate
-//$(document).ready( function () {
-//	$("#formAddUser").validate( {
-//		rules: {
-//			firstName: {
-//				required: true,
-//				minlength: 4,
-//				maxlength: 40
-//			},
-//		},
-//		messages: {
-//			firstName: {
-//				required: "Không được bỏ trống!",
-//				minlength: "Tối thiểu 4 kí tự!",
-//				maxlength: "Tối đa 40 kí tự!"
-//			},
-//			
-//		}
-//	});
-//
-//});
+$(document).ready( function () {
+	//alert('validate!');
+	$("#formAddUser").validate( {
+		rules: {
+			firstName: {
+				required: true,
+				minlength: 4,
+				maxlength: 40
+			},
+		},
+		messages: {
+			firstName: {
+				required: "Không được bỏ trống!",
+				minlength: "Tối thiểu 4 kí tự!",
+				maxlength: "Tối đa 40 kí tự!"
+			},
+			
+		}
+	});
+
+});
 
 
 
-//$("#formAddUser").submit(function(event) {
-//    event.preventDefault(); //no submit
-//    if($("#formAddUser").valid() ) {
-//    	addUserJson();
-//    }
-//});
+$("#formAddUser").submit(function(event) {
+	//alert('validate222222!');
+    event.preventDefault(); //no submit
+    if($("#formAddUser").valid() ) {
+    	addUserJson();
+    }
+});
 function addUserJson(){
    var newUser = {}
    newUser["firstName"] = $('#firstName').val();
@@ -131,7 +133,7 @@ function addUserJson(){
     cache: false,    
     data:JSON.stringify(newUser),
     success: function(data){
-    document.getElementById('formAddUser').style.display='none';
+    	document.getElementById('viewFormAddUser').style.display='none';
     	var title = '<table class="table table-striped table-advance table-hover">'
        				+'<tbody>'
         			+'<tr>'
@@ -276,23 +278,6 @@ function addUserJson(){
 	   newUser["email"]= $('#emailEdit').val(); 
 	   newUser["idRole"]= $('#idRoleEdit').val(); 
 	   newUser["idUser"]= $('#idUserEdit').val(); 
-//	   if ($('#firstNameEdit').val() == ''){
-//	       alert('FirstName can not be empty!');
-//	       return false;
-//	   }
-//	   if ($('#firstNameEdit').val().length > 40 ){
-//	       alert('FirstName is no more than 40 characters!');
-//	       return false;
-//	   }
-//	   if ($('#lastNameEdit').val() == ''){
-//	       alert('LastName can not be empty!');
-//	       return false;
-//	   }
-//	   if ($('#lastNameEdit').val().length > 40 ){
-//	       alert('LastName is no more than 40 characters!');
-//	       return false;
-//	   }
-	   
 	   $.ajax({
 	    type: "PUT",
 	    contentType : "application/json",

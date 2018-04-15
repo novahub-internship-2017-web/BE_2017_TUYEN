@@ -1,5 +1,7 @@
 package tuyen.novahub.assignment4.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,8 +10,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "role")
-public class Role {
+public class Role implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue
 	@Column(name = "idRole", nullable = false)
@@ -17,6 +21,7 @@ public class Role {
 	
 	@Column(name = "nameRole", length = 45, nullable = false)
 	String	nameRole;
+	
 	
 	public Role() {
 		super();
@@ -28,6 +33,8 @@ public class Role {
 		this.nameRole = nameRole;
 	}
 	
+	
+
 	public int getIdRole() {
 		return idRole;
 	}
@@ -43,7 +50,7 @@ public class Role {
 	public void setNameRole(String nameRole) {
 		this.nameRole = nameRole;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Role [idRole=" + idRole + ", nameRole=" + nameRole + "]";

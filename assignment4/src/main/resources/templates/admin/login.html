@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="utf-8">
 
-  <title>Đăng nhập</title>
+  <title>Login</title>
 
   <!-- Bootstrap CSS -->
   <link href="/resources/admin/css/bootstrap.min.css" rel="stylesheet">
@@ -21,19 +21,19 @@
 </head>
 
 <body class="login-img3-body">
-
+ <p th:text="${message}"></p>
   <div class="container">
 
-    <form class="login-form" action="index.html">
+    <form class="login-form" action="/login">
       <div class="login-wrap">
         <p class="login-img"><i class="icon_lock_alt"></i></p>
         <div class="input-group">
           <span class="input-group-addon"><i class="icon_profile"></i></span>
-          <input type="text" class="form-control" placeholder="Username" autofocus>
+          <input type="text" class="form-control" name="username" id="username" placeholder="Username" autofocus>
         </div>
         <div class="input-group">
           <span class="input-group-addon"><i class="icon_key_alt"></i></span>
-          <input type="password" class="form-control" placeholder="Password">
+          <input type="password" id="password" name="password" class="form-control" placeholder="Password">
         </div>
         <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
       </div> 

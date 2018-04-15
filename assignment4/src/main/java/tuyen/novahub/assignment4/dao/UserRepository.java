@@ -26,5 +26,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	public List<User> findAllByRemove(int i);
 
 	public User findByIdUserAndRemove(int idUser, int remove);
+
 	
 }

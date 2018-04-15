@@ -32,6 +32,7 @@ public class AdminUserController {
 	
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
 	public List<User> addUserJson(Model model, @RequestBody User newUser) {
+		System.out.println("add user");
 		newUser.setEnabled(0); // not enable
 		newUser.setRemove(0); // not remove
 		userService.save(newUser);

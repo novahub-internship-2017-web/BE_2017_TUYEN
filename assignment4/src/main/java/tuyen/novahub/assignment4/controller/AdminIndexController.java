@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import tuyen.novahub.assignment4.model.Book;
 import tuyen.novahub.assignment4.model.Comment;
@@ -26,13 +27,22 @@ public class AdminIndexController {
 	@Autowired
 	CommentService	commentService;
 	
-	@RequestMapping(value = "/404", method = RequestMethod.GET)
-	public String error(Model model) {
-		return "/admin/404";
+	@RequestMapping(value = "/403", method = RequestMethod.GET)
+	public String accessDenied(Model model) {
+		return "/admin/403";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model) {
+	@RequestMapping(value = "/show-login")
+	public String login(@RequestParam(required = false) String message, final Model model) {
+		 if (message != null && !message.isEmpty()) {
+	      if (message.equals("logout")) {
+	        model.addAttribute("message", "Logout!");
+	      }
+	      if (message.equals("error")) {
+	        model.addAttribute("message", "Login Failed!");
+	      }
+	    }
+		
 		return "/admin/login";
 	}
 	

@@ -146,7 +146,7 @@
               </header>
               <div style="margin-left: 10px">
               <br><br>
-              <a class="btn btn-primary" href="javascript:void(0)" onclick="document.getElementById('formAddUser').style.display='block'"><i class="icon_plus_alt2"></i>Add User</a>
+              <a class="btn btn-primary" href="javascript:void(0)" onclick="document.getElementById('viewFormAddUser').style.display='block'"><i class="icon_plus_alt2"></i>Add User</a>
               <a class="btn btn-primary" href="javascript:void(0)" onclick="return listUserJson();"><i class="icon_plus_alt2"></i>List User</a>
               </div>
               
@@ -196,13 +196,13 @@
       </section>
     </section>
   </section>
-      <div id="formAddUser" class="modal text-center">
-           <form class="modal-content animate" name="" method="post"> 
+      <div id="viewFormAddUser" class="modal text-center">
+           <form class="modal-content animate" id="formAddUser"  name="formAddUser"> 
            <br><h3>ADD NEW USER</h3><br>
         <table style=" width:100%"  class="">
         <tr>
           <td><label ><b>FirstName<span style="color: red">(*)</span></b></label></td>
-          <td><input type="text" name="firstName" id="firstName" class="form-control" required></td>
+          <td><input type="text" name="firstName" id="firstName" class="form-control" autocomplete="firstName" required></td>
          </tr>
           <tr>
           <td><br></td>
@@ -210,7 +210,7 @@
          </tr>
          <tr>
           <td><label ><b>LastName<span style="color: red">(*)</span></b></label></td>
-          <td><input type="text" name="lastName" id="lastName" class="form-control" required></td>
+          <td><input type="text" name="lastName" id="lastName" class="form-control" autocomplete="lastName" required></td>
          </tr>
           <tr>
           <td><br></td>
@@ -218,7 +218,7 @@
          </tr>
          <tr>
           <td><label ><b>Email<span style="color: red">(*)</span></b></label></td>
-          <td><input type="email" name="email" id="email" class="form-control" required></td>
+          <td><input autocomplete="email" type="email" name="email" id="email" class="form-control" required></td>
          </tr>
           <tr>
           <td><br></td>
@@ -242,7 +242,7 @@
          
          <tr>
           <td><label ><b>Password<span style="color: red">(*)</span></b></label></td>
-          <td> <input type="password" name="password" id="password" class="form-control" required></td>
+          <td> <input type="password" name="password" id="password" class="form-control" autocomplete="password" required></td>
          </tr>
          <tr>
           <td><br></td>
@@ -250,7 +250,7 @@
          </tr>
          <tr>
           <td><label ><b>Confirm Password<span style="color: red">(*)</span></b></label></td>
-          <td> <input type="password" name="rePassword" id="rePassword" class="form-control" required></td>
+          <td> <input type="password" name="rePassword" id="rePassword" class="form-control" autocomplete="rePassword" required></td>
          </tr>
          <tr>
           <td><br></td>
@@ -259,10 +259,9 @@
          <tr>
           <td></td>
           <td>
-            <input type="button" value="Add" class="btn btn-primary "
-                 onclick=" return addUserJson();">
+            <input type="button" value="Add" class="btn btn-primary" onclick="addUserJson()">
             <input type="button" value="Cancel" class="btn btn-danger"
-              onclick="document.getElementById('formAddUser').style.display='none'">
+              onclick="document.getElementById('viewFormAddUser').style.display='none'">
             
           </td>
          </tr>
