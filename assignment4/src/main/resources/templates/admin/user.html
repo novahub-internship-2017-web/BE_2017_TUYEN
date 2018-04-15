@@ -166,8 +166,11 @@
                     <td th:text="${listUser.firstName}+' '+${listUser.lastName}">..</td>
                     <td th:text="${listUser.email}"></td>
                     <td>
-                    	<input type="checkbox" th:checked="${listUser.enabled == 1}"  th:onclick="'changeStatus(\''+${listUser.idUser}+'&'+${listUser.enabled}+'\');'">
+                    	<input type="checkbox" th:checked="${listUser.enabled == 1}" th:onclick="'changeStatus('+${listUser.idUser}+','+${listUser.enabled}+')'">          
                     </td>
+                    <!--  
+                    th:onclick="'changeStatus(\''+${listUser.idUser}+','+${listUser.enabled}+'\');'"
+                    -->
                      <td> 
                      	<!-- <span th:if="${listUser.idRole == 1}" th:text="admin"></span> -->
                      	<div th:switch="${listUser.idRole}">
@@ -324,8 +327,7 @@
           <td></td>
           <td>
             <input type="button" value="Edit" class="btn btn-primary "
-                 onclick="editUser()">
-                 <!-- onclick="return editUser(10);"  -->
+                 onclick="return editUser()">
             <input type="button" value="Cancel" class="btn btn-danger"
               onclick="document.getElementById('formEditUser').style.display='none'">
             

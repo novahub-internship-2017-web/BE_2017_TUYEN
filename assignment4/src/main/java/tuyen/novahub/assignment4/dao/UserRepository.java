@@ -12,22 +12,19 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	
 	public List<User> findAll();
 	
-	
-//	@Query("SELECT u FROM user u WHERE u.enabled =1")
 	public List<User> findAllByEnabled(int enabled);
-	
 	
 	@SuppressWarnings("unchecked")
 	public User save(User newUser);
-
-
+	
 	public User findByEmail(String email);
+	
+	public User findByIdUser(int idUser);
 
+	public List<User> findAllByEnabledAndRemove(int enabled, int remove);
+
+	public List<User> findAllByRemove(int i);
+
+	public User findByIdUserAndRemove(int idUser, int remove);
 	
-	/*@Query("DELETE FROM user u WHERE id_user = :idUser")
-	void deleteById(@Param("idUser") int idUser);*/
-	//User findById(int idUser);
-	
-//  @Query("select enabled from user u where u.enabled=0")
-//  public  List<User> findAllDisabled();
 }

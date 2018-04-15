@@ -1,5 +1,18 @@
 package tuyen.novahub.assignment4.dao;
 
-public class CommentRepository {
+import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
+
+import tuyen.novahub.assignment4.model.Comment;
+
+public interface CommentRepository extends CrudRepository<Comment, Long>{
+
+	public List<Comment> findAllByRemove(int i);
+
+	public List<Comment> findByIdBook(int idBook);
+
+	public List<Comment> findByIdBookAndRemove(int idBook, int remove);
+	
 	
 }

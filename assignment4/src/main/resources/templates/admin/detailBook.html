@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Detail Book</title>
+  <title>Detailed Book Information</title>
 
   <!-- Bootstrap CSS -->
   <link href="/resources/admin/css/bootstrap.min.css" rel="stylesheet">
@@ -137,15 +137,15 @@
                 <ul class="nav nav-tabs">
                   <li class="active">
                     <a data-toggle="tab" href="#recent-activity">
-                                          <i class="icon-home"></i>
-                                          Comment
-                                      </a>
+                       <i class="icon-home"></i>
+                       COMMENT
+                    </a>
                   </li>
                   <li class="">
                     <a data-toggle="tab" href="#edit-profile">
-                                          <i class="icon-envelope"></i>
-                                          Edit Book
-                                      </a>
+                        <i class="icon-envelope"></i>
+                        EDIT BOOK
+                    </a>
                   </li>
                 </ul>
               </header>
@@ -153,13 +153,34 @@
                 <div class="tab-content">
                   <div id="recent-activity" class="tab-pane active">
                     <div class="profile-activity">
-                      <div class="act-time">
+                      <div class="act-time" style="overflow: inherit;" th:each="objComment : ${listComment}" >
                         <div class="activity-body act-in">
                           <span class="arrow"></span>
                           <div class="text">
                             <a href="#" class="activity-img"><img class="avatar" src="/resources/admin/img/avatar.jpg" alt=""></a>
-                            <p class="attribution"><a href="#">Jonatanh Doe</a> at 4:25pm, 30th Octmber 2014</p>
-                            <p>It is a long established fact that a reader will be distracted layout</p>
+                            <div class="attribution">
+                            	<a href="#" th:text="${objComment.idUser}">..</a>
+                            	<span th:text="${objComment.updatedComment}">..</span>
+        						<div class="top-nav notification-row" style="margin-left: 0px;margin-top: -7px;">
+        							<ul class="">
+          								<li class="dropdown">
+           									<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            					<b class="caret"></b>
+                        				    </a>
+            								<ul style="max-width: 100px !important;min-width: 100px !important; width: 1px !important;top: 25px" class="dropdown-menu extended logout">
+              									<li>
+                									<a style="padding: 5px 5px 5px 5px !important;" href="#"><i class="icon_close_alt2"></i>DELETE</a>
+              									</li>
+             									<li>
+                									<a style="padding: 5px 5px 5px 5px !important;" href="#"><i class="icon_pencil-edit"></i>Edit</a>
+              									</li>
+            								</ul>
+          								</li>
+        						  </ul>
+      							</div>
+                            </div> 
+                            <div><p th:text="${objComment.message}">..</p></div> 
+                            
                           </div>
                         </div>
                       </div>
@@ -178,7 +199,7 @@
                           <div class="form-group">
                             <div class="col-lg-12">
                               <button type="submit" class="btn btn-primary">Comment</button>
-                              <button type="button" class="btn btn-danger">Cancel</button>
+                              <button type="reset" class="btn btn-danger">Cancel</button>
                             </div>
                           </div>
                         </form>
@@ -191,33 +212,33 @@
                   </div>
                   <!-- profile -->
                   <!-- edit-profile -->
-                  <div id="edit-profile" class="tab-pane">
+                  <div id="edit-profile" class="tab-pane" th:each="objBook : ${objBook}">
                     <section class="panel">
                       <div class="panel-body bio-graph-info">
-                        <h1> Book Info</h1>
+                        <h1>Edited Book Information</h1>
                         <form class="form-horizontal" role="form">
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Title</label>
                             <div class="col-lg-6">
-                              <input type="text" class="form-control" id="title" name="author" placeholder=" ">
+                              <input type="text" class="form-control" id="title" name="title" th:value="${objBook.title}">
                             </div>
                           </div>
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Author</label>
                             <div class="col-lg-6">
-                              <input type="text" class="form-control" id="author" name="author" placeholder=" ">
+                              <input type="text" class="form-control" id="author" name="author" th:value="${objBook.author}">
                             </div>
                           </div>
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Description</label>
                             <div class="col-lg-10">
-                              <textarea name="description" id="description" class="form-control" cols="30" rows="5"></textarea>
+                              <textarea th:text="${objBook.description}" name="description" id="description" class="form-control" cols="30" rows="5"></textarea>
                             </div>
                           </div>
                           <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
                               <button type="submit" class="btn btn-primary">Save</button>
-                              <button type="button" class="btn btn-danger">Cancel</button>
+                              <button type="reset" class="btn btn-danger">Cancel</button>
                             </div>
                           </div>
                         </form>

@@ -16,12 +16,28 @@ public class BookService {
 	@Autowired
 	BookRepository bookRepository;
 
-	public List<Book> findAllByEnabled(int i) {
-		return bookRepository.findAllByEnabled(i);
+	public List<Book> findAllByEnabledAndRemove(int enabled,int remove) {
+		return bookRepository.findAllByEnabledAndRemove(enabled,remove);
 	}
 
 	public Book findByIdBook(int idBook) {
 		return bookRepository.findByIdBook(idBook);
 	}
-	
+
+	public List<Book> findAllByIdUserAndRemove(int idUser,int remove) {
+		return bookRepository.findAllByIdUserAndRemove(idUser,remove);
+	}
+
+	public List<Book> findAllByIdUser(int idUser) {
+		return bookRepository.findAllByIdUser(idUser);
+	}
+
+	public void save(Book objBook) {
+		bookRepository.save(objBook);
+	}
+
+	public Book findByIdBookAndRemoveAndEnabled(int idBook, int remove, int enabled) {
+		return bookRepository.findByIdBookAndRemoveAndEnabled(idBook,remove,enabled);
+	}
+
 }
