@@ -1,36 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <head>
   <meta charset="utf-8">
 
-  <title>Lỗi không tìm thấy trang</title>
+  <title>Access denied</title>
 
   <!-- Bootstrap CSS -->
-  <link href="/resources/admin/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
   <!-- bootstrap theme -->
-  <link href="/resources/admin/css/bootstrap-theme.css" rel="stylesheet">
+  <link href="/resources/css/bootstrap-theme.css" rel="stylesheet">
   <!--external css-->
   <!-- font icon -->
-  <link href="/resources/admin/css/elegant-icons-style.css" rel="stylesheet" />
-  <link href="/resources/admin/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+  <link href="/resources/css/elegant-icons-style.css" rel="stylesheet" />
+  <link href="/resources/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
   <!-- Custom styles -->
-  <link href="/resources/admin/css/style.css" rel="stylesheet">
-  <link href="/resources/admin/css/style-responsive.css" rel="stylesheet" />
+  <link href="/resources/css/style.css" rel="stylesheet">
+  <link href="/resources/css/style-responsive.css" rel="stylesheet" />
 
 </head>
 
 <body>
   <div class="page-404">
-    <p class="text-404">404</p>
-
-    <h2>Aww Snap!</h2>
-    <p>Something went wrong or that page doesn’t exist yet. <br><a href="index.html">Return Home</a></p>
+    <p class="text-404">403</p>
+    <p style="color: red; font-style: oblique; font-size: 15px">You do not have permission to access this page!<br><a href="/">Return Home</a></p>
   </div>
-  <div class="credits">
-          <a href="https://bootstrapmade.com/">Free Bootstrap Templates</a> by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-
 
 </body>
 

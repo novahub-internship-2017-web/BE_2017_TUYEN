@@ -52,6 +52,11 @@ public class UserService {
 	public User findByIdUserAndRemove(int idUser, int remove) {
 		return userRepository.findByIdUserAndRemove(idUser,remove);
 	}
+
+	public User findByEmailAndRemove(String email, int remove) {
+		System.out.println("email service: "+email);
+		return userRepository.findByEmailAndRemove(email,remove);
+	}
 	
 	
 }

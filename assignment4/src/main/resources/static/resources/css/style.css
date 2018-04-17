@@ -9895,3 +9895,7 @@ span.customSelect.changed {
 #sendmessage.show, #errormessage.show, .show {
 	display:block;
 }
+
+.error{
+	color: red
+}

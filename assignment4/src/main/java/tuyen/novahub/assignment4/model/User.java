@@ -8,10 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "user")
 public class User implements Serializable {
 	
 	private static final long	serialVersionUID	= 1L;
@@ -39,8 +38,8 @@ public class User implements Serializable {
 	@Column(name = "avatar", length = 100, nullable = true)
 	private String						avatar;
 	
-	// @JoinTable(name = "role", joinColumns = @JoinColumn(name = "id_role"),
-	// inverseJoinColumns = @JoinColumn(name = "role_id"))
+//	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id_role"),
+//	inverseJoinColumns = @JoinColumn(name = "role_id"))
 	@Column(name = "id_role", nullable = false)
 	private int								idRole;
 	
@@ -51,6 +50,14 @@ public class User implements Serializable {
 	public User() {
 		super();
 	}
+	
+	public User(User user) {
+    this.idUser = user.getIdUser();
+    this.email = user.getEmail();
+    this.password = user.getPassword();
+    this.enabled = user.getEnabled();
+    this.idRole = user.getIdRole();    
+  }
 	
 	public User(int idUser, String email, String password, String firstName, String lastName, int enabled, String avatar,
 	    int idRole, int remove) {

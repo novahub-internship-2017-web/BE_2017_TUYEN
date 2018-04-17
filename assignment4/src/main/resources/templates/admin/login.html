@@ -7,29 +7,29 @@
   <title>Login</title>
 
   <!-- Bootstrap CSS -->
-  <link href="/resources/admin/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
   <!-- bootstrap theme -->
-  <link href="/resources/admin/css/bootstrap-theme.css" rel="stylesheet">
+  <link href="/resources/css/bootstrap-theme.css" rel="stylesheet">
   <!--external css-->
   <!-- font icon -->
-  <link href="/resources/admin/css/elegant-icons-style.css" rel="stylesheet" />
-  <link href="/resources/admin/css/font-awesome.css" rel="stylesheet" />
+  <link href="/resources/css/elegant-icons-style.css" rel="stylesheet"/>
+  <link href="/resources/css/font-awesome.css" rel="stylesheet"/>
   <!-- Custom styles -->
-  <link href="/resources/admin/css/style.css" rel="stylesheet">
-  <link href="/resources/admin/css/style-responsive.css" rel="stylesheet" />
+  <link href="/resources/css/style.css" rel="stylesheet">
+  <link href="/resources/css/style-responsive.css" rel="stylesheet" />
 
 </head>
 
 <body class="login-img3-body">
- <p th:text="${message}"></p>
   <div class="container">
-
-    <form class="login-form" action="/login">
+	
+    <form class="login-form" th:action="@{/login}" method="POST">
       <div class="login-wrap">
         <p class="login-img"><i class="icon_lock_alt"></i></p>
+        <p th:text="${message}" style="color: red; font-size: 20px; font: bold;">...</p>
         <div class="input-group">
           <span class="input-group-addon"><i class="icon_profile"></i></span>
-          <input type="text" class="form-control" name="username" id="username" placeholder="Username" autofocus>
+          <input type="email" class="form-control" name="email" id="email" placeholder="email" autofocus>
         </div>
         <div class="input-group">
           <span class="input-group-addon"><i class="icon_key_alt"></i></span>

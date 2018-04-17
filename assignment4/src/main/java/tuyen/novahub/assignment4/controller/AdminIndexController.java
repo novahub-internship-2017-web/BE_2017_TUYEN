@@ -3,6 +3,7 @@ package tuyen.novahub.assignment4.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,19 +33,55 @@ public class AdminIndexController {
 		return "/admin/403";
 	}
 	
-	@RequestMapping(value = "/show-login")
-	public String login(@RequestParam(required = false) String message, final Model model) {
-		 if (message != null && !message.isEmpty()) {
-	      if (message.equals("logout")) {
-	        model.addAttribute("message", "Logout!");
-	      }
-	      if (message.equals("error")) {
-	        model.addAttribute("message", "Login Failed!");
-	      }
-	    }
+	@RequestMapping(value = "/show-login", method = RequestMethod.GET)
+	public String showLogin(Authentication authentication, @RequestParam(required = false) String message, Model model) {
+		System.out.println("show-login");
+		if (message != null && !message.isEmpty()) {
+			if (message.equals("logout")) {
+				model.addAttribute("message", "You have successfully logged out!");
+			}
+			if (message.equals("error")) {
+				model.addAttribute("message", "Password or email is incorrect!");
+			}
+		}
+		if (authentication != null) {
+			System.out.println("hihi");
+			System.out.println("authentication: " + authentication.toString());
+//			String email = principal.getName();
+//			System.out.println("user Login: " + userService.findByEmail(email));
+			List<User> list = userService.findAllByRemove(0);
+			model.addAttribute("listUser", list);
+		//	model.addAttribute("inforLogin", userService.findByEmail(email));
+			return "/admin/user";
+		} else {
+			System.out.println("haiz");
+			return "/admin/login";
+		}
 		
-		return "/admin/login";
 	}
+	
+//	@RequestMapping(value = "/show-login", method = RequestMethod.GET)
+//	public String login(Authentication authentication,@RequestParam(required = false) String message, Model model) {
+//		System.out.println("show-login");
+//		if (message != null && !message.isEmpty()) {
+//			if (message.equals("logout")) {
+//				model.addAttribute("message", "You have successfully logged out!");
+//			}
+//			if (message.equals("error")) {
+//				model.addAttribute("message", "Password or email is incorrect!");
+//			}
+//		}
+//		if (authentication != null) {
+//			System.out.println("hihi");
+//			System.out.println("authentication: " + authentication.toString());
+//			List<User> list = userService.findAllByRemove(0);
+//			model.addAttribute("listUser", list);
+//			return "/";
+//		} else {
+//			System.out.println("not login");
+//			return "/admin/login";
+//		}
+//	}
 	
 	@RequestMapping(value = "/allUser", method = RequestMethod.GET)
 	public String showListUser(Model model) {
@@ -71,7 +108,7 @@ public class AdminIndexController {
 		return "/admin/detailBook";
 	}
 	
-	@RequestMapping(value = "/myBook", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/myBook", method = RequestMethod.GET)
 	public String showMyBook(Model model) {
 		List<Book> listMyBook = bookService.findAllByIdUserAndRemove(10, 0);
 		model.addAttribute("listBook", listMyBook);

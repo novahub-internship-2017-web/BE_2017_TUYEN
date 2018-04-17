@@ -17,6 +17,8 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 	public List<Book> findAllByIdUser(int idUser);
 
 	public Book findByIdBookAndRemoveAndEnabled(int idBook, int remove, int enabled);
+
+	public Book findByIdBookAndRemove(int idBook, int remove);
 	
 //	@Query("SELECT b.enabled FROM book  b WHERE b.id_book = 2")
 //	public Book findBook();

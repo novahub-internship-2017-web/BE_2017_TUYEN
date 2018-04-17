@@ -40,4 +40,8 @@ public class BookService {
 		return bookRepository.findByIdBookAndRemoveAndEnabled(idBook,remove,enabled);
 	}
 
+	public Book findByIdBookAndRemove(int idBook, int remove) {
+		return bookRepository.findByIdBookAndRemove(idBook,remove);
+	}
+
 }
