@@ -13,6 +13,10 @@ public interface CommentRepository extends CrudRepository<Comment, Long>{
 	public List<Comment> findByIdBook(int idBook);
 
 	public List<Comment> findByIdBookAndRemove(int idBook, int remove);
+
+	public Comment findByIdComment(int idComment);
+
+	public List<Comment> findAllByRemoveAndIdBook(int remove, int idBook);
 	
 	
 }

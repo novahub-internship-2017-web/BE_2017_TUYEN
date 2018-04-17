@@ -1,74 +1,74 @@
-function listUserJson() {
-	$
-			.ajax({
-				url : "/listUser",
-				type : "GET",
-				contentType : "application/json",
-				dataType : 'json',
-				success : function(data) {
-					if (data.length > 0) {
-						var title = '<table class="table table-striped table-advance table-hover">'
-								+ '<tbody>'
-								+ '<tr>'
-								+ '<th><i class=""></i> Full Name</th>'
-								+ '<th><i class=""></i> Email</th>'
-								+ '<th><i class=""></i> Active</th>'
-								+ '<th><i class=""></i> Role</th>'
-								+ '<th><i class="icon_cogs"></i> Action</th>'
-								+ ' </tr>';
-						for (var i = 0; i < data.length; i++) {
-							var check = null;
-							var nameRole = 'admin';
-							if (data[i].enabled == 1) {
-								check = 'checked="checked"';
-							}
-							if (data[i].idRole != 1) {
-								nameRole = 'user';
-							}
-							var row = '<tr>' + '<td>'
-									+ data[i].firstName
-									+ ' '
-									+ data[i].lastName
-									+ '</td>'
-									+ '<td>'
-									+ data[i].email
-									+ '</td>'
-									+ '<td>'
-									+ '<input type="checkbox" '
-									+ check
-									+ ' onclick="changeStatus('
-									+ data[i].idUser
-									+ ','
-									+ data[i].enabled
-									+ ')">'
-									+ '</td>'
-									+ '<td>'
-									+ nameRole
-									+ '</td>'
-									+ '<td>'
-									+ '<div class="btn-group">'
-									+ '<a class="btn btn-success" onclick="showEditUser('
-									+ data[i].idUser
-									+ ')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
-									+ '<a class="btn btn-danger" onclick="return deleteUser('
-									+ data[i].idUser
-									+ ')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
-									+ '</div>' + '</td>' + '</tr>';
-							title = title + row;
-						}
-						title = title + '</tbody>' + '</table>';
-						$('#result').html(title);
-						$('#msgResult').html('');
-					} else {
-						$('#result').html("No user");
-						$('#msgResult').html('');
-					}
-				},
-				error : function() {
-					alert('error!');
-				}
-			});
-}
+//function listUserJson() {
+//	$
+//			.ajax({
+//				url : "/listUser",
+//				type : "GET",
+//				contentType : "application/json",
+//				dataType : 'json',
+//				success : function(data) {
+//					if (data.length > 0) {
+//						var title = '<table class="table table-striped table-advance table-hover">'
+//								+ '<tbody>'
+//								+ '<tr>'
+//								+ '<th><i class=""></i> Full Name</th>'
+//								+ '<th><i class=""></i> Email</th>'
+//								+ '<th><i class=""></i> Active</th>'
+//								+ '<th><i class=""></i> Role</th>'
+//								+ '<th><i class="icon_cogs"></i> Action</th>'
+//								+ ' </tr>';
+//						for (var i = 0; i < data.length; i++) {
+//							var check = null;
+//							var nameRole = 'admin';
+//							if (data[i].enabled == 1) {
+//								check = 'checked="checked"';
+//							}
+//							if (data[i].idRole != 1) {
+//								nameRole = 'user';
+//							}
+//							var row = '<tr>' + '<td>'
+//									+ data[i].firstName
+//									+ ' '
+//									+ data[i].lastName
+//									+ '</td>'
+//									+ '<td>'
+//									+ data[i].email
+//									+ '</td>'
+//									+ '<td>'
+//									+ '<input type="checkbox" '
+//									+ check
+//									+ ' onclick="changeStatus('
+//									+ data[i].idUser
+//									+ ','
+//									+ data[i].enabled
+//									+ ')">'
+//									+ '</td>'
+//									+ '<td>'
+//									+ nameRole
+//									+ '</td>'
+//									+ '<td>'
+//									+ '<div class="btn-group">'
+//									+ '<a class="btn btn-success" onclick="showEditUser('
+//									+ data[i].idUser
+//									+ ')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
+//									+ '<a class="btn btn-danger" onclick="return deleteUser('
+//									+ data[i].idUser
+//									+ ')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
+//									+ '</div>' + '</td>' + '</tr>';
+//							title = title + row;
+//						}
+//						title = title + '</tbody>' + '</table>';
+//						$('#result').html(title);
+//						$('#msgResult').html('');
+//					} else {
+//						$('#result').html("No user");
+//						$('#msgResult').html('');
+//					}
+//				},
+//				error : function() {
+//					alert('error!');
+//				}
+//			});
+//}
 
 function checkEmail() {
 	var email = $("#email").val();
@@ -191,77 +191,78 @@ function display(data) {
 }
 
 function deleteUser(idUser) {
-	$
-			.ajax({
-				url : "/admin/deleteUser/" + idUser,
-				type : "GET",
-				contentType : "application/json",
-				dataType : 'json',
-				success : function(data) {
-					if (data.length > 0) {
-						var title = '<table class="table table-striped table-advance table-hover">'
-								+ '<tbody>'
-								+ '<tr>'
-								+ '<th><i class=""></i> Full Name</th>'
-								+ '<th><i class=""></i> Email</th>'
-								+ '<th><i class=""></i> Active</th>'
-								+ '<th><i class=""></i> Role</th>'
-								+ '<th><i class="icon_cogs"></i> Action</th>'
-								+ ' </tr>';
-						for (var i = 0; i < data.length; i++) {
-							var check = null;
-							var nameRole = 'admin';
-							if (data[i].enabled == 1) {
-								check = 'checked="checked"';
+	if (confirm('Are you sure your want to delete?')) {
+		$
+				.ajax({
+					url : "/admin/deleteUser/" + idUser,
+					type : "GET",
+					contentType : "application/json",
+					dataType : 'json',
+					success : function(data) {
+						if (data.length > 0) {
+							var title = '<table class="table table-striped table-advance table-hover">'
+									+ '<tbody>'
+									+ '<tr>'
+									+ '<th><i class=""></i> Full Name</th>'
+									+ '<th><i class=""></i> Email</th>'
+									+ '<th><i class=""></i> Active</th>'
+									+ '<th><i class=""></i> Role</th>'
+									+ '<th><i class="icon_cogs"></i> Action</th>'
+									+ ' </tr>';
+							for (var i = 0; i < data.length; i++) {
+								var check = null;
+								var nameRole = 'admin';
+								if (data[i].enabled == 1) {
+									check = 'checked="checked"';
+								}
+								if (data[i].idRole != 1) {
+									nameRole = 'user';
+								}
+								var row = '<tr>' + '<td>'
+										+ data[i].firstName
+										+ ' '
+										+ data[i].lastName
+										+ '</td>'
+										+ '<td>'
+										+ data[i].email
+										+ '</td>'
+										+ '<td>'
+										+ '<input type="checkbox" '
+										+ check
+										+ ' onclick="changeStatus('
+										+ data[i].idUser
+										+ ','
+										+ data[i].enabled
+										+ ')">'
+										+ '</td>'
+										+ '<td>'
+										+ nameRole
+										+ '</td>'
+										+ '<td>'
+										+ '<div class="btn-group">'
+										+ '<a class="btn btn-success" onclick="showEditUser('
+										+ data[i].idUser
+										+ ')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
+										+ '<a class="btn btn-danger" onclick="deleteUser('
+										+ data[i].idUser
+										+ ')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
+										+ '</div>' + '</td>' + '</tr>';
+								title = title + row;
 							}
-							if (data[i].idRole != 1) {
-								nameRole = 'user';
-							}
-							var row = '<tr>' + '<td>'
-									+ data[i].firstName
-									+ ' '
-									+ data[i].lastName
-									+ '</td>'
-									+ '<td>'
-									+ data[i].email
-									+ '</td>'
-									+ '<td>'
-									+ '<input type="checkbox" '
-									+ check
-									+ ' onclick="changeStatus('
-									+ data[i].idUser
-									+ ','
-									+ data[i].enabled
-									+ ')">'
-									+ '</td>'
-									+ '<td>'
-									+ nameRole
-									+ '</td>'
-									+ '<td>'
-									+ '<div class="btn-group">'
-									+ '<a class="btn btn-success" onclick="showEditUser('
-									+ data[i].idUser
-									+ ')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
-									+ '<a class="btn btn-danger" onclick="deleteUser('
-									+ data[i].idUser
-									+ ')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
-									+ '</div>' + '</td>' + '</tr>';
-							title = title + row;
+							title = title + '</tbody>' + '</table>';
+							$('#result').html(title);
+							$('#msgResult').html('Successfully deleted user!');
+						} else {
+							$('#result').html("No user");
+							$('#msgResult').html('');
 						}
-						title = title + '</tbody>' + '</table>';
-						$('#result').html(title);
-						$('#msgResult').html('Successfully deleted user!');
-					} else {
-						$('#result').html("No user");
-						$('#msgResult').html('');
+					},
+					error : function() {
+						alert('error!');
 					}
-				},
-				error : function() {
-					alert('error!');
-				}
-			});
+				});
+	}
 }
-
 function showEditUser(idUser) {
 	document.getElementById('viewFormEditUser').style.display = 'block';
 	$.ajax({
@@ -320,8 +321,7 @@ function editUser() {
 							+ '<th><i class=""></i> Email</th>'
 							+ '<th><i class=""></i> Active</th>'
 							+ '<th><i class=""></i> Role</th>'
-							+ '<th><i class="icon_cogs"></i> Action</th>'
-							+ ' </tr>';
+							+ '<th><i class=""></i> Action</th>' + ' </tr>';
 					for (var i = 0; i < data.length; i++) {
 						var check = null;
 						var nameRole = 'admin';
@@ -392,7 +392,6 @@ function changeStatus(idUser, st) {
 }
 
 $("#formAddBook").submit(function(event) {
-	// alert('validate book!');
 	event.preventDefault(); // no submit
 	if ($("#formAddBook").valid()) {
 		addBook();
@@ -409,7 +408,7 @@ function addBook() {
 				type : "post",
 				contentType : "application/json",
 				dataType : 'json',
-				url : '/admin/addBook',
+				url : '/addBook',
 				cache : false,
 				data : JSON.stringify(newBook),
 				success : function(data) {
@@ -420,7 +419,7 @@ function addBook() {
 							+ '<th><i class=""></i>Title</th>'
 							+ '<th><i class=""></i>Author</th>'
 							+ '<th><i class=""></i>Date created</th>'
-							+ '<th><i class=""></i>Date updated/th>'
+							+ '<th><i class=""></i>Date updated</th>'
 							+ '<th><i class=""></i>Action</th>' + ' </tr>';
 
 					for (var i = 0; i < data.length; i++) {
@@ -461,7 +460,7 @@ function addBook() {
 function showEditBook(idBook) {
 	document.getElementById('viewFormEditBook').style.display = 'block';
 	$.ajax({
-		url : "/admin/showEditBook/" + idBook,
+		url : "/showEditBook/" + idBook,
 		cache : false,
 		type : "PUT",
 		contentType : "application/json",
@@ -496,75 +495,153 @@ $("#formEditBook").submit(function(event) {
 function editBook() {
 	var newBook = {}
 	newBook["title"] = $('#titleEdit').val();
-	newBook["author"] = $('#author').val();
+	newBook["author"] = $('#authorEdit').val();
 	newBook["description"] = $('#descriptionEdit').val();
 	newBook["idBook"] = $('#idBookEdit').val();
-	newBook["idUserBookEdit"] = $('#idUserBookEdit').val();
+	newBook["idUser"] = $('#idUserBookEdit').val();
 	$
 			.ajax({
 				type : "PUT",
 				contentType : "application/json",
 				dataType : 'json',
-				url : '/admin/editBook',
+				url : '/editBook',
 				cache : false,
 				data : JSON.stringify(newBook),
 				success : function(data) {
-					document.getElementById('viewFormEditUser').style.display = 'none';
+					document.getElementById('viewFormEditBook').style.display = 'none';
 					var title = '<table class="table table-striped table-advance table-hover">'
 							+ '<tbody>'
 							+ '<tr>'
-							+ '<th><i class=""></i> Full Name</th>'
-							+ '<th><i class=""></i> Email</th>'
-							+ '<th><i class=""></i> Active</th>'
-							+ '<th><i class=""></i> Role</th>'
-							+ '<th><i class="icon_cogs"></i> Action</th>'
-							+ ' </tr>';
+							+ '<th><i class=""></i>Title</th>'
+							+ '<th><i class=""></i>Author</th>'
+							+ '<th><i class=""></i>Date created</th>'
+							+ '<th><i class=""></i>Date updated</th>'
+							+ '<th><i class=""></i>Action</th>' + ' </tr>';
 					for (var i = 0; i < data.length; i++) {
-						var check = null;
-						var nameRole = 'admin';
-						if (data[i].enabled == 1) {
-							check = 'checked="checked"';
-						}
-						if (data[i].idRole != 1) {
-							nameRole = 'user';
-						}
 						var row = '<tr>' + '<td>'
-								+ data[i].firstName
-								+ ' '
-								+ data[i].lastName
+								+ data[i].title
 								+ '</td>'
 								+ '<td>'
-								+ data[i].email
+								+ data[i].author
 								+ '</td>'
 								+ '<td>'
-								+ '<input type="checkbox" '
-								+ check
-								+ ' onclick="changeStatus('
-								+ data[i].idUser
-								+ ','
-								+ data[i].enabled
-								+ ')">'
+								+ data[i].createdAt
 								+ '</td>'
 								+ '<td>'
-								+ nameRole
+								+ data[i].updatedAt
 								+ '</td>'
 								+ '<td>'
 								+ '<div class="btn-group">'
-								+ '<a class="btn btn-success" onclick="showEditUser('
-								+ data[i].idUser
+								+ '<a class="btn btn-success" onclick="showEditBook('
+								+ data[i].idBook
 								+ ')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
-								+ '<a class="btn btn-danger" onclick="deleteUser('
-								+ data[i].idUser
+								+ '<a class="btn btn-danger" onclick="deleteBook('
+								+ data[i].idBook
 								+ ')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
 								+ '</div>' + '</td>' + '</tr>';
 						title = title + row;
 					}
+
 					title = title + '</tbody>' + '</table>';
 					$('#result').html(title);
-					$('#msgResult').html('Successfully edited user!');
+					$('#msgResult').html('Successfully edited book!');
 				},
 				error : function() {
-					alert('Error edit new user!');
+					alert('Error editing new book!');
 				}
 			});
+}
+
+function deleteBook(idBook) {
+	if (confirm('Are you sure your want to delete?')) {
+		$
+				.ajax({
+					url : "/deleteBook/" + idBook,
+					type : "GET",
+					contentType : "application/json",
+					dataType : 'json',
+					success : function(data) {
+						var title = '<table class="table table-striped table-advance table-hover">'
+								+ '<tbody>'
+								+ '<tr>'
+								+ '<th><i class=""></i>Title</th>'
+								+ '<th><i class=""></i>Author</th>'
+								+ '<th><i class=""></i>Date created</th>'
+								+ '<th><i class=""></i>Date updated</th>'
+								+ '<th><i class=""></i>Action</th>' + ' </tr>';
+						for (var i = 0; i < data.length; i++) {
+							var row = '<tr>' + '<td>'
+									+ data[i].title
+									+ '</td>'
+									+ '<td>'
+									+ data[i].author
+									+ '</td>'
+									+ '<td>'
+									+ data[i].createdAt
+									+ '</td>'
+									+ '<td>'
+									+ data[i].updatedAt
+									+ '</td>'
+									+ '<td>'
+									+ '<div class="btn-group">'
+									+ '<a class="btn btn-success" onclick="showEditBook('
+									+ data[i].idBook
+									+ ')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
+									+ '<a class="btn btn-danger" onclick="deleteBook('
+									+ data[i].idBook
+									+ ')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
+									+ '</div>' + '</td>' + '</tr>';
+							title = title + row;
+						}
+
+						title = title + '</tbody>' + '</table>';
+						$('#result').html(title);
+						$('#msgResult').html('Successfully deleted book!');
+					},
+					error : function() {
+						alert('Error delete new book!');
+					}
+				});
+	}
+}
+
+function changeStatusBook(idBook, st) {
+	$.ajax({
+		url : "/admin/changeStatusBook/" + idBook,
+		type : "GET",
+		cache : false,
+		contentType : "application/json",
+		dataType : 'json',
+		data : {
+			enabled : st
+		},
+		success : function(data) {
+			$('#msgResult').html('Successfully change status book!');
+		},
+		error : function() {
+			alert('Error change status book!');
+		}
+	});
+}
+
+
+function deleteComment(idComment,idB) {
+	if (confirm('Are you sure your want to delete?')) {
+		$
+				.ajax({
+					url : "/deleteComment/" + idComment,
+					type : "GET",
+					contentType : "application/json",
+					dataType : 'json',
+					data : {
+						idBook : idB
+					},
+					success : function(data) {
+						
+					},
+					error : function() {
+						alert('error!');
+					}
+				});
+	}
 }

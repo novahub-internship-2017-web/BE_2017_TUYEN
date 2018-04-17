@@ -29,10 +29,10 @@ public class AdminUserController {
 	@Autowired
 	BookService	bookService;
 	
-	@RequestMapping(value = "/listUser")
-	public List<User> showListUserJson(Model model) {
-		return userService.findAllByRemove(0);
-	}
+//	@RequestMapping(value = "/listUser")
+//	public List<User> showListUserJson(Model model) {
+//		return userService.findAllByRemove(0);
+//	}
 	
 	@RequestMapping(value = "/admin/addUser", method = RequestMethod.POST)
 	public List<User> addUserJson(Model model, @RequestBody User newUser) {

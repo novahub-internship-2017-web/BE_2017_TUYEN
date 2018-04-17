@@ -1,5 +1,6 @@
 package tuyen.novahub.assignment4.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +48,8 @@ public class AdminIndexController {
 		if (authentication != null) {
 			System.out.println("hihi");
 			System.out.println("authentication: " + authentication.toString());
-//			String email = principal.getName();
-//			System.out.println("user Login: " + userService.findByEmail(email));
 			List<User> list = userService.findAllByRemove(0);
 			model.addAttribute("listUser", list);
-		//	model.addAttribute("inforLogin", userService.findByEmail(email));
 			return "/admin/user";
 		} else {
 			System.out.println("haiz");
@@ -60,28 +58,6 @@ public class AdminIndexController {
 		
 	}
 	
-//	@RequestMapping(value = "/show-login", method = RequestMethod.GET)
-//	public String login(Authentication authentication,@RequestParam(required = false) String message, Model model) {
-//		System.out.println("show-login");
-//		if (message != null && !message.isEmpty()) {
-//			if (message.equals("logout")) {
-//				model.addAttribute("message", "You have successfully logged out!");
-//			}
-//			if (message.equals("error")) {
-//				model.addAttribute("message", "Password or email is incorrect!");
-//			}
-//		}
-//		if (authentication != null) {
-//			System.out.println("hihi");
-//			System.out.println("authentication: " + authentication.toString());
-//			List<User> list = userService.findAllByRemove(0);
-//			model.addAttribute("listUser", list);
-//			return "/";
-//		} else {
-//			System.out.println("not login");
-//			return "/admin/login";
-//		}
-//	}
 	
 	@RequestMapping(value = "/allUser", method = RequestMethod.GET)
 	public String showListUser(Model model) {
@@ -91,10 +67,16 @@ public class AdminIndexController {
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String showListBook(Model model) {
+	public String showListBook(Model model, Principal principal,Authentication authentication) {
+		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+			List<Book> list = bookService.findAllByRemove(0);
+			model.addAttribute("listBook", list);
+		}else {
 		// all list book enabled and not remove (delete)
-		List<Book> list = bookService.findAllByEnabledAndRemove(1, 0);
-		model.addAttribute("listBook", list);
+			System.out.println("2");
+			List<Book> list = bookService.findAllByEnabledAndRemove(1, 0);
+			model.addAttribute("listBook", list);
+		}
 		return "/admin/book";
 	}
 	
@@ -108,9 +90,11 @@ public class AdminIndexController {
 		return "/admin/detailBook";
 	}
 	
-	@RequestMapping(value = "/admin/myBook", method = RequestMethod.GET)
-	public String showMyBook(Model model) {
-		List<Book> listMyBook = bookService.findAllByIdUserAndRemove(10, 0);
+	@RequestMapping(value = "/myBook", method = RequestMethod.GET)
+	public String showMyBook(Model model,Principal principal) {
+		String emailLogin  = principal.getName();
+		User userLogin = userService.findByEmail(emailLogin);
+		List<Book> listMyBook = bookService.findAllByIdUserAndRemove(userLogin.getIdUser(), 0);
 		model.addAttribute("listBook", listMyBook);
 		return "/admin/book";
 	}

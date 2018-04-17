@@ -27,5 +27,17 @@ public class CommentService {
 	public List<Comment> findByIdBookAndRemove(int idBook, int remove) {
 		return commentRepository.findByIdBookAndRemove(idBook,remove);
 	}
+
+	public Comment findByIdComment(int idComment) {
+		return commentRepository.findByIdComment(idComment);
+	}
+
+	public void save(Comment del) {
+		commentRepository.save(del);
+	}
+
+	public List<Comment> findAllByRemoveAndIdBook(int remove, int idBook) {
+		return commentRepository.findAllByRemoveAndIdBook(remove,idBook);
+	}
 	
 }

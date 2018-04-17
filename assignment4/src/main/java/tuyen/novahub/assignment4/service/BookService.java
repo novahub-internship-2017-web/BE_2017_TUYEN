@@ -44,4 +44,8 @@ public class BookService {
 		return bookRepository.findByIdBookAndRemove(idBook,remove);
 	}
 
+	public List<Book> findAllByRemove(int remove) {
+		return bookRepository.findAllByRemove(remove);
+	}
+
 }

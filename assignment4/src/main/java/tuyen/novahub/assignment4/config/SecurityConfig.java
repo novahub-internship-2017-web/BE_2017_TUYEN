@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
  @Override
 
  protected void configure(HttpSecurity http) throws Exception {
-//	 http.authorizeRequests().antMatchers("/admin/**").hasRole("admin").anyRequest().authenticated();
+//	 http.authorizeRequests().antMatchers("/admin/**").hasRole("ROLE_ADMIN").anyRequest().authenticated();
 //	 http.authorizeRequests().antMatchers("/allUser").access("hasRole('admin') or hasRole('user')");
 //	 http.authorizeRequests().antMatchers("/listUser").access("hasRole('admin') or hasRole('user')");
 //	 http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
@@ -46,10 +46,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //   .and()
    		//	.authorizeRequests().antMatchers("/admin/**").hasRole("admin").anyRequest().authenticated()
    //.and()
-//	 .authorizeRequests().antMatchers("/admin/**").access("hasRole('admin')")
+	 .authorizeRequests().antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 //	 .and()
 //	 .authorizeRequests().antMatchers("/admin/**").hasRole("admin")
-//	 .and()
+	 .and()
 	    	.formLogin()
 				    .loginPage("/show-login")
 				    .usernameParameter("email").passwordParameter("password")
