@@ -57,6 +57,10 @@ public class UserService {
 		System.out.println("email service: "+email);
 		return userRepository.findByEmailAndRemove(email,remove);
 	}
+
+	public User findByEmailAndEnabledAndRemove(String email, int enabled, int remove) {
+		return userRepository.findByEmailAndEnabledAndRemove(email,enabled,remove);
+	}
 	
 	
 }

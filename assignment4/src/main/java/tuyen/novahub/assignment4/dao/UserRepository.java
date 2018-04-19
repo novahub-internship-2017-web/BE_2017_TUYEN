@@ -29,5 +29,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
 	public User findByEmailAndRemove(String email, int remove);
 
+	public User findByEmailAndEnabledAndRemove(String email, int enabled, int remove);
+
 	
 }

@@ -30,7 +30,7 @@
       </div>
 
       <!--logo start-->
-      <a href="/" class="logo">Book <span class="lite"> Management</span></a>
+      <a href="/" class="logo">Books <span class="lite"> Management</span></a>
       <!--logo end-->
 
       <div class="top-nav notification-row">
@@ -55,15 +55,14 @@
                             <b class="caret"></b>
                         </a>
             <ul class="dropdown-menu extended logout">
-              <!-- <div class="log-arrow-up"></div> -->
-             <!--  <li class="eborder-top">
-                <a href="#"><i class="icon_profile"></i> My Profile</a>
+               <li class="eborder-top">
+                <a href="#"><i class="icon_profile"></i>MY PROFILE</a>
               </li>
               <li>
-                <a href="#"><i class="icon_book_alt"></i> My book</a>
-              </li> -->
+                <a href="#"><i class="icon_key_alt"></i>CHANGE PASSWORD</a>
+              </li> 
               <li>
-                <a href="login.html"><i class="icon_key_alt"></i> Log Out</a>
+                <a href="/logout"><i class="icon_lock-open_alt"></i>Log Out</a>
               </li>
             </ul>
           </li>
@@ -75,13 +74,13 @@
     <!--header end-->
 
     <!--sidebar start-->
-    <aside>
+    <aside sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu">
-          <li class="">
-            <a class="" href="/allUser">
-                          <i class="icon_profile"></i>
+          <li class="" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+            <a class="" href="/admin/allUser">
+                          <i class="fa fa-users"></i>
                           <span>Users</span>
             </a>
           </li>
@@ -92,7 +91,7 @@
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
             <ul class="sub">
-              <li sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a class="" href="/myBook">My Book</a></li>
+              <li><a class="" href="/myBook">My Book</a></li>
               <li><a class="" href="/"><span>All Book</span></a></li>
             </ul>
           </li>
@@ -113,6 +112,15 @@
     <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
+       <div class="row">
+          <div class="col-lg-12">
+            <h3 class="page-header"><i class="fa fa-book"></i>Books management</h3>
+            <ol class="breadcrumb">
+              <li><i class="fa fa-home"></i><a href="/">Home</a></li>
+              <li><i class="fa fa-book"></i>Detail book</li>
+            </ol>
+          </div>
+        </div>
         <div class="row" th:each="objBook : ${objBook}">
           <!-- profile-widget -->
           <div class="col-lg-12">
@@ -129,8 +137,8 @@
                   <h2 th:text="${objBook.title}">..</h2>
                   <p th:text="${objBook.description}"></p>
                   <h6>
-                     Time created <span th:text="${objBook.createdAt}"><i class="" ></i></span><br>
-                     Time updated <span th:text="${objBook.updatedAt}"><i class=""></i></span>
+                     Created <span th:text="${objBook.createdAt}"><i class="" ></i></span><br>
+                     Updated <span th:text="${objBook.updatedAt}"><i class=""></i></span>
                  </h6> 
                 </div>
               </div>
@@ -162,63 +170,62 @@
                   <div id="recent-activity" class="tab-pane active">
                     <div class="profile-activity">
                     
-                      <div class="act-time" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-                      <div class="activity-body act-in">
-                      <span class="arrow"></span>
-                       <div class="text">
-                      	<span style="font-size: 15px;font-weight: bold;">Please leave your comments!</span><br> 
-                     	 <form class="form-horizontal" role="form">
-                          <div class="form-group">
-                            <div class="col-lg-12">
-                              <textarea name="description" id="description" class="form-control" cols="30" rows="5"></textarea>
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <div class="col-lg-12">
-                              <button type="submit" class="btn btn-primary">Comment</button>
-                              <button type="reset" class="btn btn-danger">Cancel</button>
-                            </div>
-                          </div>
-                        </form>
-                        </div>
+                      <div th:if="${accept==1}" class="act-time" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+	                      <div class="activity-body act-in">
+	                      <span class="arrow"></span>
+	                       <div class="text">
+	                      	<span style="font-size: 15px;font-weight: bold;">Please leave your comments!</span><br> 
+	                     	 <form class="form-horizontal" role="form">
+	                          <div class="form-group">
+	                            <div class="col-lg-12">
+	                              <textarea name="description" id="description" class="form-control" cols="30" rows="5"></textarea>
+	                            </div>
+	                          </div>
+	                          <div class="form-group">
+	                            <div class="col-lg-12">
+	                              <button type="submit" class="btn btn-primary">Comment</button>
+	                              <button type="reset" class="btn btn-danger">Cancel</button>
+	                            </div>
+	                          </div>
+	                        </form>
+	                        </div>
+	                      </div>
                       </div>
-                      </div> 
-                    
-                      <div class="act-time" style="overflow: inherit;" th:each="objComment : ${listComment}" id="resultComment" >
-                        <div class="activity-body act-in">
-                          <span class="arrow"></span>
-                          <div class="text">
-                            <a href="#" class="activity-img"><img class="avatar" src="/resources/img/avatar.jpg" alt=""></a>
-                            <div class="attribution">
-                            	<a href="#" th:text="${objComment.idUser}">..</a>
-                            	<span th:text="${objComment.updatedComment}">..</span>
-        						<div class="top-nav notification-row" style="margin-left: 0px;margin-top: -7px;" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-        							<ul class="">
-          								<li class="dropdown">
-           									<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            					<b class="caret"></b>
-                        				    </a>
-            								<ul style="max-width: 100px !important;min-width: 100px !important; width: 1px !important;top: 25px" class="dropdown-menu extended logout">
-              									<li>
-                									<a style="padding: 5px 5px 5px 5px !important;" href="#" th:onclick="'deleteComment('+${objComment.idComment}+','+${objComment.idBook}+')'"><i class="icon_close_alt2"></i>DELETE</a>  
-              									</li>
-             									<li>
-                									<a style="padding: 5px 5px 5px 5px !important;" href="#"><i class="icon_pencil-edit"></i>Edit</a>
-              									</li>
-            								</ul>
-          								</li>
-        						  </ul>
-      							</div>
-                            </div> 
-                            <div><p th:text="${objComment.message}">..</p></div> 
-                            
-                          </div>
-                        </div>
-                      </div>
-                      
+                      <h4 th:unless="${accept}" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')" style="font: bold;font-size: 15px">Currently does not allow comment</h4>
+                      <h4 sec:authorize="isAnonymous()" style="font: bold;font-size: 15px"><a href="/show-login">Sign in</a> to add your comments</h4>
+	                    <div th:if="${numberCmt>0}" class="act-time" style="overflow: inherit;" th:each="objComment : ${listComment}" id="resultComment" >
+	                        <div class="activity-body act-in">
+	                          <span class="arrow"></span>
+	                          <div class="text">
+	                            <a href="#" class="activity-img"><img class="avatar" src="/resources/img/avatar.jpg" alt=""></a>
+	                            <div class="attribution">
+	                            	<a href="#" th:text="${objComment.idUser}">..</a>
+	                            	<span th:text="${objComment.updatedComment}">..</span>
+	        						<div class="top-nav notification-row" style="margin-left: 0px;margin-top: -7px;" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+	        							<ul class="">
+	          								<li class="dropdown">
+	           									<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+	                            					<b class="caret"></b>
+	                        				    </a>
+	            								<ul style="max-width: 100px !important;min-width: 100px !important; width: 1px !important;top: 25px" class="dropdown-menu extended logout">
+	              									<li>
+	                									<a style="padding: 5px 5px 5px 5px !important;" href="#" th:onclick="'deleteComment('+${objComment.idComment}+','+${objComment.idBook}+')'"><i class="icon_close_alt2"></i>DELETE</a>  
+	              									</li>
+	             									<li>
+	                									<a style="padding: 5px 5px 5px 5px !important;" href="#"><i class="icon_pencil-edit"></i>Edit</a>
+	              									</li>
+	            								</ul>
+	          								</li>
+	        						  </ul>
+	      							</div>
+	                            </div> 
+	                            <div><p th:text="${objComment.message}">..</p></div> 
+	                            
+	                          </div>
+	                        </div>
+	                      </div>
+                    <h4 th:unless="${numberCmt}" style="font: bold;font-size: 15px">No any comment this book</h4>
                      
-                      
-                      
                     </div>
                   </div>
                   <!-- profile -->

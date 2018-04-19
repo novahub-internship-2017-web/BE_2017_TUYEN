@@ -35,31 +35,14 @@ public class AdminIndexController {
 	}
 	
 	@RequestMapping(value = "/show-login", method = RequestMethod.GET)
-	public String showLogin(Authentication authentication, @RequestParam(required = false) String message, Model model) {
-		System.out.println("show-login");
+	public String showLogin(@RequestParam(required = false) String message, Model model) {
 		if (message != null && !message.isEmpty()) {
-			if (message.equals("logout")) {
-				model.addAttribute("message", "You have successfully logged out!");
-			}
-			if (message.equals("error")) {
-				model.addAttribute("message", "Password or email is incorrect!");
-			}
+			model.addAttribute("message", "Invalid username or password!");
 		}
-		if (authentication != null) {
-			System.out.println("hihi");
-			System.out.println("authentication: " + authentication.toString());
-			List<User> list = userService.findAllByRemove(0);
-			model.addAttribute("listUser", list);
-			return "/admin/user";
-		} else {
-			System.out.println("haiz");
-			return "/admin/login";
-		}
-		
+		return "/admin/login";
 	}
 	
-	
-	@RequestMapping(value = "/allUser", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/allUser", method = RequestMethod.GET)
 	public String showListUser(Model model) {
 		List<User> list = userService.findAllByRemove(0);
 		model.addAttribute("listUser", list);
@@ -67,35 +50,60 @@ public class AdminIndexController {
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String showListBook(Model model, Principal principal,Authentication authentication) {
+	public String showListBook(Model model, Principal principal, Authentication authentication) {
+		List<Book> list;
 		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
-			List<Book> list = bookService.findAllByRemove(0);
+			// if admin login then redirect all book not remove(delete)
+			list = bookService.findAllByRemove(0);
 			model.addAttribute("listBook", list);
-		}else {
-		// all list book enabled and not remove (delete)
-			System.out.println("2");
-			List<Book> list = bookService.findAllByEnabledAndRemove(1, 0);
+		} else {
+			// all list book enabled and not remove (delete) if no login
+			list = bookService.findAllByEnabledAndRemove(1, 0);
 			model.addAttribute("listBook", list);
 		}
 		return "/admin/book";
 	}
 	
 	@RequestMapping(value = "/detailBook/{idBook}", method = RequestMethod.GET)
-	public String showDetailBook(Model model, @PathVariable int idBook) {
-		// show detail book if not remove and enabled
-		Book objBook = bookService.findByIdBookAndRemoveAndEnabled(idBook, 0, 1);
+	public String showDetailBook(Model model, @PathVariable int idBook, Authentication authentication,
+	    Principal principal) {
+		Book objBook = new Book();
+		if (bookService.findByIdBook(idBook) == null || bookService.findByIdBook(idBook).getRemove() == 1) {
+			return "/admin/404";
+		}
+		objBook = bookService.findByIdBook(idBook);
+		if (authentication != null) {
+			int idUserLogin = userService.findByEmail(principal.getName()).getIdUser();
+			// login
+			if (authentication.getAuthorities().toString().equals("[ROLE_USER]")) {
+				// user login
+				if ((objBook.getIdUser() != idUserLogin) && (objBook.getEnabled() == 0))
+					return "/admin/404";
+			}
+			if (objBook.getEnabled() == 1) {
+				// accept comment
+				model.addAttribute("accept", 1);
+			} else {
+				model.addAttribute("accept", 0);
+			}
+		} else {
+			if (objBook.getEnabled() == 0) {
+				return "/admin/404";
+			}
+		}
 		List<Comment> listComment = commentService.findByIdBookAndRemove(idBook, 0);
 		model.addAttribute("objBook", objBook);
 		model.addAttribute("listComment", listComment);
+		model.addAttribute("numberCmt", listComment.size());
 		return "/admin/detailBook";
 	}
 	
 	@RequestMapping(value = "/myBook", method = RequestMethod.GET)
-	public String showMyBook(Model model,Principal principal) {
-		String emailLogin  = principal.getName();
+	public String showMyBook(Model model, Principal principal) {
+		String emailLogin = principal.getName();
 		User userLogin = userService.findByEmail(emailLogin);
 		List<Book> listMyBook = bookService.findAllByIdUserAndRemove(userLogin.getIdUser(), 0);
 		model.addAttribute("listBook", listMyBook);
-		return "/admin/book";
+		return "/admin/myBook";
 	}
 }

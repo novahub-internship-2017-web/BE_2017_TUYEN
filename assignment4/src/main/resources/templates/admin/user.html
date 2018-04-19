@@ -54,7 +54,7 @@
       </div>
 
       <!--logo start-->
-      <a href="/" class="logo">Book <span class="lite"> Management</span></a>
+      <a href="/" class="logo">Books <span class="lite"> Management</span></a>
       <!--logo end-->
 
       <div class="nav search-row" id="top_menu">
@@ -91,14 +91,14 @@
                         </a>
             <ul class="dropdown-menu extended logout" >
               <!-- <div class="log-arrow-up"></div> -->
-              <!-- <li class="eborder-top">
-                <a href="#"><i class="icon_profile"></i> My Profile</a>
+               <li class="eborder-top">
+                <a href="#"><i class="icon_profile"></i>MY PROFILE</a>
               </li>
               <li>
-                <a href="#"><i class="icon_book_alt"></i> My book</a>
-              </li> -->
+                <a href="#"><i class="icon_key_alt"></i>CHANGE PASSWORD</a>
+              </li> 
               <li>
-                <a href="/logout"><i class="icon_key_alt"></i> Log Out</a>
+                <a href="/logout"><i class="icon_lock-open_alt"></i>Log Out</a>
               </li>
             </ul>
           </li>
@@ -110,13 +110,13 @@
     <!--header end-->
 
     <!--sidebar start-->
-    <aside>
+    <aside sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu">
-          <li class="">
-            <a class="" href="/allUser">
-                          <i class="icon_profile"></i>
+          <li class="" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+            <a class="" href="/admin/allUser">
+                          <i class="fa fa-users"></i>
                           <span>Users</span>
             </a>
           </li>
@@ -127,7 +127,7 @@
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
             <ul class="sub">
-              <li sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a class="" href="/myBook">My Book</a></li>
+              <li><a class="" href="/myBook">My Book</a></li>
               <li><a class="" href="/"><span>All Book</span></a></li>
             </ul>
           </li>
@@ -147,17 +147,22 @@
     <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
+       <div class="row">
+          <div class="col-lg-12">
+            <h3 class="page-header"><i class="fa fa-users"></i>Users management</h3>
+            <ol class="breadcrumb">
+              <li><i class="fa fa-home"></i><a href="/">Home</a></li>
+              <li><i class="fa fa-users"></i>All users</li>
+            </ol>
+          </div>
+        </div>
         <div class="row">
           <div class="col-lg-12">
             <section class="panel">
-              <header class="panel-heading">
-                Users management
-              </header>
               <div style="margin-left: 10px" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-              <br><br>
+              <br>
               <a sec:authorize="hasAnyRole('ROLE_ADMIN')" class="btn btn-primary" href="javascript:void(0)" onclick="document.getElementById('viewFormAddUser').style.display='block'"><i class="icon_plus_alt2"></i>ADD NEW USER</a>
-              <!-- <a class="btn btn-primary" href="javascript:void(0)" onclick="return listUserJson();"><i class="icon_plus_alt2"></i>ALL USER</a> -->
-              <br><br>
+              <br>
               </div>
               
 			<div id="msgResult" style="margin-left: 10px; font-size: 20px; font-weight: bold;">  </div><br>

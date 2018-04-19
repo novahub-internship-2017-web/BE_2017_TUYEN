@@ -48,4 +48,8 @@ public class BookService {
 		return bookRepository.findAllByRemove(remove);
 	}
 
+	public Book findByIdBookAndIdUserAndRemove(int idBook, int idUserLogin, int remove) {
+		return bookRepository.findByIdBookAndIdUserAndRemove(idBook,idUserLogin,remove);
+	}
+
 }
