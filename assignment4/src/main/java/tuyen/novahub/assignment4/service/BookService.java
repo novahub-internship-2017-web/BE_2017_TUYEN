@@ -16,40 +16,30 @@ public class BookService {
 	@Autowired
 	BookRepository bookRepository;
 
-	public List<Book> findAllByEnabledAndRemove(int enabled,int remove) {
-		return bookRepository.findAllByEnabledAndRemove(enabled,remove);
+	public List<Book> findAll() {
+		return bookRepository.findAll();
+	}
+
+	public List<Book> findByEnabled(int enabled) {
+		return bookRepository.findByEnabled(enabled);
 	}
 
 	public Book findByIdBook(int idBook) {
 		return bookRepository.findByIdBook(idBook);
 	}
 
-	public List<Book> findAllByIdUserAndRemove(int idUser,int remove) {
-		return bookRepository.findAllByIdUserAndRemove(idUser,remove);
-	}
-
-	public List<Book> findAllByIdUser(int idUser) {
+	public List<Book> findByIdUser(int idUser) {
 		return bookRepository.findAllByIdUser(idUser);
 	}
 
-	public void save(Book objBook) {
-		bookRepository.save(objBook);
+	public Book save(Book newBook) {
+		return bookRepository.save(newBook);
+		
 	}
 
-	public Book findByIdBookAndRemoveAndEnabled(int idBook, int remove, int enabled) {
-		return bookRepository.findByIdBookAndRemoveAndEnabled(idBook,remove,enabled);
-	}
-
-	public Book findByIdBookAndRemove(int idBook, int remove) {
-		return bookRepository.findByIdBookAndRemove(idBook,remove);
-	}
-
-	public List<Book> findAllByRemove(int remove) {
-		return bookRepository.findAllByRemove(remove);
-	}
-
-	public Book findByIdBookAndIdUserAndRemove(int idBook, int idUserLogin, int remove) {
-		return bookRepository.findByIdBookAndIdUserAndRemove(idBook,idUserLogin,remove);
+	public int deleteByIdBook(int idBook) {
+		return bookRepository.deleteByIdBook(idBook);
+		
 	}
 
 }

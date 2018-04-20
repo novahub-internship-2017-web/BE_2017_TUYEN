@@ -123,7 +123,7 @@ function deleteUser(idUser) {
 		$
 				.ajax({
 					url : "/admin/deleteUser/" + idUser,
-					type : "GET",
+					type : "DELETE",
 					contentType : "application/json",
 					dataType : 'json',
 					success : function(data) {

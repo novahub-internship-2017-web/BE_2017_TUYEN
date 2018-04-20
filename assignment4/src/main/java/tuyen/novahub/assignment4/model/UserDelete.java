@@ -2,17 +2,15 @@ package tuyen.novahub.assignment4.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user")
-public class User{
+@Table(name = "user_delete")
+public class UserDelete{
+	
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_user", nullable = false)
 	int												idUser;
 	
@@ -38,20 +36,11 @@ public class User{
 	private int								idRole;
 	
 	
-	
-	public User() {
+	public UserDelete() {
 		super();
 	}
 	
-	public User(User user) {
-    this.idUser = user.getIdUser();
-    this.email = user.getEmail();
-    this.password = user.getPassword();
-    this.enabled = user.getEnabled();
-    this.idRole = user.getIdRole();    
-  }
-	
-	public User(int idUser, String email, String password, String firstName, String lastName, int enabled, String avatar,
+	public UserDelete(int idUser, String email, String password, String firstName, String lastName, int enabled, String avatar,
 	    int idRole) {
 		super();
 		this.idUser = idUser;

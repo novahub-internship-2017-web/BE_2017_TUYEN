@@ -16,58 +16,82 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tuyen.novahub.assignment4.model.Book;
+import tuyen.novahub.assignment4.model.BookDelete;
+import tuyen.novahub.assignment4.model.Comment;
+import tuyen.novahub.assignment4.model.CommentDelete;
 import tuyen.novahub.assignment4.model.User;
+import tuyen.novahub.assignment4.model.UserDelete;
+import tuyen.novahub.assignment4.service.BookDeleteService;
 import tuyen.novahub.assignment4.service.BookService;
+import tuyen.novahub.assignment4.service.CommentDeleteService;
+import tuyen.novahub.assignment4.service.CommentService;
+import tuyen.novahub.assignment4.service.UserDeleteService;
 import tuyen.novahub.assignment4.service.UserService;
 
 @RestController
 public class AdminUserController {
 	
 	@Autowired
-	UserService	userService;
+	UserService						userService;
 	
 	@Autowired
-	BookService	bookService;
+	BookService						bookService;
 	
-//	@RequestMapping(value = "/listUser")
-//	public List<User> showListUserJson(Model model) {
-//		return userService.findAllByRemove(0);
-//	}
+	@Autowired
+	CommentService				commentService;
+	
+	@Autowired
+	UserDeleteService			userDeleteService;
+	
+	@Autowired
+	BookDeleteService			bookDeleteService;
+	
+	@Autowired
+	CommentDeleteService	commentDeleteService;
 	
 	@RequestMapping(value = "/admin/addUser", method = RequestMethod.POST)
 	public List<User> addUserJson(Model model, @RequestBody User newUser) {
-		System.out.println("add user");
 		newUser.setPassword(BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt()));
 		newUser.setEnabled(0); // not enable
-		newUser.setRemove(0); // not remove
 		userService.save(newUser);
-		return userService.findAllByRemove(0);
+		return userService.findAll();
 	}
 	
-	@RequestMapping(value = "/admin/deleteUser/{idUser}", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/deleteUser/{idUser}", method = RequestMethod.DELETE)
 	public List<User> deleteUserJson(Model model, @PathVariable int idUser) {
-		User delUser = userService.findByIdUser(idUser);
-		delUser.setRemove(1); // remove use
-		userService.save(delUser);
-		// remove all books of that user
-		List<Book> listBook = bookService.findAllByIdUser(idUser);
+		User objUser = userService.findByIdUser(idUser);
+		UserDelete userDelete = new UserDelete(objUser.getIdUser(), objUser.getEmail(), objUser.getPassword(),
+		    objUser.getFirstName(), objUser.getLastName(), 0, objUser.getAvatar(), objUser.getIdRole());
+		userDeleteService.save(userDelete);
+		BookDelete bookDelete = new BookDelete();
+		// find allBook of user need delete by idUser, add allBook in book_delete
+		List<Book> listBook = bookService.findByIdUser(idUser);
 		for (Book objBook : listBook) {
-			objBook.setRemove(1); // remove book
-			objBook.setEnabled(0); // not enable
-			bookService.save(objBook);
+			bookDelete = new BookDelete(objBook.getIdBook(), objBook.getTitle(), objBook.getAuthor(),
+			    objBook.getDescription(), objBook.getCreatedAt(), objBook.getUpdatedAt(), objBook.getImage(),
+			    objBook.getEnabled(), idUser);
+			bookDeleteService.save(bookDelete);
 		}
-		return userService.findAllByRemove(0);
+		
+		//find all comment of user need delete, add allComment of user this in comment_delete
+		List<Comment> listComment = commentService.findByIdUser(idUser);
+		for (Comment objComment : listComment) {
+			CommentDelete commentDelete = new CommentDelete(objComment.getIdComment(), objComment.getMessage(), idUser,
+			    objComment.getIdBook(), objComment.getCreatedComment(), objComment.getUpdatedComment());
+			commentDeleteService.save(commentDelete);
+		}
+		// delete user
+		userService.deleteByIdUser(objUser.getIdUser());
+		return userService.findAll();
 	}
 	
 	@RequestMapping(value = "/admin/showEditUser/{idUser}", method = RequestMethod.PUT)
 	public User showEditUserJson(Model model, @PathVariable int idUser) {
-		return userService.findByIdUserAndRemove(idUser, 0);
+		return userService.findByIdUser(idUser);
 	}
 	
 	@RequestMapping(value = "/admin/editUser", method = RequestMethod.PUT)
 	public List<User> editUserJson(Model model, @RequestBody User newUser) {
-		System.out.println("edit user");
-		System.out.println("new: " + newUser.toString());
 		User editUser = userService.findByIdUser(newUser.getIdUser());
 		if (newUser.getPassword().equals("")) {
 			// not change password
@@ -78,7 +102,7 @@ public class AdminUserController {
 		newUser.setEnabled(editUser.getEnabled());
 		newUser.setAvatar(editUser.getAvatar());
 		userService.save(newUser);
-		return userService.findAllByRemove(0);
+		return userService.findAll();
 	}
 	
 	@RequestMapping(value = "/admin/changeStatus/{idUser}", method = RequestMethod.GET)
@@ -93,12 +117,12 @@ public class AdminUserController {
 		}
 		
 		userService.save(changeUser);
-		return userService.findAllByRemove(0);
+		return userService.findAll();
 	}
 	
 	@RequestMapping(value = { "/admin/checkEmail" }, method = RequestMethod.POST)
 	public void checkEmail(@RequestParam String aemail, HttpServletResponse response) throws IOException {
-		if (userService.findByEmailAndRemove(aemail, 0) == null) {
+		if (userService.findByEmail(aemail) == null) {
 			response.getWriter().println("<td><label ><b>Email<span style=\"color: red\">(*)</span></b></label></td>\n"
 			    + "          <td><input value=\"" + aemail
 			    + "\" onblur=\"return checkEmail()\" autocomplete=\"email\" type=\"email\" name=\"email\" id=\"email\" class=\"form-control\" required></td>");
@@ -108,23 +132,4 @@ public class AdminUserController {
 			    + "<label id=\"email-error\" class=\"error\" for=\"email\">Email already exists!</label></td>");
 		}
 	}
-//	@RequestMapping(value = { "/admin/checkEmail" }, method = RequestMethod.POST)
-//	public boolean checkEmail(@RequestBody String email){
-//		System.out.println("email: "+email);
-//		System.out.println("aaa"+ userService.findByEmailAndRemove(email, 0).toString());
-//		if (userService.findByEmailAndRemove(email, 0).getEmail() == null) {
-//			System.out.println("true");
-//			return true;
-////			response.getWriter().println("<td><label ><b>Email<span style=\"color: red\">(*)</span></b></label></td>\n"
-////			    + "          <td><input value=\"" + aemail
-////			    + "\" onblur=\"return checkEmail()\" autocomplete=\"email\" type=\"email\" name=\"email\" id=\"email\" class=\"form-control\" required></td>");
-//		} else {
-//			System.out.println("false");
-//		return false;
-////			response.getWriter().println("<td><label ><b>Email<span style=\"color: red\">(*)</span></b></label></td>\n"
-////			    + "<td><input onblur=\"return checkEmail()\" value=\"\" autocomplete=\"email\" type=\"email\" name=\"email\" id=\"email\" class=\"form-control\" required>"
-////			    + "<label id=\"email-error\" class=\"error\" for=\"email\">Email already exists!</label></td>");
-//		}
-////		return 
-//	}
 }

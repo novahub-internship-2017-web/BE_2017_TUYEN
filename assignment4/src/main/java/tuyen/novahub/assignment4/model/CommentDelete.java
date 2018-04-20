@@ -2,16 +2,14 @@ package tuyen.novahub.assignment4.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "comment")
-public class Comment {
+@Table(name = "comment_delete")
+public class CommentDelete {
 	
 	@Id
-	@GeneratedValue
 	@Column(name = "idComment", nullable = false)
 	int							idComment;
 	
@@ -30,11 +28,12 @@ public class Comment {
 	@Column(name = "updatedAt", nullable = false)
 	private String	updatedComment;
 	
-	public Comment() {
+	public CommentDelete() {
 		super();
 	}
 	
-	public Comment(int idComment, String message, int idUser, int idBook, String createdComment, String updatedComment) {
+	public CommentDelete(int idComment, String message, int idUser, int idBook, String createdComment,
+	    String updatedComment) {
 		super();
 		this.idComment = idComment;
 		this.message = message;

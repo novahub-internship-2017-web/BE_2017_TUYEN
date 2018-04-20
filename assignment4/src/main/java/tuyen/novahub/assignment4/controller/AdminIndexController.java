@@ -29,9 +29,15 @@ public class AdminIndexController {
 	@Autowired
 	CommentService	commentService;
 	
+	
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
-	public String accessDenied(Model model) {
+	public String accessDenied() {
 		return "/admin/403";
+	}
+	
+	@RequestMapping(value = "/404", method = RequestMethod.GET)
+	public String notPage() {
+		return "/admin/404";
 	}
 	
 	@RequestMapping(value = "/show-login", method = RequestMethod.GET)
@@ -44,7 +50,7 @@ public class AdminIndexController {
 	
 	@RequestMapping(value = "/admin/allUser", method = RequestMethod.GET)
 	public String showListUser(Model model) {
-		List<User> list = userService.findAllByRemove(0);
+		List<User> list = userService.findAll();
 		model.addAttribute("listUser", list);
 		return "/admin/user";
 	}
@@ -53,12 +59,12 @@ public class AdminIndexController {
 	public String showListBook(Model model, Principal principal, Authentication authentication) {
 		List<Book> list;
 		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
-			// if admin login then redirect all book not remove(delete)
-			list = bookService.findAllByRemove(0);
+			// if admin login then redirect all book
+			list = bookService.findAll();
 			model.addAttribute("listBook", list);
 		} else {
-			// all list book enabled and not remove (delete) if no login
-			list = bookService.findAllByEnabledAndRemove(1, 0);
+			// all list book enabled
+			list = bookService.findByEnabled(1);
 			model.addAttribute("listBook", list);
 		}
 		return "/admin/book";
@@ -67,18 +73,17 @@ public class AdminIndexController {
 	@RequestMapping(value = "/detailBook/{idBook}", method = RequestMethod.GET)
 	public String showDetailBook(Model model, @PathVariable int idBook, Authentication authentication,
 	    Principal principal) {
-		Book objBook = new Book();
-		if (bookService.findByIdBook(idBook) == null || bookService.findByIdBook(idBook).getRemove() == 1) {
+		Book objBook = bookService.findByIdBook(idBook);
+		if (objBook == null) {
 			return "/admin/404";
 		}
-		objBook = bookService.findByIdBook(idBook);
 		if (authentication != null) {
-			int idUserLogin = userService.findByEmail(principal.getName()).getIdUser();
 			// login
-			if (authentication.getAuthorities().toString().equals("[ROLE_USER]")) {
-				// user login
-				if ((objBook.getIdUser() != idUserLogin) && (objBook.getEnabled() == 0))
-					return "/admin/404";
+			int idUserLogin = userService.findByEmail(principal.getName()).getIdUser();
+			if (authentication.getAuthorities().toString().equals("[ROLE_USER]") && (objBook.getIdUser() != idUserLogin)
+			    && (objBook.getEnabled() == 0)) {
+				// user login and access book with enabled = 0 and objBook.getIdUser() != idUserLogin =>not allow
+				return "/admin/403";
 			}
 			if (objBook.getEnabled() == 1) {
 				// accept comment
@@ -87,11 +92,12 @@ public class AdminIndexController {
 				model.addAttribute("accept", 0);
 			}
 		} else {
+			//if not login and access book with enabled = 0 => not allow
 			if (objBook.getEnabled() == 0) {
-				return "/admin/404";
+				return "/admin/403";
 			}
 		}
-		List<Comment> listComment = commentService.findByIdBookAndRemove(idBook, 0);
+		List<Comment> listComment = commentService.findByIdBook(idBook);
 		model.addAttribute("objBook", objBook);
 		model.addAttribute("listComment", listComment);
 		model.addAttribute("numberCmt", listComment.size());
@@ -102,7 +108,8 @@ public class AdminIndexController {
 	public String showMyBook(Model model, Principal principal) {
 		String emailLogin = principal.getName();
 		User userLogin = userService.findByEmail(emailLogin);
-		List<Book> listMyBook = bookService.findAllByIdUserAndRemove(userLogin.getIdUser(), 0);
+		//view all book of user
+		List<Book> listMyBook = bookService.findByIdUser(userLogin.getIdUser());
 		model.addAttribute("listBook", listMyBook);
 		return "/admin/myBook";
 	}

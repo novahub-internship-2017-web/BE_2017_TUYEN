@@ -12,24 +12,15 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	
 	public List<User> findAll();
 	
-	public List<User> findAllByEnabled(int enabled);
+	public User findByEmail(String email);
 	
 	@SuppressWarnings("unchecked")
 	public User save(User newUser);
 	
-	public User findByEmail(String email);
-	
 	public User findByIdUser(int idUser);
-
-	public List<User> findAllByEnabledAndRemove(int enabled, int remove);
-
-	public List<User> findAllByRemove(int i);
-
-	public User findByIdUserAndRemove(int idUser, int remove);
-
-	public User findByEmailAndRemove(String email, int remove);
-
-	public User findByEmailAndEnabledAndRemove(String email, int enabled, int remove);
-
+	
+	public int deleteByIdUser(int idUser);
+	
+	public User findByEmailAndEnabled(String email, int enabled);
 	
 }

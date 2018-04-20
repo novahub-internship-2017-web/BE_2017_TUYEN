@@ -2,16 +2,14 @@ package tuyen.novahub.assignment4.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "book")
-public class Book {
+@Table(name = "book_delete")
+public class BookDelete{
 	
 	@Id
-	@GeneratedValue
 	@Column(name = "id_book", nullable = false)
 	int							idBook;
 	
@@ -39,11 +37,12 @@ public class Book {
 	@Column(name = "id_user", nullable = false)
 	private int			idUser;
 	
-	public Book() {
+
+	public BookDelete() {
 		super();
 	}
 
-	public Book(int idBook, String title, String author, String description, String createdAt, String updatedAt,
+	public BookDelete(int idBook, String title, String author, String description, String createdAt, String updatedAt,
 	    String image, int enabled, int idUser) {
 		super();
 		this.idBook = idBook;
@@ -129,4 +128,6 @@ public class Book {
 		this.idUser = idUser;
 	}
 
+	
+	
 }

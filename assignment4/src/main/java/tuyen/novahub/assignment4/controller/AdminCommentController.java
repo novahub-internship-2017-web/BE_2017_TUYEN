@@ -21,11 +21,9 @@ public class AdminCommentController {
 	@RequestMapping(value = "/deleteComment/{idComment}", method = RequestMethod.GET)
 	public List<Comment> deleteComment(Model model, @PathVariable int idComment,@RequestParam int idBook) {
 		System.out.println("dddd");
-		
 		Comment del = commentService.findByIdComment(idComment);
-		del.setRemove(1); // remove use
 		commentService.save(del);
-		return commentService.findAllByRemoveAndIdBook(0,idBook);
+		return commentService.findByIdBook(idBook);
 	}
 	
 }
