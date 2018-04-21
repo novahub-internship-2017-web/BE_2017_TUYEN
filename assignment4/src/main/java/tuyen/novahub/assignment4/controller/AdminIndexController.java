@@ -35,15 +35,10 @@ public class AdminIndexController {
 		return "/admin/403";
 	}
 	
-	@RequestMapping(value = "/404", method = RequestMethod.GET)
-	public String notPage() {
-		return "/admin/404";
-	}
-	
 	@RequestMapping(value = "/show-login", method = RequestMethod.GET)
 	public String showLogin(@RequestParam(required = false) String message, Model model) {
-		if (message != null && !message.isEmpty()) {
-			model.addAttribute("message", "Invalid username or password!");
+		if (message != null && ! message.isEmpty()) {
+			model.addAttribute("message", "Invalid username, password or account locked!");
 		}
 		return "/admin/login";
 	}
@@ -74,9 +69,6 @@ public class AdminIndexController {
 	public String showDetailBook(Model model, @PathVariable int idBook, Authentication authentication,
 	    Principal principal) {
 		Book objBook = bookService.findByIdBook(idBook);
-		if (objBook == null) {
-			return "/admin/404";
-		}
 		if (authentication != null) {
 			// login
 			int idUserLogin = userService.findByEmail(principal.getName()).getIdUser();

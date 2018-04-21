@@ -37,12 +37,16 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     padding-left: 2%;
     border-radius: 10px;
 }
+.hidden {
+   display:none;
+}
 </style>
 
 
 </head>
 
 <body>
+<input id="checkAdmin" type="hidden" sec:authorize="hasRole('ROLE_ADMIN')" value="isAdmin"/>
   <!-- container section start -->
   <section id="container" class="">
     <!--header start-->
@@ -172,7 +176,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
                     <th><i class=""></i>Date created</th>
                     <th><i class=""></i>Date updated</th>
                     <th sec:authorize="hasAnyRole('ROLE_ADMIN')"><i class=""></i>Enable</th>
-                    <th><i class="" ></i> Action</th>
+                    <th ><i class="" ></i> Action</th>
                   </tr>
                   <tr th:each="listBook : ${listBook}">
                     <td th:text="${listBook.title}">..</td>

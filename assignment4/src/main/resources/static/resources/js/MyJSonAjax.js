@@ -36,7 +36,7 @@ $("#formAddUser").submit(function(event) {
 		addUserJson();
 	}
 });
-function addUserJson() {
+function addUser() {
 	var newUser = {}
 	newUser["firstName"] = $('#firstName').val();
 	newUser["lastName"] = $('#lastName').val();
@@ -341,6 +341,11 @@ function addBook() {
 				data : JSON.stringify(newBook),
 				success : function(data) {
 					document.getElementById('viewFormAddBook').style.display = 'none';
+					var col = "";
+					var rs = $('#checkAdmin').val();
+					if(rs != "isAdmin"){
+						col = 'class="hidden"';
+					}
 					var title = '<table class="table table-striped table-advance table-hover">'
 							+ '<tbody>'
 							+ '<tr>'
@@ -348,8 +353,8 @@ function addBook() {
 							+ '<th><i class=""></i>Author</th>'
 							+ '<th><i class=""></i>Date created</th>'
 							+ '<th><i class=""></i>Date updated</th>'
-							+ '<th><i class=""></i>Action</th>' + ' </tr>';
-
+							+ '<th><i class=""></i>Action</th>'
+							+ ' </tr>';
 					for (var i = 0; i < data.length; i++) {
 						var row = '<tr>' + '<td>'
 								+ data[i].title
@@ -365,10 +370,12 @@ function addBook() {
 								+ '</td>'
 								+ '<td>'
 								+ '<div class="btn-group">'
-								+ '<a class="btn btn-success" onclick="showEditBook('
+								+ '<a class="btn btn-warning"'
+								+ ' href="/detailBook/'+data[i].idBook+'" title="Detail!"><i class="icon_camera_alt"></i></a>'
+								+ '<a '+col+'class="btn btn-success" onclick="showEditBook('
 								+ data[i].idBook
 								+ ')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
-								+ '<a class="btn btn-danger" onclick="deleteBook('
+								+ '<a '+col+'class="btn btn-danger" onclick="deleteBook('
 								+ data[i].idBook
 								+ ')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
 								+ '</div>' + '</td>' + '</tr>';
@@ -377,7 +384,7 @@ function addBook() {
 
 					title = title + '</tbody>' + '</table>';
 					$('#result').html(title);
-					$('#msgResult').html('Successfully added new book!');
+					$('#msgResult').html('Successfully added book!');
 				},
 				error : function() {
 					alert('Error adding new book!');
@@ -437,6 +444,11 @@ function editBook() {
 				data : JSON.stringify(newBook),
 				success : function(data) {
 					document.getElementById('viewFormEditBook').style.display = 'none';
+					var col = "";
+					var rs = $('#checkAdmin').val();
+					if(rs != "isAdmin"){
+						col = 'class="hidden"';
+					}
 					var title = '<table class="table table-striped table-advance table-hover">'
 							+ '<tbody>'
 							+ '<tr>'
@@ -444,7 +456,8 @@ function editBook() {
 							+ '<th><i class=""></i>Author</th>'
 							+ '<th><i class=""></i>Date created</th>'
 							+ '<th><i class=""></i>Date updated</th>'
-							+ '<th><i class=""></i>Action</th>' + ' </tr>';
+							+ '<th><i class=""></i>Action</th>'
+							+ ' </tr>';
 					for (var i = 0; i < data.length; i++) {
 						var row = '<tr>' + '<td>'
 								+ data[i].title
@@ -460,10 +473,12 @@ function editBook() {
 								+ '</td>'
 								+ '<td>'
 								+ '<div class="btn-group">'
-								+ '<a class="btn btn-success" onclick="showEditBook('
+								+ '<a class="btn btn-warning"'
+								+ ' href="/detailBook/'+data[i].idBook+'" title="Detail!"><i class="icon_camera_alt"></i></a>'
+								+ '<a '+col+'class="btn btn-success" onclick="showEditBook('
 								+ data[i].idBook
 								+ ')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
-								+ '<a class="btn btn-danger" onclick="deleteBook('
+								+ '<a '+col+'class="btn btn-danger" onclick="deleteBook('
 								+ data[i].idBook
 								+ ')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
 								+ '</div>' + '</td>' + '</tr>';
@@ -473,7 +488,7 @@ function editBook() {
 					title = title + '</tbody>' + '</table>';
 					$('#result').html(title);
 					$('#msgResult').html('Successfully edited book!');
-				},
+					},
 				error : function() {
 					alert('Error editing new book!');
 				}
@@ -497,6 +512,20 @@ function deleteBook(idBook) {
 								+ '<th><i class=""></i>Date created</th>'
 								+ '<th><i class=""></i>Date updated</th>'
 								+ '<th><i class=""></i>Action</th>' + ' </tr>';
+						var col = "";
+						var rs = $('#checkAdmin').val();
+						if(rs != "isAdmin"){
+							col = 'class="hidden"';
+						}
+						var title = '<table class="table table-striped table-advance table-hover">'
+								+ '<tbody>'
+								+ '<tr>'
+								+ '<th><i class=""></i>Title</th>'
+								+ '<th><i class=""></i>Author</th>'
+								+ '<th><i class=""></i>Date created</th>'
+								+ '<th><i class=""></i>Date updated</th>'
+								+ '<th><i class=""></i>Action</th>'
+								+ ' </tr>';
 						for (var i = 0; i < data.length; i++) {
 							var row = '<tr>' + '<td>'
 									+ data[i].title
@@ -512,10 +541,12 @@ function deleteBook(idBook) {
 									+ '</td>'
 									+ '<td>'
 									+ '<div class="btn-group">'
-									+ '<a class="btn btn-success" onclick="showEditBook('
+									+ '<a class="btn btn-warning"'
+									+ ' href="/detailBook/'+data[i].idBook+'" title="Detail!"><i class="icon_camera_alt"></i></a>'
+									+ '<a '+col+'class="btn btn-success" onclick="showEditBook('
 									+ data[i].idBook
 									+ ')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
-									+ '<a class="btn btn-danger" onclick="deleteBook('
+									+ '<a '+col+'class="btn btn-danger" onclick="deleteBook('
 									+ data[i].idBook
 									+ ')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
 									+ '</div>' + '</td>' + '</tr>';
@@ -527,7 +558,7 @@ function deleteBook(idBook) {
 						$('#msgResult').html('Successfully deleted book!');
 					},
 					error : function() {
-						alert('Error delete new book!');
+						alert('Error deleting new book!');
 					}
 				});
 	}
