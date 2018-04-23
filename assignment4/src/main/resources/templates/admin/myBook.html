@@ -47,7 +47,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 </head>
 
 <body>
-<input id="checkAdmin" type="hidden" sec:authorize="hasAnyRole('ROLE_ADMIN')" value="isAdmin"/>
+<input id="checkUser" type="hidden" sec:authorize="hasAnyRole('ROLE_USER')" value="isUser"/>
   <!-- container section start -->
   <section id="container" class="">
     <!--header start-->
@@ -164,7 +164,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
             <section class="panel">
               <div style="margin-left: 10px" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
                <br>
-             	 <a class="btn btn-primary" href="javascript:void(0)" onclick="document.getElementById('viewFormAddBook').style.display='block'"><i class="icon_plus_alt2"></i> ADD NEW BOOK</a>   
+             	 <a class="btn btn-primary" href="javascript:void(0)" onclick="document.getElementById('viewFormAddMyBook').style.display='block'"><i class="icon_plus_alt2"></i> ADD NEW BOOK</a>   
 				<br>
 			</div>
 			<br>
@@ -178,6 +178,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
                     <th><i class=""></i>Date created</th>
                     <th><i class=""></i>Date updated</th>
                     <th sec:authorize="hasAnyRole('ROLE_ADMIN')"><i class=""></i>Enable</th>
+                    <th sec:authorize="hasAnyRole('ROLE_USER')"><i class=""></i>Status</th>
                     <th><i class="" ></i> Action</th>
                   </tr>
                   <tr th:each="listBook : ${listBook}">
@@ -188,11 +189,15 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
                     <td sec:authorize="hasAnyRole('ROLE_ADMIN')">
                     	<input type="checkbox" th:checked="${listBook.enabled == 1}" th:onclick="'changeStatusBook('+${listBook.idBook}+','+${listBook.enabled}+')'">          
                     </td>
+                    <td sec:authorize="hasAnyRole('ROLE_USER')"> 
+                    	<p   th:if="${listBook.enabled}==1">Approved</p>
+                    	<p th:unless="${listBook.enabled}">Waiting</p>
+                    </td>
                     <td>
                       <div class="btn-group">
                       	<a class="btn btn-warning" th:href="@{'/detailBook/' + ${listBook.idBook}}" title="Detail!"><i class="icon_camera_alt"></i></a>
-                        <a sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')" class="btn btn-success" th:onclick="'showEditBook(\''+${listBook.idBook}+'\')'" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>    
-                      	<a sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')" class="btn btn-danger" th:onclick="' deleteBook(\''+${listBook.idBook}+'\')'" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>
+                        <a sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')" class="btn btn-success" th:onclick="'showEditMyBook(\''+${listBook.idBook}+'\')'" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>    
+                      	<a sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')" class="btn btn-danger" th:onclick="' deleteMyBook(\''+${listBook.idBook}+'\')'" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>
                       </div>
                     </td>
                   </tr>
@@ -203,14 +208,22 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
           </div>
         </div>
         <!-- page end-->
+          <div class="btn-row">
+            <div class="btn-group">
+              <button class="btn btn-default" type="button">Previous</button>
+              <button class="btn btn-primary" type="button">2</button>
+              <button class="btn btn-default" type="button">3</button>
+              <button class="btn btn-default" type="button">Next</button>
+            </div>
+        </div>
       </section>
     </section>
   </section>
   
-  <div id="viewFormAddBook" class="modal text-center" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-           <form class="modal-content animate" id="formAddBook"  name="formAddBook">
+  <div id="viewFormAddMyBook" class="modal text-center" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+           <form class="modal-content animate" id="formAddMyBook"  name="formAddMyBook">
            <div class="">
-						<button type="button" class="close" onclick="document.getElementById('viewFormAddBook').style.display='none'" >&times;</button>
+						<button type="button" class="close" onclick="document.getElementById('viewFormAddMyBook').style.display='none'" >&times;</button>
 			</div> 
            <br><h3>ADD NEW BOOK</h3><br>
         <table style=" width:100%"  class="">
@@ -257,10 +270,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
        </form>
     </div>
     
-     <div id="viewFormEditBook" class="modal text-center" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-           <form class="modal-content animate" id="formEditBook"  name="formEditBook">
+     <div id="viewFormEditMyBook" class="modal text-center" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+           <form class="modal-content animate" id="formEditMyBook"  name="formEditMyBook">
            <div class="">
-						<button type="button" class="close" onclick="document.getElementById('viewFormEditBook').style.display='none'" >&times;</button>
+						<button type="button" class="close" onclick="document.getElementById('viewFormEditMyBook').style.display='none'" >&times;</button>
 			</div> 
            <br><h3>EDIT BOOK</h3><br>
         <table style=" width:100%"  class="">
@@ -303,7 +316,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
           <td>
             <input type="submit" value="UPDATE" class="btn btn-primary">
             <input type="button" value="CANCEL" class="btn btn-danger"
-              onclick="document.getElementById('viewFormEditBook').style.display='none'">
+              onclick="document.getElementById('viewFormEditMyBook').style.display='none'">
             
           </td>
          </tr>
@@ -329,7 +342,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
   
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
   <script src="/resources/js/validate.js" type="text/javascript"></script>
-  <script src="/resources/js/MyJSonAjax.js" type="text/javascript"></script> 
+  <script src="/resources/js/JsonUser.js" type="text/javascript"></script>
+  <script src="/resources/js/JsonBook.js" type="text/javascript"></script>  
 </body>
 
 </html>

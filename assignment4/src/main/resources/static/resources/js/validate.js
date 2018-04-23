@@ -1,6 +1,5 @@
 //validate
 $(document).ready(function() {
-	// alert('validate usser!');
 	$("#formAddUser").validate({
 		rules : {
 			"email" : {
@@ -72,40 +71,8 @@ function validateEmail(email) {
 	return re.test(email);
 }
 
-$(document).ready(function() {
-	// alert('validate hihi book!');
-	$("#formAddBook").validate({
-		rules : {
-			"title" : {
-				required : true,
-				minlength : 4,
-				maxlength : 40
-			},
-			"author" : {
-				required : true,
-				minlength : 6,
-				maxlength : 40
-			},
-
-		},
-		messages : {
-			"title" : {
-				required : "Please enter title!",
-				minlength : "Title is too short!",
-				maxlength : "Title is too long!"
-			},
-			"author" : {
-				required : "Please enter author!",
-				minlength : "Author is too short!",
-				maxlength : "Author is too long!"
-			},
-
-		}
-	});
-});
 
 $(document).ready(function() {
-	// alert('validate hihi book!');
 	$("#formEditBook").validate({
 		rules : {
 			"titleEdit" : {
@@ -118,6 +85,9 @@ $(document).ready(function() {
 				minlength : 6,
 				maxlength : 40
 			},
+			"descriptionEdit" : {
+				maxlength : 200
+			},
 
 		},
 		messages : {
@@ -130,6 +100,82 @@ $(document).ready(function() {
 				required : "Please enter author!",
 				minlength : "Author is too short!",
 				maxlength : "Author is too long!"
+			},
+			"descriptionEdit" : {
+				maxlength : "Author is too long!"
+			},
+
+		}
+	});
+});
+
+$(document).ready(function() {
+	$("#formAddMyBook").validate({
+		rules : {
+			"title" : {
+				required : true,
+				minlength : 4,
+				maxlength : 40
+			},
+			"author" : {
+				required : true,
+				minlength : 6,
+				maxlength : 40
+			},
+			"description" : {
+				maxlength : 200
+			},
+
+		},
+		messages : {
+			"title" : {
+				required : "Please enter title!",
+				minlength : "Title is too short!",
+				maxlength : "Title is too long!"
+			},
+			"author" : {
+				required : "Please enter author!",
+				minlength : "Author is too short!",
+				maxlength : "Author is too long!"
+			},
+			"description" : {
+				maxlength : "Author is too long!"
+			},
+		}
+	});
+});
+
+$(document).ready(function() {
+	$("#formEditMyBook").validate({
+		rules : {
+			"titleEdit" : {
+				required : true,
+				minlength : 4,
+				maxlength : 40
+			},
+			"authorEdit" : {
+				required : true,
+				minlength : 6,
+				maxlength : 40
+			},
+			"descriptionEdit" : {
+				maxlength : 200
+			},
+
+		},
+		messages : {
+			"titleEdit" : {
+				required : "Please enter title!",
+				minlength : "Title is too short!",
+				maxlength : "Title is too long!"
+			},
+			"authorEdit" : {
+				required : "Please enter author!",
+				minlength : "Author is too short!",
+				maxlength : "Author is too long!"
+			},
+			"descriptionEdit" : {
+				maxlength : "Description is too long!"
 			},
 
 		}

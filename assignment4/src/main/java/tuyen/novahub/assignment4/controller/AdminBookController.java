@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,25 +29,25 @@ import tuyen.novahub.assignment4.service.UserService;
 
 @RestController
 public class AdminBookController {
-	
+
 	@Autowired
-	UserService						userService;
-	
+	UserService userService;
+
 	@Autowired
-	BookService						bookService;
-	
+	BookService bookService;
+
 	@Autowired
-	CommentService				commentService;
-	
+	CommentService commentService;
+
 	@Autowired
-	UserDeleteService			userDeleteService;
-	
+	UserDeleteService userDeleteService;
+
 	@Autowired
-	BookDeleteService			bookDeleteService;
-	
+	BookDeleteService bookDeleteService;
+
 	@Autowired
-	CommentDeleteService	commentDeleteService;
-	
+	CommentDeleteService commentDeleteService;
+
 	@RequestMapping(value = "/addBook", method = RequestMethod.POST)
 	public List<Book> addBook(Model model, @RequestBody Book newBook, Principal principal) {
 		String emailLogin = principal.getName();
@@ -61,13 +62,13 @@ public class AdminBookController {
 		bookService.save(newBook);
 		return bookService.findByIdUser(userLogin.getIdUser());
 	}
-	
-	@RequestMapping(value = "/showEditBook/{idBook}", method = RequestMethod.PUT)
-	public Book showEditUser(Model model, @PathVariable int idBook) {
+
+	@RequestMapping(value = "/admin/showEditBook/{idBook}", method = RequestMethod.PUT)
+	public Book showEditBook(Model model, @PathVariable int idBook) {
 		return bookService.findByIdBook(idBook);
 	}
-	
-	@RequestMapping(value = "/editBook", method = RequestMethod.PUT)
+
+	@RequestMapping(value = "/admin/editBook", method = RequestMethod.PUT)
 	public List<Book> editBook(Model model, @RequestBody Book newBook) {
 		Book editBook = bookService.findByIdBook(newBook.getIdBook());
 		newBook.setEnabled(editBook.getEnabled());
@@ -80,29 +81,29 @@ public class AdminBookController {
 		bookService.save(newBook);
 		return bookService.findAll();
 	}
-	
-	@RequestMapping(value = "/deleteBook/{idBook}", method = RequestMethod.GET)
-	public List<Book> deleteUserJson(Model model, @PathVariable int idBook) {
+
+	@RequestMapping(value = "/admin/deleteBook/{idBook}", method = RequestMethod.GET)
+	public List<Book> deleteBook(Model model, @PathVariable int idBook) {
 		// find book by idBook
 		Book objBook = bookService.findByIdBook(idBook);
 		// add book in book_delete
 		BookDelete bookDelete = new BookDelete(objBook.getIdBook(), objBook.getTitle(), objBook.getAuthor(),
-		    objBook.getDescription(), objBook.getCreatedAt(), objBook.getUpdatedAt(), objBook.getImage(),
-		    objBook.getEnabled(), objBook.getIdUser());
+				objBook.getDescription(), objBook.getCreatedAt(), objBook.getUpdatedAt(), objBook.getImage(),
+				objBook.getEnabled(), objBook.getIdUser());
 		bookDeleteService.save(bookDelete);
-		
+
 		// find all comment by IdBook and add this in comment_delete
 		List<Comment> listComment = commentService.findByIdBook(idBook);
 		for (Comment objComment : listComment) {
 			CommentDelete commentDelete = new CommentDelete(objComment.getIdComment(), objComment.getMessage(),
-			    objComment.getIdUser(), objComment.getIdBook(), objComment.getCreatedComment(),
-			    objComment.getUpdatedComment());
+					objComment.getIdUser(), objComment.getIdBook(), objComment.getCreatedComment(),
+					objComment.getUpdatedComment());
 			commentDeleteService.save(commentDelete);
 		}
 		bookService.deleteByIdBook(idBook);
 		return bookService.findAll();
 	}
-	
+
 	@RequestMapping(value = "/admin/changeStatusBook/{idBook}", method = RequestMethod.GET)
 	public List<Book> changeStatus(Model model, @PathVariable int idBook, @RequestParam int enabled) {
 		Book changeBook = bookService.findByIdBook(idBook);
@@ -115,5 +116,68 @@ public class AdminBookController {
 		}
 		bookService.save(changeBook);
 		return bookService.findAll();
+	}
+
+	@RequestMapping(value = "/showEditMyBook/{idBook}", method = RequestMethod.PUT)
+	public Book showEditMyBook(Model model, @PathVariable int idBook, Principal principal) {
+		int idUserLogin = userService.findByEmail(principal.getName()).getIdUser();
+		Book editBook = bookService.findByIdBook(idBook);
+		System.out.println("idLogin: "+idUserLogin);
+		System.out.println("idUserBook: "+editBook.getIdUser());
+		if (idUserLogin == editBook.getIdUser()) {
+			return bookService.findByIdBook(idBook);
+		} else {
+			return null;
+		}
+
+	}
+
+	@RequestMapping(value = "/editMyBook", method = RequestMethod.PUT)
+	public List<Book> editMyBook(Model model, @RequestBody Book newBook, Principal principal,
+			Authentication authentication) {
+		int idUserLogin = userService.findByEmail(principal.getName()).getIdUser();
+		Book editBook = bookService.findByIdBook(newBook.getIdBook());
+		if (idUserLogin == editBook.getIdUser()) {
+			// login and edit book of you create, can't edit book of others
+			newBook.setEnabled(editBook.getEnabled());
+			newBook.setImage(editBook.getImage());
+			newBook.setCreatedAt(editBook.getCreatedAt());
+			Date date = new Date();
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String st = simpleDateFormat.format(date);
+			newBook.setUpdatedAt(st);
+			bookService.save(newBook);
+			return bookService.findByIdUser(idUserLogin);
+		} else {
+			return null;
+		}
+
+	}
+
+	@RequestMapping(value = "/deleteMyBook/{idBook}", method = RequestMethod.GET)
+	public List<Book> deleteMyBook(Model model, @PathVariable int idBook, Principal principal) {
+		// find book by idBook
+		Book objBook = bookService.findByIdBook(idBook);
+		int idUserLogin = userService.findByEmail(principal.getName()).getIdUser();
+		if (idUserLogin == objBook.getIdUser()) {
+			// add book in book_delete
+			BookDelete bookDelete = new BookDelete(objBook.getIdBook(), objBook.getTitle(), objBook.getAuthor(),
+					objBook.getDescription(), objBook.getCreatedAt(), objBook.getUpdatedAt(), objBook.getImage(),
+					objBook.getEnabled(), objBook.getIdUser());
+			bookDeleteService.save(bookDelete);
+
+			// find all comment by IdBook and add this in comment_delete
+			List<Comment> listComment = commentService.findByIdBook(idBook);
+			for (Comment objComment : listComment) {
+				CommentDelete commentDelete = new CommentDelete(objComment.getIdComment(), objComment.getMessage(),
+						objComment.getIdUser(), objComment.getIdBook(), objComment.getCreatedComment(),
+						objComment.getUpdatedComment());
+				commentDeleteService.save(commentDelete);
+			}
+			bookService.deleteByIdBook(idBook);
+			return bookService.findByIdUser(idUserLogin);
+		} else {
+			return null;
+		}
 	}
 }

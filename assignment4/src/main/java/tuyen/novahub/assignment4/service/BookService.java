@@ -42,4 +42,9 @@ public class BookService {
 		
 	}
 
+	public List<Book> findByPagination(int offset) {
+		return bookRepository.findByPagination(offset);
+	}
+
+
 }

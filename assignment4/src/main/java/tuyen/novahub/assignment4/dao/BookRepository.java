@@ -2,8 +2,10 @@ package tuyen.novahub.assignment4.dao;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import tuyen.novahub.assignment4.library.Define;
 import tuyen.novahub.assignment4.model.Book;
 
 public interface BookRepository extends CrudRepository<Book, Long> {
@@ -20,4 +22,8 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 	public Book save(Book objBook);
 
 	public int deleteByIdBook(int idBook);
+
+	@Query(value = "SELECT b.id_book FROM book b LIMIT 1,"+Define.BOOK_COUNT, nativeQuery = true)	
+	public List<Book> findByPagination(int offset);
+
 }

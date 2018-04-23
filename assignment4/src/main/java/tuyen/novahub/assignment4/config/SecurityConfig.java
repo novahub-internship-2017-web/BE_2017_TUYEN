@@ -33,30 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
  @Override
 
  protected void configure(HttpSecurity http) throws Exception {
-//	 http.authorizeRequests().antMatchers("/admin/**").hasRole("ROLE_ADMIN").anyRequest().authenticated();
-//	 http.authorizeRequests().antMatchers("/allUser").access("hasRole('admin') or hasRole('user')");
-//	 http.authorizeRequests().antMatchers("/listUser").access("hasRole('admin') or hasRole('user')");
-//	 http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
-  
 	 http
-//	 			.authorizeRequests().antMatchers("/allUser","/listUser","/","/show-login","/static/resources/admin/js/**","/static/resources/admin/css/**",
-//	 					"/static/resources/admin/img/**","/static/resources/admin/assets/**",
-//	 					"/static/resources/admin/contactform/**",
-//	 					"/static/resources/admin/fonts/**","/templates/**").permitAll()
-//   .and()
-   		//	.authorizeRequests().antMatchers("/admin/**").hasRole("admin").anyRequest().authenticated()
-   //.and()
-//	 .authorizeRequests().antMatchers("/allUser").access("hasRole('ROLE_ADMIN')")
-//// .and()
-//// .authorizeRequests().antMatchers("/admin/**").hasRole("admin")
-// .and()
-// .authorizeRequests().antMatchers("/allUser").access("hasRole('ROLE_USER')")
-////.and()
-//.authorizeRequests().antMatchers("/allUser").access("hasRole('ROLE_ADMIN')")
-//.and()
 	 .authorizeRequests().antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-//	 .and()
-//	 .authorizeRequests().antMatchers("/admin/**").hasRole("admin")
 	 .and()
 	    	.formLogin()
 				    .loginPage("/show-login")

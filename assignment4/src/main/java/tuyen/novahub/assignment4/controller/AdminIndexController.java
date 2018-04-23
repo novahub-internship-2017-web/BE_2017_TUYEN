@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import tuyen.novahub.assignment4.library.Define;
 import tuyen.novahub.assignment4.model.Book;
 import tuyen.novahub.assignment4.model.Comment;
 import tuyen.novahub.assignment4.model.User;
@@ -50,20 +51,49 @@ public class AdminIndexController {
 		return "/admin/user";
 	}
 	
+//	@RequestMapping(value = "/", method = RequestMethod.GET)
+//	public String showListBook(Model model, Authentication authentication) {
+//		List<Book> list;
+//		int current_page = 1;
+//		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+//			// if admin login then redirect all book
+//			list = bookService.findAll();
+//			model.addAttribute("listBook", list);
+//		} else {
+//			// all list book enabled
+//			int totalBook = bookService.findByEnabled(1).size();
+//			int row_count = Define.BOOK_COUNT;
+//			int sumPage = (int) Math.ceil((float) totalBook/row_count);
+//			int offset = (current_page-1)*row_count;
+//			System.out.println("offset: "+offset);
+//			list = bookService.findByEnabled(1);
+//			model.addAttribute("sumPage", sumPage);
+//			model.addAttribute("listBook", list);
+//		}
+//		return "/admin/book";
+//	}
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String showListBook(Model model, Principal principal, Authentication authentication) {
+	public String showListBook(Model model, Authentication authentication) {
 		List<Book> list;
+		int current_page = 1;
 		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
 			// if admin login then redirect all book
 			list = bookService.findAll();
 			model.addAttribute("listBook", list);
 		} else {
 			// all list book enabled
+			int totalBook = bookService.findByEnabled(1).size();
+			int row_count = Define.BOOK_COUNT;
+			int sumPage = (int) Math.ceil((float) totalBook/row_count);
+			int offset = (current_page-1)*row_count;
+			System.out.println("offset: "+offset);
 			list = bookService.findByEnabled(1);
+			model.addAttribute("sumPage", sumPage);
 			model.addAttribute("listBook", list);
 		}
 		return "/admin/book";
 	}
+	
 	
 	@RequestMapping(value = "/detailBook/{idBook}", method = RequestMethod.GET)
 	public String showDetailBook(Model model, @PathVariable int idBook, Authentication authentication,
