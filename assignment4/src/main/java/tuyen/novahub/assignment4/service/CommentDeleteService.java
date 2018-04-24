@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import tuyen.novahub.assignment4.dao.CommentDeleteRepository;
 import tuyen.novahub.assignment4.model.CommentDelete;
+import tuyen.novahub.assignment4.repository.CommentDeleteRepository;
 
 @Service
 @Transactional

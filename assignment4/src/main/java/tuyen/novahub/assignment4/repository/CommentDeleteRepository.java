@@ -1,4 +1,4 @@
-package tuyen.novahub.assignment4.dao;
+package tuyen.novahub.assignment4.repository;
 
 import org.springframework.data.repository.CrudRepository;
 

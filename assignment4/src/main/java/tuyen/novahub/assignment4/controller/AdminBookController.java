@@ -180,4 +180,19 @@ public class AdminBookController {
 			return null;
 		}
 	}
+	
+	@RequestMapping(value = "/admin/changeStatusMyBook/{idBook}", method = RequestMethod.GET)
+	public List<Book> changeStatusMyBook(Principal principal,Model model, @PathVariable int idBook, @RequestParam int enabled) {
+		Book changeBook = bookService.findByIdBook(idBook);
+		int idUserLogin = userService.findByEmail(principal.getName()).getIdUser();
+		if (enabled == 0) {
+			changeBook.setEnabled(1);
+		} else {
+			if (enabled == 1) {
+				changeBook.setEnabled(0);
+			}
+		}
+		bookService.save(changeBook);
+		return bookService.findByIdUser(idUserLogin);
+	}
 }

@@ -9899,3 +9899,16 @@ span.customSelect.changed {
 .error{
 	color: red
 }
+
+.pagination-centered {
+    text-align: center;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.pointer-disabled {
+    pointer-events: none;
+}

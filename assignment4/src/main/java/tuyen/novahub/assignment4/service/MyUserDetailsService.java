@@ -12,10 +12,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import org.springframework.stereotype.Service;
 
-import tuyen.novahub.assignment4.dao.RoleRepository;
-import tuyen.novahub.assignment4.dao.UserRepository;
 import tuyen.novahub.assignment4.model.MyUserDetails;
 import tuyen.novahub.assignment4.model.User;
+import tuyen.novahub.assignment4.repository.RoleRepository;
+import tuyen.novahub.assignment4.repository.UserRepository;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {

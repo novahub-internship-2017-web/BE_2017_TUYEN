@@ -348,7 +348,7 @@ function addMyBook() {
 								+ '<td '+colAdmin+'>'
 								+ '<input type="checkbox" '
 								+ check
-								+ ' onclick="changeStatusBook('
+								+ ' onclick="changeStatusMyBook('
 								+ data[i].idBook
 								+ ','
 								+ data[i].enabled
@@ -477,7 +477,7 @@ function editMyBook() {
 								+ '<td '+colAdmin+'>'
 								+ '<input type="checkbox" '
 								+ check
-								+ ' onclick="changeStatusBook('
+								+ ' onclick="changeStatusMyBook('
 								+ data[i].idBook
 								+ ','
 								+ data[i].enabled
@@ -563,7 +563,7 @@ function deleteMyBook(idBook) {
 									+ '<td '+colAdmin+'>'
 									+ '<input type="checkbox" '
 									+ check
-									+ ' onclick="changeStatusBook('
+									+ ' onclick="changeStatusMyBook('
 									+ data[i].idBook
 									+ ','
 									+ data[i].enabled
@@ -592,4 +592,77 @@ function deleteMyBook(idBook) {
 					}
 				});
 	}
+}
+
+function changeStatusMyBook(idBook, st) {
+	$.ajax({
+		url : "/admin/changeStatusMyBook/" + idBook,
+		type : "GET",
+		cache : false,
+		contentType : "application/json",
+		dataType : 'json',
+		data : {
+			enabled : st
+		},
+		success : function(data) {
+			var title = '<table class="table table-striped table-advance table-hover">'
+					+ '<tbody>'
+					+ '<tr>'
+					+ '<th><i class=""></i>Title</th>'
+					+ '<th><i class=""></i>Author</th>'
+					+ '<th><i class=""></i>Date created</th>'
+					+ '<th><i class=""></i>Date updated</th>'
+					+ '<th><i class=""></i>Status</th>'
+					+ '<th><i class=""></i>Action</th>'
+					+ ' </tr>';
+			for (var i = 0; i < data.length; i++) {
+				var check = null;
+				if(data[i].enabled == 1){
+					check = 'checked="checked"';
+				}
+				var row = '<tr>' + '<td>'
+						+ data[i].title
+						+ '</td>'
+						+ '<td>'
+						+ data[i].author
+						+ '</td>'
+						+ '<td>'
+						+ data[i].createdAt
+						+ '</td>'
+						+ '<td>'
+						+ data[i].updatedAt
+						+ '</td>'
+						
+						+ '<td>'
+						+ '<input type="checkbox" '
+						+ check
+						+ ' onclick="changeStatusMyBook('
+						+ data[i].idBook
+						+ ','
+						+ data[i].enabled
+						+ ')">'
+						+ '</td>'
+						
+						+ '<td>'
+						+ '<div class="btn-group">'
+						+ '<a class="btn btn-warning"'
+						+ ' href="/detailBook/'+data[i].idBook+'" title="Detail!"><i class="icon_camera_alt"></i></a>'
+						+ '<a class="btn btn-success" onclick="showEditBook('
+						+ data[i].idBook
+						+ ')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
+						+ '<a class="btn btn-danger" onclick="deleteBook('
+						+ data[i].idBook
+						+ ')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
+						+ '</div>' + '</td>' + '</tr>';
+				title = title + row;
+			}
+
+			title = title + '</tbody>' + '</table>';
+			$('#result').html(title);
+			$('#msgResult').html('Successfully changed status book!');
+			},
+		error : function() {
+			alert('Error change status book!');
+		}
+	});
 }
