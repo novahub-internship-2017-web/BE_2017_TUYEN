@@ -33,7 +33,7 @@ function checkEmail() {
 $("#formAddUser").submit(function(event) {
 	event.preventDefault(); // no submit
 	if ($("#formAddUser").valid()) {
-		addUserJson();
+		addUser();
 	}
 });
 function addUser() {

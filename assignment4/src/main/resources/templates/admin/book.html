@@ -197,56 +197,36 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
         </div>
         <!-- page end-->
          
-      <!--    <div class="row">
-        <div class="form-group col-md-1">
-            <select class="form-control pagination" id="pageSizeSelect">
-                <option  value="4"
-                        selected="selected">4</option>
-                        <option  value="4"
-                        selected="selected">4</option>
-            </select>
-        </div>
-        <div  class="form-group col-md-11 pagination-centered">
-            <ul class="pagination">
-                <li >
-                    <a class="pageLink"
-                       href="">&raquo;</a>
-                </li>
-                 <li >
-                    <a class="pageLink"
-                       href="">1</a>
-                </li>
-            </ul>
-        </div>
-    </div> -->
-    
-     <div class="row">
-        <div class="form-group col-md-1">
+     <div class="row" id="page">
+        <!-- <div class="form-group col-md-1">
             <select class="form-control pagination" id="pageSizeSelect">
                 <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}" th:value="${pageSize}"
                         th:selected="${pageSize} == ${selectedPageSize}"></option>
             </select>
-        </div>
+        </div> -->
         <div th:if="${listBook.totalPages != 1}" class="form-group col-md-11 pagination-centered">
             <ul class="pagination">
                 <li th:class="${listBook.number == 0} ? disabled">
-                    <a class="pageLink" th:href="@{/(pageSize=${selectedPageSize}, page=1)}">&laquo;</a>
+                    <a class="pageLink" href="#" 
+                    th:onclick="'pageBook('+${selectedPageSize}+',1)'">&laquo;</a>         
                 </li>
                 <li th:class="${listBook.number == 0} ? disabled">
-                    <a class="pageLink" th:href="@{/(pageSize=${selectedPageSize}, page=${listBook.number})}">&larr;</a>
+                    <a class="pageLink" 
+                    th:onclick="'pageBook('+${selectedPageSize}+','+${listBook.number}+')'" href="#">&larr;</a>
                 </li>
                 <li th:class="${listBook.number == (page - 1)} ? 'active pointer-disabled'"
                     th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
-                    <a class="pageLink" th:href="@{/(pageSize=${selectedPageSize}, page=${page})}"
+                    <a class="pageLink" href="#"
+                       th:onclick = "'pageBook('+${selectedPageSize}+','+${page}+')'"
                        th:text="${page}"></a>
                 </li>
                 <li th:class="${listBook.number + 1 == listBook.totalPages} ? disabled">
-                    <a class="pageLink"
-                       th:href="@{/(pageSize=${selectedPageSize}, page=${listBook.number + 2})}">&rarr;</a>
+                    <a class="pageLink" href="#"
+                       th:onclick="'pageBook('+${selectedPageSize}+','+${listBook.number + 2}+')'">&rarr;</a>
                 </li>
                 <li th:class="${listBook.number + 1 == listBook.totalPages} ? disabled">
-                    <a class="pageLink"
-                       th:href="@{/(pageSize=${selectedPageSize}, page=${listBook.totalPages})}">&raquo;</a>
+                    <a class="pageLink" href="#"
+                    	th:onclick="'pageBook('+${selectedPageSize}+','+${listBook.totalPages}+')'">&raquo;</a>
                 </li>
             </ul>
         </div>

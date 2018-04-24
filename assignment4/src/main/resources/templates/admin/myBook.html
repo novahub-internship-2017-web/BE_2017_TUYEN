@@ -218,23 +218,23 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
         <div th:if="${listBook.totalPages != 1}" class="form-group col-md-11 pagination-centered">
             <ul class="pagination">
                 <li th:class="${listBook.number == 0} ? disabled">
-                    <a class="pageLink" th:href="@{/(pageSize=${selectedPageSize}, page=1)}">&laquo;</a>
+                    <a class="pageLink" th:href="@{/myBook(pageSize=${selectedPageSize}, page=1)}">&laquo;</a>
                 </li>
                 <li th:class="${listBook.number == 0} ? disabled">
-                    <a class="pageLink" th:href="@{/(pageSize=${selectedPageSize}, page=${listBook.number})}">&larr;</a>
+                    <a class="pageLink" th:href="@{/myBook(pageSize=${selectedPageSize}, page=${listBook.number})}">&larr;</a>
                 </li>
                 <li th:class="${listBook.number == (page - 1)} ? 'active pointer-disabled'"
                     th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
-                    <a class="pageLink" th:href="@{/(pageSize=${selectedPageSize}, page=${page})}"
+                    <a class="pageLink" th:href="@{/myBook(pageSize=${selectedPageSize}, page=${page})}"
                        th:text="${page}"></a>
                 </li>
                 <li th:class="${listBook.number + 1 == listBook.totalPages} ? disabled">
                     <a class="pageLink"
-                       th:href="@{/(pageSize=${selectedPageSize}, page=${listBook.number + 2})}">&rarr;</a>
+                       th:href="@{/myBook(pageSize=${selectedPageSize}, page=${listBook.number + 2})}">&rarr;</a>
                 </li>
                 <li th:class="${listBook.number + 1 == listBook.totalPages} ? disabled">
                     <a class="pageLink"
-                       th:href="@{/(pageSize=${selectedPageSize}, page=${listBook.totalPages})}">&raquo;</a>
+                       th:href="@{/myBook(pageSize=${selectedPageSize}, page=${listBook.totalPages})}">&raquo;</a>
                 </li>
             </ul>
         </div>

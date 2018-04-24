@@ -131,15 +131,49 @@
                   <div class="">
                     <img style="border-radius: 0%;width: 90px; height: 115px;" src="/resources/img/conan1.jpg" alt="">
                   </div>
-                  <h6 style="font-size: 15px; font-weight: bold;" th:text="${objBook.author}"></h6>
+                  <h6 style="font-size: 15px; font-weight: bold;" th:text="'Author:'+ ${objBook.author}"></h6>
                 </div>
                 <div class="col-lg-12 col-sm-12 follow-info">
-                  <h2 th:text="${objBook.title}">..</h2>
-                  <p th:text="${objBook.description}"></p>
-                  <h6>
-                     Created <span th:text="${objBook.createdAt}"><i class="" ></i></span><br>
-                     Updated <span th:text="${objBook.updatedAt}"><i class=""></i></span>
-                 </h6> 
+                <table>
+                <tr>
+	                <td>Author:</td>
+	                <td th:text="${objBook.author}"></td>
+                </tr>
+                <tr>
+	                <td></td>
+	                <td></td>
+                </tr>
+                <tr>
+	                <td>Title:</td>
+	                <td th:text="${objBook.title}"></td>
+                </tr>
+                <tr>
+	                <td></td>
+	                <td></td>
+                </tr>
+                <tr>
+	                <td>Description:</td>
+	                <td th:text="${objBook.description}"></td>
+                </tr>
+                <tr>
+	                <td></td>
+	                <td></td>
+                </tr>
+                <tr>
+	                <td>Created:</td>
+	                <td th:text="${objBook.createdAt}"></td>
+                </tr>
+                
+                <tr>
+	                <td></td>
+	                <td></td>
+                </tr>
+                <tr>
+	                <td>Updated:</td>
+	                <td th:text="${objBook.updatedAt}"></td>
+                </tr>
+                </table>
+                  
                 </div>
               </div>
             </div>
@@ -174,7 +208,7 @@
 	                      <div class="activity-body act-in">
 	                      <span class="arrow"></span>
 	                       <div class="text">
-	                      	<span style="font-size: 15px;font-weight: bold;">Please leave your comments!</span><br> 
+	                      	<span style="font-size: 25px;font-weight: bold;">Please leave your comments!</span><br> 
 	                     	 <form class="form-horizontal" role="form">
 	                          <div class="form-group">
 	                            <div class="col-lg-12">
@@ -192,7 +226,7 @@
 	                      </div>
                       </div>
                       <h4 th:unless="${accept}" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')" style="font: bold;font-size: 15px">Currently does not allow comment</h4>
-                      <h4 sec:authorize="isAnonymous()" style="font: bold;font-size: 15px"><a href="/show-login">Sign in</a> to add your comments</h4>
+                      <h4 sec:authorize="isAnonymous()" style="font: bold;font-size: 25px"><a href="/show-login">Sign in</a> to add your comments</h4>
 	                    <div th:if="${numberCmt>0}" class="act-time" style="overflow: inherit;" th:each="objComment : ${listComment}" id="resultComment" >
 	                        <div class="activity-body act-in">
 	                          <span class="arrow"></span>

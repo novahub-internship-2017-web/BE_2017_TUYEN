@@ -77,7 +77,6 @@ public class AdminIndexController {
 	// return "/admin/book";
 	// }
 
-	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String showListBookPage(Model model, @RequestParam("pageSize") Optional<Integer> pageSize,
 			@RequestParam("page") Optional<Integer> page, Authentication authentication) {
@@ -90,9 +89,9 @@ public class AdminIndexController {
 			// prevent exception), return initial size. Otherwise, return value of
 			// param. decreased by 1.
 			int evalPage = (page.orElse(0) < 1) ? Define.INITIAL_PAGE : page.get() - 1;
-			Page<Book> listBook = bookService.findAllPageable(new PageRequest(evalPage, evalPageSize));
+			Page<Book> listBook = bookService.findAllPageable(PageRequest.of(evalPage, evalPageSize));
 			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), Define.BUTTONS_TO_SHOW);
-
+			System.out.println("listBook"+listBook.toString());
 			model.addAttribute("listBook", listBook);
 			model.addAttribute("selectedPageSize", evalPageSize);
 			model.addAttribute("pageSizes", Define.PAGE_SIZES);
@@ -100,7 +99,7 @@ public class AdminIndexController {
 		} else {
 			int evalPageSize = pageSize.orElse(Define.INITIAL_PAGE_SIZE);
 			int evalPage = (page.orElse(0) < 1) ? Define.INITIAL_PAGE : page.get() - 1;
-			Page<Book> listBook = bookService.findByEnabled(1,new PageRequest(evalPage, evalPageSize));
+			Page<Book> listBook = bookService.findByEnabled(1,PageRequest.of(evalPage, evalPageSize));
 			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), Define.BUTTONS_TO_SHOW);
 
 			model.addAttribute("listBook", listBook);
@@ -144,7 +143,6 @@ public class AdminIndexController {
 		return "/admin/detailBook";
 	}
 
-	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/myBook", method = RequestMethod.GET)
 	public String showMyBook(Model model, Principal principal,@RequestParam("pageSize") Optional<Integer> pageSize,
 			@RequestParam("page") Optional<Integer> page) {
@@ -152,7 +150,7 @@ public class AdminIndexController {
 		User userLogin = userService.findByEmail(emailLogin);
 		int evalPageSize = pageSize.orElse(Define.INITIAL_PAGE_SIZE);
 		int evalPage = (page.orElse(0) < 1) ? Define.INITIAL_PAGE : page.get() - 1;
-		Page<Book> listMyBook = bookService.findByIdUser(userLogin.getIdUser(),new PageRequest(evalPage, evalPageSize));
+		Page<Book> listMyBook = bookService.findByIdUser(userLogin.getIdUser(),PageRequest.of(evalPage, evalPageSize));
 		Pager pager = new Pager(listMyBook.getTotalPages(), listMyBook.getNumber(), Define.BUTTONS_TO_SHOW);
 
 		model.addAttribute("listBook", listMyBook);

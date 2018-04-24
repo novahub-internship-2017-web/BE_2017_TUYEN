@@ -4,8 +4,11 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import tuyen.novahub.assignment4.define.Define;
 import tuyen.novahub.assignment4.model.Book;
 import tuyen.novahub.assignment4.model.BookDelete;
 import tuyen.novahub.assignment4.model.Comment;
@@ -194,5 +198,43 @@ public class AdminBookController {
 		}
 		bookService.save(changeBook);
 		return bookService.findByIdUser(idUserLogin);
+	}
+	
+	
+	
+	@RequestMapping(value = "/listBook", method = RequestMethod.GET)
+	public Page<Book> showListBookPageJson(Model model, @RequestParam("pageSize") Optional<Integer> pageSize,
+			@RequestParam("page") Optional<Integer> page, Authentication authentication) {
+		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+			// if admin login then redirect all book
+			// Evaluate page size. If requested parameter is null, return initial
+			// page size
+			int evalPageSize = pageSize.orElse(Define.INITIAL_PAGE_SIZE);
+			// Evaluate page. If requested parameter is null or less than 0 (to
+			// prevent exception), return initial size. Otherwise, return value of
+			// param. decreased by 1.
+			int evalPage = (page.orElse(0) < 1) ? Define.INITIAL_PAGE : page.get() - 1;
+			Page<Book> listBook = bookService.findAllPageable(PageRequest.of(evalPage, evalPageSize));
+			System.out.println("list: "+listBook.getSize());
+			//Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), Define.BUTTONS_TO_SHOW);
+
+//			model.addAttribute("listBook", listBook);
+//			model.addAttribute("selectedPageSize", evalPageSize);
+//			model.addAttribute("pageSizes", Define.PAGE_SIZES);
+//			model.addAttribute("pager", pager);
+			return listBook;
+		} else {
+			int evalPageSize = pageSize.orElse(Define.INITIAL_PAGE_SIZE);
+			int evalPage = (page.orElse(0) < 1) ? Define.INITIAL_PAGE : page.get() - 1;
+			Page<Book> listBook = bookService.findByEnabled(1,PageRequest.of(evalPage, evalPageSize));
+//			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), Define.BUTTONS_TO_SHOW);
+//
+//			model.addAttribute("listBook", listBook);
+//			model.addAttribute("selectedPageSize", evalPageSize);
+//			model.addAttribute("pageSizes", Define.PAGE_SIZES);
+//			model.addAttribute("pager", pager);
+			return listBook;
+		}
+		
 	}
 }
