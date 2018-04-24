@@ -11,14 +11,20 @@
       + Edit infor 
       + Manage books created by that user (add new, update, delete)
   - Guest 
-      + View 
+      + View all books enable of system
 ### Guide start projec
   - Clone this repository (link clone https://github.com/novahub-internship-2017-web/BE_2017_TUYEN.git)
   
-  - Import database assignment4.sql from ..assignment4/src/main/resources/assignment4.sql (use mySql)
-  - Run project by command : 
+  - Config connect database.
+	+ Open file application.properties (../assignment4/src/main/resources/application.properties)
+	+ Edit username, password
+		+ spring.datasource.username=...
+		+ spring.datasource.password=...
+  - Import database assignment4.sql from ..assignment4/src/main/resources/assignment4.sql (use MySQL)
+
+  - Run project by terminal: 
     + mvn install clean 
     + mvn spring-boot:run
-  - Account:  
+  - Account:
       + account admin: username = admin@gmail.com , password = 123456
       + account user: username  =  a@gmail.com , password = 123456
