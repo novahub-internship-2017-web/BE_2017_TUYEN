@@ -94,7 +94,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
             <ul class="dropdown-menu extended logout">
               <!-- <div class="log-arrow-up"></div> -->
                <li class="eborder-top">
-                <a href="#" onclick="document.getElementById('viewFormEditUserLogin').style.display='block'" ><i class="icon_profile"></i>MY PROFILE</a>
+                <a href="#" onclick="showEditUserLogin()"><i class="icon_profile"></i>MY PROFILE</a>
               </li>
               <li>
                 <a href="#"><i class="icon_key_alt"></i>CHANGE PASSWORD</a>
@@ -283,7 +283,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
           <td></td>
           <td>
             <input type="submit" value="UPDATE" class="btn btn-primary">
-            <input type="button" value="CANCEL" class="btn btn-danger"
+            <input type="reset" value="CANCEL" class="btn btn-danger"
               onclick="document.getElementById('viewFormEditBook').style.display='none'">
           </td>
          </tr>
@@ -330,7 +330,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
                 <td></td>
                 <td>
                     <input type="submit" value="SIGN UP" class="btn btn-primary">
-                    <input type="button" value="CANCEL" class="btn btn-danger"
+                    <input type="reset" value="CANCEL" class="btn btn-danger"
                            onclick="document.getElementById('viewFormSignUp').style.display='none'">
                 </td>
             </tr>
@@ -365,7 +365,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
           <tr>
           <td><label ><b>Role</b></label></td>
           <td>
-          	<select name="idRole" id="idRoleEdit" disabled="disabled">
+          	<select name="idRole" id="idRoleEditLogin" disabled="disabled">
           		<option value="2">User</option>
           		<option value="1">Admin</option>
           		
@@ -378,7 +378,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
          </tr>
         <tr>
           <td><label ><b>FirstName</b></label></td>
-          <td><input autofocus type="text" name="firstName" id="firstNameEdit" class="form-control" autocomplete="firstNameEdit"></td>
+          <td><input autofocus type="text" name="firstName" id="firstNameEditLogin" class="form-control" autocomplete="firstName"></td>
          </tr>
          <tr>
 	          <td><br></td>
@@ -386,7 +386,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
          </tr>
          <tr>
           <td><label ><b>LastName</b></label></td>
-          <td><input type="text" name="lastName" id="lastNameEdit" class="form-control" autocomplete="lastNameEdit"></td>
+          <td><input type="text" name="lastName" id="lastNameEditLogin" class="form-control" autocomplete="lastName"></td>
          </tr>
          <tr>
 	          <td><br></td>
@@ -396,7 +396,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
           <td></td>
           <td>
             <input type="submit" value="UPDATE" class="btn btn-primary">
-            <input type="button" value="CANCEL" class="btn btn-danger"
+            <input type="reset" value="CANCEL" class="btn btn-danger"
               onclick="document.getElementById('viewFormEditUserLogin').style.display='none'">
             
           </td>

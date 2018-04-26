@@ -398,3 +398,56 @@ function signUp() {
 				}
 			});
 }
+
+function showEditUserLogin() {
+	document.getElementById('viewFormEditUserLogin').style.display = 'block';
+	$.ajax({
+		url : "/showEditUserLogin/",
+		cache : false,
+		type : "PUT",
+		contentType : "application/json",
+		dataType : 'json',
+		success : function(data) {
+			if (data != null) {
+				$('#formEditUserLogin').find('#emailEditLogin').val(data.email);
+				$('#formEditUserLogin').find('#firstNameEditLogin').val(data.firstName);
+				$('#formEditUserLogin').find('#lastNameEditLogin').val(data.lastName);
+				$('#formEditUserLogin').find('#idRoleEditLogin').val(data.idRole);
+			} else {
+				document.getElementById('formEditUserLogin').style.display = 'none';
+				$('#msgResult').html('Error edited user!');
+			}
+		},
+		error : function() {
+			alert('error!');
+		}
+	});
+}
+
+$("#formEditUserLogin").submit(function(event) {
+	event.preventDefault(); // no submit
+	if ($("#formEditUserLogin").valid()) {
+		editUserLogin();
+	}
+});
+function editUserLogin() {
+	var newUser = {}
+	newUser["firstName"] = $('#firstNameEditLogin').val();
+	newUser["lastName"] = $('#lastNameEditLogin').val();
+	$
+			.ajax({
+				type : "PUT",
+				contentType : "application/json",
+				dataType : 'json',
+				url : '/editUserLogin',
+				cache : false,
+				data : JSON.stringify(newUser),
+				success : function(data) {
+					alert('successfully!');
+					document.getElementById('viewFormEditUserLogin').style.display = 'none';
+				},
+				error : function() {
+					alert('Error!');
+				}
+			});
+}
