@@ -120,7 +120,7 @@ public class AdminUserController {
 		return userService.findAll();
 	}
 	
-	@RequestMapping(value = { "/admin/checkEmail" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/checkEmail" }, method = RequestMethod.POST)
 	public void checkEmail(@RequestParam String aemail, HttpServletResponse response) throws IOException {
 		if (userService.findByEmail(aemail) == null) {
 			response.getWriter().println("<td><label ><b>Email<span style=\"color: red\">(*)</span></b></label></td>\n"
@@ -132,4 +132,14 @@ public class AdminUserController {
 			    + "<label id=\"email-error\" class=\"error\" for=\"email\">Email already exists!</label></td>");
 		}
 	}
+	
+	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
+	public User signUp(Model model, @RequestBody User newUser) {
+		newUser.setPassword(BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt()));
+		newUser.setIdRole(2);
+		newUser.setEnabled(0); // not enable
+		userService.save(newUser);
+		return userService.save(newUser);
+	}
+	
 }

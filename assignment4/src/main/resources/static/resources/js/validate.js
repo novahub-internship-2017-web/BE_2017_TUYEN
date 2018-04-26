@@ -181,3 +181,43 @@ $(document).ready(function() {
 		}
 	});
 });
+
+
+$(document).ready(function() {
+	$("#formSignUp").validate({
+		rules : {
+			"emailSignUp" : {
+				required : true,
+				email : true,
+			},
+
+			"passwordSignUp" : {
+				required : true,
+				minlength : 3,
+				maxlength : 40
+			},
+
+			"rePasswordSignUp" : {
+				required : true,
+				equalTo : "#passwordSignUp",
+			},
+		},
+		messages : {
+			"emailSignUp" : {
+				required : "Please enter email!",
+				email : "Enter the correct email format! Ex: abc@gmail.com",
+			},
+			"passwordSignUp" : {
+				required : "Please enter password!",
+				minlength : "Password is too short!",
+				maxlength : "Password is too long!"
+			},
+
+			"rePasswordSignUp" : {
+				required : "Please enter a password confirmation!",
+				equalTo : "Password must match the entered password!",
+			},
+		}
+	});
+
+});

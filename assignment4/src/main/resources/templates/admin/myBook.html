@@ -75,14 +75,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
       <div class="top-nav notification-row">
         <!-- notificatoin dropdown start-->
         <ul class="nav pull-right top-menu">
-		  <li id="task_notificatoin_bar" class="dropdown" sec:authorize="isAnonymous()">
-            <a class="" href="#"><i class="icon_pencil-edit"></i> Sign up
-            </a>
-          </li>
-          <li id="task_notificatoin_bar" class="dropdown" sec:authorize="isAnonymous()">
-            <a href="/show-login"><i class="icon_lock_alt" ></i> Sign in
-            </a>
-          </li>
           <!-- user login dropdown start-->
           <li class="dropdown" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">

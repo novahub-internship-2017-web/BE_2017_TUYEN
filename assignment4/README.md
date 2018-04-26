@@ -2,20 +2,20 @@
 ## Book Management Exercise
 
 ### Description
-  - Admin login:
+  - Administrators login:
       + Managing all information of users login ( add new, update, delete of user)
-      + Managing all book of users (add new, update, delete,chang)
+      + Managing all book of users (add new, update, delete,change status of book)
       + Searching info users book
       
   - User login
-      + Edit infor 
+      + Edit personal information 
       + Manage books created by that user (add new, update, delete)
   - Guest 
       + View all books enable of system
-### Guide start projec
+### Guide start project
   - Clone this repository (link clone https://github.com/novahub-internship-2017-web/BE_2017_TUYEN.git)
   
-  - Config connect database.
+  - Configure connect database.
 	+ Open file application.properties (../assignment4/src/main/resources/application.properties)
 	+ Edit username, password
 		+ spring.datasource.username=...
@@ -25,6 +25,9 @@
   - Run project by terminal: 
     + mvn install clean 
     + mvn spring-boot:run
+  - Visit the link below to see results as a guest:   
+  	+ http://localhost:8081/
+  	+ 
   - Account:
       + account admin: username = admin@gmail.com , password = 123456
       + account user: username  =  a@gmail.com , password = 123456

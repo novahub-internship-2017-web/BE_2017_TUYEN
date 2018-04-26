@@ -72,14 +72,6 @@
       <div class="top-nav notification-row">
         <!-- notificatoin dropdown start-->
         <ul class="nav pull-right top-menu">
-		 <li id="task_notificatoin_bar" class="dropdown" sec:authorize="isAnonymous()">
-            <a class="" href="#"><i class="icon_pencil-edit"></i> Sign up
-            </a>
-          </li>
-          <li id="task_notificatoin_bar" class="dropdown" sec:authorize="isAnonymous()">
-            <a href="/show-login"><i class="icon_lock_alt"></i> Sign in
-            </a>
-          </li>
           <!-- user login dropdown start-->
           <li class="dropdown" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -259,7 +251,7 @@
          
          <tr>
           <td><label ><b>Password<span style="color: red">(*)</span></b></label></td>
-          <td> <input type="password" name="password" id="password" class="form-control" autocomplete="password" required></td>
+          <td> <input type="password" name="password" id="password" class="form-control"></td>
          </tr>
          <tr>
           <td><br></td>
@@ -267,7 +259,7 @@
          </tr>
          <tr>
           <td><label ><b>Confirm Password<span style="color: red">(*)</span></b></label></td>
-          <td> <input type="password" name="rePassword" id="rePassword" class="form-control" autocomplete="rePassword" required></td>
+          <td> <input type="password" name="rePassword" id="rePassword" class="form-control"></td>
          </tr>
          <tr>
           <td><br></td>
@@ -293,7 +285,7 @@
     <div id="viewFormEditUser" class="modal text-center" sec:authorize="hasAnyRole('ROLE_ADMIN')">
            <form class="modal-content animate" id="formEditUser" name="formEditUser">
            <div class="">
-						<button type="button" class="close" onclick="document.getElementById('viewFormAddUser').style.display='none'" >&times;</button>
+						<button type="button" class="close" onclick="document.getElementById('viewFormEditUser').style.display='none'" >&times;</button>
 			</div> 
            <br><h3>EDIT USER</h3><br>
           <!--  <p style="color: red">(*)Not be empty!</p> -->

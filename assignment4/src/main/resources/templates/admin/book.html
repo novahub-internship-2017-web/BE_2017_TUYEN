@@ -74,11 +74,11 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
       <div class="top-nav notification-row">
         <!-- notificatoin dropdown start-->
         <ul class="nav pull-right top-menu">
-		  <li id="task_notificatoin_bar" class="dropdown" sec:authorize="isAnonymous()">
-            <a class="" href="#"><i class="icon_pencil-edit"></i> Sign up
+		  <li class="dropdown" sec:authorize="isAnonymous()">
+            <a class="" href="#" onclick="document.getElementById('viewFormSignUp').style.display='block'"><i class="icon_pencil-edit"></i> Sign up
             </a>
           </li>
-          <li id="task_notificatoin_bar" class="dropdown" sec:authorize="isAnonymous()">
+          <li  class="dropdown" sec:authorize="isAnonymous()">
             <a href="/show-login"><i class="icon_lock_alt" ></i> Sign in
             </a>
           </li>
@@ -94,7 +94,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
             <ul class="dropdown-menu extended logout">
               <!-- <div class="log-arrow-up"></div> -->
                <li class="eborder-top">
-                <a href="#"><i class="icon_profile"></i>MY PROFILE</a>
+                <a href="#" onclick="document.getElementById('viewFormEditUserLogin').style.display='block'" ><i class="icon_profile"></i>MY PROFILE</a>
               </li>
               <li>
                 <a href="#"><i class="icon_key_alt"></i>CHANGE PASSWORD</a>
@@ -179,12 +179,12 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
                     <td th:utext="${listBook.createdAt}"></td>
                     <td th:utext="${listBook.updatedAt}"></td>
                     <td sec:authorize="hasAnyRole('ROLE_ADMIN')">
-                    	<input type="checkbox" th:checked="${listBook.enabled == 1}" th:onclick="'changeStatusBook('+${listBook.idBook}+','+${listBook.enabled}+')'">          
+                    	<input type="checkbox" th:checked="${listBook.enabled == 1}" th:onclick="'changeStatusBook('+${listBook.idBook}+','+${listBook.enabled}+')'">
                     </td>
                     <td>
                       <div class="btn-group">
                       	<a class="btn btn-warning" th:href="@{'/detailBook/' + ${listBook.idBook}}" title="Detail!"><i class="icon_camera_alt"></i></a>
-                        <a sec:authorize="hasAnyRole('ROLE_ADMIN')" class="btn btn-success" th:onclick="'showEditBook(\''+${listBook.idBook}+'\')'" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>    
+                        <a sec:authorize="hasAnyRole('ROLE_ADMIN')" class="btn btn-success" th:onclick="'showEditBook(\''+${listBook.idBook}+'\')'" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>
                       	<a sec:authorize="hasAnyRole('ROLE_ADMIN')" class="btn btn-danger" th:onclick="' deleteBook(\''+${listBook.idBook}+'\')'" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>
                       </div>
                     </td>
@@ -198,12 +198,12 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
         <!-- page end-->
          
      <div class="row" id="page">
-        <!-- <div class="form-group col-md-1">
+         <div class="form-group col-md-1">
             <select class="form-control pagination" id="pageSizeSelect">
                 <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}" th:value="${pageSize}"
                         th:selected="${pageSize} == ${selectedPageSize}"></option>
             </select>
-        </div> -->
+        </div> 
         <div th:if="${listBook.totalPages != 1}" class="form-group col-md-11 pagination-centered">
             <ul class="pagination">
                 <li th:class="${listBook.number == 0} ? disabled">
@@ -238,7 +238,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
   
   
     
-     <div id="viewFormEditBook" class="modal text-center" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+     <div id="viewFormEditBook" class="modal text-center">
            <form class="modal-content animate" id="formEditBook"  name="formEditBook">
            <div class="">
 						<button type="button" class="close" onclick="document.getElementById('viewFormEditBook').style.display='none'" >&times;</button>
@@ -285,6 +285,119 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
             <input type="submit" value="UPDATE" class="btn btn-primary">
             <input type="button" value="CANCEL" class="btn btn-danger"
               onclick="document.getElementById('viewFormEditBook').style.display='none'">
+          </td>
+         </tr>
+          <tr>
+          <td><br></td>
+          <td><br></td>
+         </tr>
+        </table>
+       </form>
+    </div>
+
+<div id="viewFormSignUp" class="modal text-center">
+    <form class="modal-content animate" id="formSignUp"  name="formSignUp">
+        <div class="">
+            <button type="button" class="close" onclick="document.getElementById('viewFormSignUp').style.display='none'" >&times;</button>
+        </div>
+        <br><h3>SIGN UP</h3><br>
+        <table style=" width:100%"  class="">
+            <tr id="check">
+                <td><label><b>Email<span style="color: red">(*)</span></b></label></td>
+                <td><input autofocus type="email" onblur="return checkEmail()" name="emailSignUp" id="email" class="form-control" autocomplete="email"></td>
+            </tr>
+            <tr>
+                <td><br></td>
+                <td><br></td>
+            </tr>
+            <tr>
+                <td><label><b>Password<span style="color: red">(*)</span></b></label></td>
+                <td><input type="password" name="passwordSignUp" id="passwordSignUp" class="form-control" autocomplete="password"></td>
+            </tr>
+            <tr>
+                <td><br></td>
+                <td><br></td>
+            </tr>
+            <tr>
+                <td><label><b>Confirm password<span style="color: red">(*)</span></b></label></td>
+                <td><input type="password" name="rePasswordSignUp" id="rePasswordSignUp" class="form-control" autocomplete="rePassword"></td>
+            </tr>
+            <tr>
+                <td><br></td>
+                <td><br></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" value="SIGN UP" class="btn btn-primary">
+                    <input type="button" value="CANCEL" class="btn btn-danger"
+                           onclick="document.getElementById('viewFormSignUp').style.display='none'">
+                </td>
+            </tr>
+            <tr>
+                <td><br></td>
+                <td><br></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+    <div id="viewFormEditUserLogin" class="modal text-center" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
+           <form class="modal-content animate" id="formEditUserLogin" name="formEditUserLogin">
+           <div class="">
+						<button type="button" class="close" onclick="document.getElementById('viewFormEditUserLogin').style.display='none'" >&times;</button>
+			</div> 
+           <br><h3>PERSONAL INFORMATION</h3><br>
+          <!--  <p style="color: red">(*)Not be empty!</p> -->
+        <table style=" width:100%"  class="">
+        <tr>
+          <td><input type="hidden" id="idUserEditLogin" name="idUserEditLogin"></td>
+          <td><br></td>
+         </tr>
+         <tr>
+          <td><label><b>Email</b></label></td>
+          <td><input type="email" name="email" id="emailEditLogin" class="form-control" disabled="disabled" autocomplete="emailEdit"></td>
+         </tr>
+         <tr>
+	          <td><br></td>
+	          <td><br></td>
+         </tr>
+          <tr>
+          <td><label ><b>Role</b></label></td>
+          <td>
+          	<select name="idRole" id="idRoleEdit" disabled="disabled">
+          		<option value="2">User</option>
+          		<option value="1">Admin</option>
+          		
+          	</select>
+          </td>
+         </tr>
+         <tr>
+	          <td><br></td>
+	          <td><br></td>
+         </tr>
+        <tr>
+          <td><label ><b>FirstName</b></label></td>
+          <td><input autofocus type="text" name="firstName" id="firstNameEdit" class="form-control" autocomplete="firstNameEdit"></td>
+         </tr>
+         <tr>
+	          <td><br></td>
+	          <td><br></td>
+         </tr>
+         <tr>
+          <td><label ><b>LastName</b></label></td>
+          <td><input type="text" name="lastName" id="lastNameEdit" class="form-control" autocomplete="lastNameEdit"></td>
+         </tr>
+         <tr>
+	          <td><br></td>
+	          <td><br></td>
+         </tr>
+         <tr>
+          <td></td>
+          <td>
+            <input type="submit" value="UPDATE" class="btn btn-primary">
+            <input type="button" value="CANCEL" class="btn btn-danger"
+              onclick="document.getElementById('viewFormEditUserLogin').style.display='none'">
             
           </td>
          </tr>

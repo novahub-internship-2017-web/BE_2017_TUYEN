@@ -13,7 +13,7 @@ function checkEmail() {
 		return false;
 	} else {
 		$.ajax({
-			url : '/admin/checkEmail',
+			url : '/checkEmail',
 			type : 'POST',
 			cache : false,
 			data : {
@@ -370,4 +370,31 @@ function changeStatus(idUser, st) {
 	});
 }
 
+$("#formSignUp").submit(function(event) {
+	event.preventDefault(); // no submit
+	if ($("#formSignUp").valid()) {
+		signUp();
+	}
+});
 
+function signUp() {
+	var newUser = {}
+	newUser["email"] = $('#email').val();
+	newUser["password"] = $('#password').val();
+	$
+			.ajax({
+				type : "post",
+				contentType : "application/json",
+				dataType : 'json',
+				url : '/signUp',
+				cache : false,
+				data : JSON.stringify(newUser),
+				success : function(data) {
+					alert('Account created successfully!');
+					document.getElementById('viewFormSignUp').style.display = 'none';
+				},
+				error : function() {
+					alert('Error creating!');
+				}
+			});
+}
