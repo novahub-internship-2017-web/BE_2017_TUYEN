@@ -53,7 +53,7 @@ public class AdminUserController {
 	@RequestMapping(value = "/admin/addUser", method = RequestMethod.POST)
 	public List<User> addUserJson(Model model, @RequestBody User newUser) {
 		newUser.setPassword(BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt()));
-		newUser.setEnabled(0); // not enable
+		newUser.setEnabled(1); // enable
 		userService.save(newUser);
 		return userService.findAll();
 	}
@@ -123,23 +123,18 @@ public class AdminUserController {
 	}
 
 	@RequestMapping(value = { "/checkEmail" }, method = RequestMethod.POST)
-	public void checkEmail(@RequestParam String aemail, HttpServletResponse response) throws IOException {
+	public boolean checkEmail(@RequestParam String aemail, HttpServletResponse response) throws IOException {
 		if (userService.findByEmail(aemail) == null) {
-			response.getWriter().println("<td><label ><b>Email<span style=\"color: red\">(*)</span></b></label></td>\n"
-					+ "          <td><input value=\"" + aemail
-					+ "\" onblur=\"return checkEmail()\" autocomplete=\"email\" type=\"email\" name=\"email\" id=\"email\" class=\"form-control\" required></td>");
+			return true;
 		} else {
-			response.getWriter().println("<td><label ><b>Email<span style=\"color: red\">(*)</span></b></label></td>\n"
-					+ "<td><input onblur=\"return checkEmail()\" value=\"\" autocomplete=\"email\" type=\"email\" name=\"email\" id=\"email\" class=\"form-control\" required>"
-					+ "<label id=\"email-error\" class=\"error\" for=\"email\">Email already exists!</label></td>");
+			return false;
 		}
 	}
-
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	public User signUp(Model model, @RequestBody User newUser) {
 		newUser.setPassword(BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt()));
 		newUser.setIdRole(2);
-		newUser.setEnabled(0); // not enable
+		newUser.setEnabled(1); // enable
 		userService.save(newUser);
 		return userService.save(newUser);
 	}
@@ -160,21 +155,19 @@ public class AdminUserController {
 		return userService.findByIdUser(idUserLogin);
 	}
 
-	@RequestMapping(value = "/changePasswordUserLogin", method = RequestMethod.PUT)
-	public User changePasswordUserLogin(Model model, @RequestBody User newUser,
-			@RequestParam String oldPassword, Principal principal) {
-		System.out.println("hihi");
-		System.out.println(newUser.getPassword());
+	@RequestMapping(value = "/changePasswordUserLogin", method = RequestMethod.GET)
+	public User changePasswordUserLogin(Model model, @RequestParam("oldPassword") String oldPassword,@RequestParam("newPassword") String newPassword,
+			 Principal principal) {
 		User userLogin = userService.findByEmail(principal.getName());
 		int idUserLogin = userLogin.getIdUser();
-		String hashed = BCrypt.hashpw(oldPassword, BCrypt.gensalt());
-		if (BCrypt.checkpw(userLogin.getPassword(), hashed)) {
+		if (BCrypt.checkpw(oldPassword, userLogin.getPassword())) {
 			// true
 			System.out.println("true");
-			userLogin.setPassword(BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt()));
+			userLogin.setPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
 			userService.save(userLogin);
 			return userService.findByIdUser(idUserLogin);
 		} else {
+			System.out.println("false");
 			return null;
 		}
 

@@ -2,14 +2,12 @@ function checkEmail() {
 	var email = $("#email").val();
 	if (!validateEmail(email)) {
 		// Wrong email format
-		$('#check')
-				.html(
-						'<td><label ><b>Email<span style=\"color: red\">(*)</span></b></label></td>'
-								+ '<td><input onblur=\"return checkEmail()\" value=\"'
-								+ email
-								+ '\" autocomplete=\"email\" type=\"email\" name=\"email\"'
-								+ 'id=\"email\" class=\"form-control\" required>'
-								+ '<label id=\"email-error\" class=\"error\" for=\"email\">Enter the correct email format! Ex: abc@gmail.com</label></td>');
+		$('#check').html('<td><label ><b>Email<span style=\"color: red\">(*)</span></b></label></td>'
+						+ '<td><input onblur=\"return checkEmail()\" value=\"'
+						+ email
+						+ '\" autocomplete=\"off\" type=\"email\" name=\"email\"'
+						+ 'id=\"email\" class=\"form-control\" required>'
+						+ '<label id=\"email-error\" class=\"error\" for=\"email\">Enter the correct email format!</label></td>'); 
 		return false;
 	} else {
 		$.ajax({
@@ -20,11 +18,16 @@ function checkEmail() {
 				aemail : email
 			},
 			success : function(data) {
-				$("#check").html(data);
+				if(data == false){
+					$('#check').html('<td><label ><b>Email<span style=\"color: red\">(*)</span></b></label></td>'
+									+ '<td><input onblur=\"return checkEmail()\" value=\"'
+									+ '\" autocomplete=\"off\" type=\"email\" name=\"email\"'
+									+ 'id=\"email\" class=\"form-control\" required>'
+									+ '<label id=\"email-error\" class=\"error\" for=\"email\">Email already exists!</label></td>'); 
+					return false;
+				}
 			},
 			error : function() {
-				// Xử lý nếu có lỗi
-				// alert("");
 			}
 		});
 	}
@@ -37,6 +40,8 @@ $("#formAddUser").submit(function(event) {
 	}
 });
 function addUser() {
+	var url = "/admin/addUser/";
+	window.history.pushState(null, null, url);
 	var newUser = {}
 	newUser["firstName"] = $('#firstName').val();
 	newUser["lastName"] = $('#lastName').val();
@@ -52,6 +57,8 @@ function addUser() {
 				cache : false,
 				data : JSON.stringify(newUser),
 				success : function(data) {
+					var url = "/admin/allUser/";
+					window.history.pushState(null, null, url);
 					document.getElementById('viewFormAddUser').style.display = 'none';
 					var title = '<table class="table table-striped table-advance table-hover">'
 							+ '<tbody>'
@@ -119,6 +126,8 @@ function display(data) {
 }
 
 function deleteUser(idUser) {
+	var url = "/admin/deleteUser/"+idUser ;
+	window.history.pushState(null, null, url);
 	if (confirm('Are you sure your want to delete?')) {
 		$
 				.ajax({
@@ -127,6 +136,8 @@ function deleteUser(idUser) {
 					contentType : "application/json",
 					dataType : 'json',
 					success : function(data) {
+						var url = "/admin/allUser/";
+						window.history.pushState(null, null, url);
 						if (data.length > 0) {
 							var title = '<table class="table table-striped table-advance table-hover">'
 									+ '<tbody>'
@@ -192,6 +203,8 @@ function deleteUser(idUser) {
 	}
 }
 function showEditUser(idUser) {
+	var url = "/admin/showEditUser/"+idUser ;
+	window.history.pushState(null, null, url);
 	document.getElementById('viewFormEditUser').style.display = 'block';
 	$.ajax({
 		url : "/admin/showEditUser/" + idUser,
@@ -241,6 +254,8 @@ function editUser() {
 				cache : false,
 				data : JSON.stringify(newUser),
 				success : function(data) {
+					var url = "/admin/allUser/";
+					window.history.pushState(null, null, url);
 					document.getElementById('viewFormEditUser').style.display = 'none';
 					var title = '<table class="table table-striped table-advance table-hover">'
 							+ '<tbody>'
@@ -301,6 +316,8 @@ function editUser() {
 }
 
 function changeStatus(idUser, st) {
+	var url = "/admin/changeStatusUser/"+idUser ;
+	window.history.pushState(null, null, url);
 	$.ajax({
 		url : "/admin/changeStatus/" + idUser,
 		type : "GET",
@@ -311,6 +328,8 @@ function changeStatus(idUser, st) {
 			enabled : st
 		},
 		success : function(data) {
+			var url = "/admin/allUser/";
+			window.history.pushState(null, null, url);
 			var title = '<table class="table table-striped table-advance table-hover">'
 				+ '<tbody>'
 				+ '<tr>'
@@ -378,6 +397,8 @@ $("#formSignUp").submit(function(event) {
 });
 
 function signUp() {
+	var url = "/signUp/";
+	window.history.pushState(null, null, url);
 	var newUser = {}
 	newUser["email"] = $('#email').val();
 	newUser["password"] = $('#password').val();
@@ -400,7 +421,9 @@ function signUp() {
 			});
 }
 
-function showEditUserLogin() {
+function showEditUserLogin(){
+	var url = "/admin/showEditUserLogin/" ;
+	window.history.pushState(null, null, url);
 	document.getElementById('viewFormEditUserLogin').style.display = 'block';
 	$.ajax({
 		url : "/showEditUserLogin/",
@@ -444,6 +467,8 @@ function editUserLogin() {
 				cache : false,
 				data : JSON.stringify(newUser),
 				success : function(data) {
+					var url = "/editUserLogin/msg=success";
+					window.history.pushState(null, null, url);
 					alert('successfully!');
 					document.getElementById('viewFormEditUserLogin').style.display = 'none';
 				},
@@ -461,32 +486,37 @@ $("#formChangePasswordUserLogin").submit(function(event) {
 });
 
 function changePasswordUserLogin() {
-	alert('change');
+	var url = "/changePasswordUserLogin/";
+	window.history.pushState(null, null, url);
 	var oldPass = $('#oldPassword').val();
-	var newUser = {}
-	newUser["password"] = $('#newPassword').val();
-	alert(oldPass);
+	var newPass = $('#newPassword').val();
 	$
 			.ajax({
-				type : "PUT",
+				type : "GET",
 				contentType : "application/json",
 				dataType : 'json',
 				url : '/changePasswordUserLogin',
 				cache : false,
 				data : {
 					oldPassword : oldPass,
+					newPassword : newPass
 				},
 				success : function(data) {
 					if(data != null){
-						alert('successfully!');
+						var url = "/changePasswordUserLogin/msg=success";
+						window.history.pushState(null, null, url);
+						alert('Successfully updated the new password. You must log in again to continue!');
 						document.getElementById('viewFormChangePasswordUserLogin').style.display = 'none';
+						window.location.replace("/logout");
 					}else{
-						alert('Error!!!!');
+						$('#error').html('<td>Old password is incorrect</td>'
+					        	+'<td></td>');
 					}
 					
 				},
 				error : function() {
-					alert('Error!');
+					$('#error').html('<td>Old password is incorrect</td>'
+				        	+'<td></td>');
 				}
 			});
 }

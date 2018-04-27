@@ -1,5 +1,7 @@
 //admin login with index
 function showEditBook(idBook) {
+	var url = "/admin/showEditBook/"+idBook ;
+	window.history.pushState(null, null, url);
 	document.getElementById('viewFormEditBook').style.display = 'block';
 	$.ajax({
 		url : "/admin/showEditBook/" + idBook,
@@ -35,6 +37,8 @@ $("#formEditBook").submit(function(event) {
 });
 
 function editBook() {
+	var url = "/admin/editBook/" ;
+	window.history.pushState(null, null, url);
 	var newBook = {}
 	newBook["title"] = $('#titleEdit').val();
 	newBook["author"] = $('#authorEdit').val();
@@ -50,6 +54,8 @@ function editBook() {
 				cache : false,
 				data : JSON.stringify(newBook),
 				success : function(data) {
+					var url = "/allBook/";
+					window.history.pushState(null, null, url);
 					document.getElementById('viewFormEditBook').style.display = 'none';
 					var title = '<table class="table table-striped table-advance table-hover">'
 							+ '<tbody>'
@@ -114,6 +120,8 @@ function editBook() {
 }
 
 function deleteBook(idBook) {
+	var url = "/admin/deleteBook/"+idBook ;
+	window.history.pushState(null, null, url);
 	if (confirm('Are you sure your want to delete?')) {
 		$
 				.ajax({
@@ -122,6 +130,8 @@ function deleteBook(idBook) {
 					contentType : "application/json",
 					dataType : 'json',
 					success : function(data) {
+						var url = "/allBook/";
+						window.history.pushState(null, null, url);
 						var title = '<table class="table table-striped table-advance table-hover">'
 								+ '<tbody>'
 								+ '<tr>'
@@ -186,6 +196,8 @@ function deleteBook(idBook) {
 }
 
 function changeStatusBook(idBook, st) {
+	var url = "/admin/changeStatusBook/"+idBook ;
+	window.history.pushState(null, null, url);
 	$.ajax({
 		url : "/admin/changeStatusBook/" + idBook,
 		type : "GET",
@@ -196,6 +208,8 @@ function changeStatusBook(idBook, st) {
 			enabled : st
 		},
 		success : function(data) {
+			var url = "/allBook/";
+			window.history.pushState(null, null, url);
 			var title = '<table class="table table-striped table-advance table-hover">'
 					+ '<tbody>'
 					+ '<tr>'
@@ -289,6 +303,8 @@ $("#formAddMyBook").submit(function(event) {
 });
 
 function addMyBook() {
+	var url = "/addMyBook/" ;
+	window.history.pushState(null, null, url);
 	var newBook = {}
 	newBook["title"] = $('#title').val();
 	newBook["author"] = $('#author').val();
@@ -302,6 +318,8 @@ function addMyBook() {
 				cache : false,
 				data : JSON.stringify(newBook),
 				success : function(data) {
+					var url = "/myBook/";
+					window.history.pushState(null, null, url);
 					document.getElementById('viewFormAddMyBook').style.display = 'none';
 					var colUser = "";
 					var colAdmin = "";
@@ -379,6 +397,8 @@ function addMyBook() {
 }
 
 function showEditMyBook(idBook) {
+	var url = "/showEditMyBook/"+idBook ;
+	window.history.pushState(null, null, url);
 	document.getElementById('viewFormEditMyBook').style.display = 'block';
 	$.ajax({
 		url : "/showEditMyBook/" + idBook,
@@ -414,6 +434,8 @@ $("#formEditMyBook").submit(function(event) {
 });
 
 function editMyBook() {
+	var url = "/editMyBook/";
+	window.history.pushState(null, null, url);
 	var newBook = {}
 	newBook["title"] = $('#titleEdit').val();
 	newBook["author"] = $('#authorEdit').val();
@@ -429,6 +451,8 @@ function editMyBook() {
 				cache : false,
 				data : JSON.stringify(newBook),
 				success : function(data) {
+					var url = "/myBook/";
+					window.history.pushState(null, null, url);
 					document.getElementById('viewFormEditMyBook').style.display = 'none';
 					var colUser = "";
 					var colAdmin = "";
@@ -508,6 +532,8 @@ function editMyBook() {
 }
 
 function deleteMyBook(idBook) {
+	var url = "/deleteMybook/"+idBook ;
+	window.history.pushState(null, null, url);
 	if (confirm('Are you sure your want to delete?')) {
 		$
 				.ajax({
@@ -516,6 +542,8 @@ function deleteMyBook(idBook) {
 					contentType : "application/json",
 					dataType : 'json',
 					success : function(data) {
+						var url = "/myBook/";
+						window.history.pushState(null, null, url);
 						var colUser = "";
 						var colAdmin = "";
 						var rs = $('#checkUser').val();
@@ -595,6 +623,8 @@ function deleteMyBook(idBook) {
 }
 
 function changeStatusMyBook(idBook, st) {
+	var url = "/admin/changeStatusMyBook/"+idBook ;
+	window.history.pushState(null, null, url);
 	$.ajax({
 		url : "/admin/changeStatusMyBook/" + idBook,
 		type : "GET",
@@ -605,6 +635,8 @@ function changeStatusMyBook(idBook, st) {
 			enabled : st
 		},
 		success : function(data) {
+			var url = "/myBook/" ;
+			window.history.pushState(null, null, url);
 			var title = '<table class="table table-striped table-advance table-hover">'
 					+ '<tbody>'
 					+ '<tr>'

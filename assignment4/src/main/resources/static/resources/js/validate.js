@@ -21,7 +21,7 @@ $(document).ready(function() {
 		messages : {
 			"email" : {
 				required : "Please enter email!",
-				email : "Enter the correct email format! Ex: abc@gmail.com",
+				email : "Enter the correct email format!",
 			},
 			"password" : {
 				required : "Please enter password!",
@@ -35,6 +35,7 @@ $(document).ready(function() {
 			},
 		}
 	});
+	
 
 });
 
@@ -205,7 +206,7 @@ $(document).ready(function() {
 		messages : {
 			"emailSignUp" : {
 				required : "Please enter email!",
-				email : "Enter the correct email format! Ex: abc@gmail.com",
+				email : "Enter the correct email format!",
 			},
 			"passwordSignUp" : {
 				required : "Please enter password!",
@@ -219,7 +220,6 @@ $(document).ready(function() {
 			},
 		}
 	});
-
 });
 
 //validate

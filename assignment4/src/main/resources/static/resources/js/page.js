@@ -9,6 +9,8 @@ function changePageAndSize() {
 }
 
 function pageBook(pageSize_,page_) {
+	var url = "/?pageSize="+pageSize_+"&page="+page_ ;
+	window.history.pushState(null, null, url);
 	//alert('hihi'+page_);
 	$.ajax({
 		url : "/listBook",
@@ -21,6 +23,8 @@ function pageBook(pageSize_,page_) {
 			page: page_
 		},
 		success : function(data) {
+//			var url = "/pageSize="+pageSize_+"&page="+page_ ;
+//			window.history.pushState(null, null, url);
 		//	window.location.replace("/listBook?pageSize=" + pageSize_+ "&page=" + page_);
 			var title = '<table class="table table-striped table-advance table-hover">'
 				+ '<tbody>'

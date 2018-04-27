@@ -90,7 +90,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
                             <span class="profile-ava">
                                 <img alt="" src="/resources/img/avatar1_small.jpg">
                             </span>
-                            <span sec:authentication="name" class="username"></span>
+                            <span sec:authentication="principal.username" class="username"></span>
                             <b class="caret"></b>
                         </a>
             <ul class="dropdown-menu extended logout">
@@ -160,6 +160,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
             </ol>
           </div>
         </div>
+        
         <div class="row">
           <div class="col-lg-12">
             <section class="panel">
