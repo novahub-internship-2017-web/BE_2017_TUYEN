@@ -32,6 +32,9 @@
     background-color: rgb(0,0,0); 
     background-color: rgba(0,0,0,0.8); 
  }
+ .text-center {
+     text-align: left;
+}
  .modal-content {
     background-color: #fefefe;
     margin: auto auto  auto 30%;
@@ -81,14 +84,14 @@
                             <span sec:authentication="name" class="username">..</span>
                             <b class="caret"></b>
                         </a>
-            <ul class="dropdown-menu extended logout" >
+             <ul class="dropdown-menu extended logout">
               <!-- <div class="log-arrow-up"></div> -->
                <li class="eborder-top">
-                <a href="#"><i class="icon_profile"></i>MY PROFILE</a>
+                <a href="#" onclick="showEditUserLogin()"><i class="icon_profile"></i>MY PROFILE</a>
               </li>
               <li>
-                <a href="#"><i class="icon_key_alt"></i>CHANGE PASSWORD</a>
-              </li> 
+                <a href="#" onclick="document.getElementById('viewFormChangePasswordUserLogin').style.display = 'block'"><i class="icon_key_alt"></i>CHANGE PASSWORD</a>
+              </li>
               <li>
                 <a href="/logout"><i class="icon_lock-open_alt"></i>Log Out</a>
               </li>
@@ -211,7 +214,7 @@
         <table style=" width:100%"  class="">
         <tr>
           <td><label ><b>FirstName</b></label></td>
-          <td><input autofocus type="text" name="firstName" id="firstName" class="form-control" autocomplete="firstName"></td>
+          <td><input autofocus type="text" name="firstName" id="firstName" class="form-control" autocomplete="off"></td>
          </tr>
           <tr>
           <td><br></td>
@@ -219,7 +222,7 @@
          </tr>
          <tr>
           <td><label ><b>LastName</b></label></td>
-          <td><input  type="text" name="lastName" id="lastName" class="form-control" autocomplete="lastName"></td>
+          <td><input  type="text" name="lastName" id="lastName" class="form-control" autocomplete="off"></td>
          </tr>
           <tr>
           <td><br></td>
@@ -227,7 +230,7 @@
          </tr>
          <tr id="check">
           <td><label ><b>Email<span style="color: red">(*)</span></b></label></td>
-          <td><input onblur="return checkEmail()" value="" autocomplete="email" type="email" name="email" id="email" class="form-control" required></td>
+          <td><input onblur="return checkEmail()" value="" autocomplete="off" type="email" name="email" id="email" class="form-control" required></td>
          </tr>
           <tr>
           <td><br></td>
@@ -251,7 +254,7 @@
          
          <tr>
           <td><label ><b>Password<span style="color: red">(*)</span></b></label></td>
-          <td> <input type="password" name="password" id="password" class="form-control"></td>
+          <td> <input autocomplete="off" type="password" name="password" id="password" class="form-control"></td>
          </tr>
          <tr>
           <td><br></td>
@@ -259,7 +262,7 @@
          </tr>
          <tr>
           <td><label ><b>Confirm Password<span style="color: red">(*)</span></b></label></td>
-          <td> <input type="password" name="rePassword" id="rePassword" class="form-control"></td>
+          <td> <input autocomplete="off" type="password" name="rePassword" id="rePassword" class="form-control"></td>
          </tr>
          <tr>
           <td><br></td>
@@ -291,12 +294,12 @@
           <!--  <p style="color: red">(*)Not be empty!</p> -->
         <table style=" width:100%"  class="">
         <tr>
-          <td><input type="hidden" id="idUserEdit" name="idUserEdit" autocomplete="idUserEdit"></td>
+          <td><input type="hidden" id="idUserEdit" name="idUserEdit" autocomplete="off"></td>
           <td><br></td>
          </tr>
         <tr>
           <td><label ><b>FirstName</b></label></td>
-          <td><input autofocus type="text" name="firstName" id="firstNameEdit" class="form-control" autocomplete="firstNameEdit"></td>
+          <td><input autofocus type="text" name="firstName" id="firstNameEdit" class="form-control" autocomplete="off"></td>
          </tr>
           <tr>
           <td><br></td>
@@ -304,7 +307,7 @@
          </tr>
          <tr>
           <td><label ><b>LastName</b></label></td>
-          <td><input type="text" name="lastName" id="lastNameEdit" class="form-control" autocomplete="lastNameEdit"></td>
+          <td><input type="text" name="lastName" id="lastNameEdit" class="form-control" autocomplete="off"></td>
          </tr>
           <tr>
           <td><br></td>
@@ -312,7 +315,7 @@
          </tr>
          <tr>
           <td><label ><b>Email<span style="color: red">(*)</span></b></label></td>
-          <td><input type="email" name="email" id="emailEdit" class="form-control" disabled="disabled" autocomplete="emailEdit"></td>
+          <td><input type="email" name="email" id="emailEdit" class="form-control" disabled="disabled" autocomplete="off"></td>
          </tr>
          <tr>
           <td><br></td>
@@ -320,7 +323,7 @@
          </tr>
          <tr>
           <td><label><b>Password</b></label></td>
-          <td> <input type="password" name="passwordEdit" id="passwordEdit" class="form-control" autocomplete="passwordEdit"></td>
+          <td> <input type="password" name="passwordEdit" id="passwordEdit" class="form-control" autocomplete="off"></td>
          </tr>
          <tr>
           <td><br></td>
@@ -328,7 +331,7 @@
          </tr>
          <tr>
           <td><label ><b>Confirm Password</b></label></td>
-          <td> <input type="password" name="rePasswordEdit" id="rePasswordEdit" class="form-control" autocomplete="rePasswordEdit"></td>
+          <td> <input type="password" name="rePasswordEdit" id="rePasswordEdit" class="form-control" autocomplete="off"></td>
          </tr>
           <tr>
           <td><br></td>
@@ -367,6 +370,8 @@
        </form>
     </div>
   
+    <th:block th:include="/inc/formEditUserLogin"></th:block>
+    <th:block th:include="/inc/formChangePasswordUserLogin"></th:block> 
   <!-- container section end -->
   <!-- java scripts -->
   <script src="/resources/js/jquery.js" type="text/javascript"></script>

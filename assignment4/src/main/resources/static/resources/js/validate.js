@@ -221,3 +221,44 @@ $(document).ready(function() {
 	});
 
 });
+
+//validate
+$(document).ready(function() {
+	$("#formChangePasswordUserLogin").validate({
+		rules : {
+			"oldPassword" : {
+				required : true,
+				minlength : 3,
+				maxlength : 40
+			},
+			"newPassword" : {
+				required : true,
+				minlength : 3,
+				maxlength : 40
+			},
+
+			"rePassword" : {
+				required : true,
+				equalTo : "#newPassword",
+			},
+		},
+		messages : {
+			"oldPassword" : {
+				required : "Please enter a old password!",
+				minlength : "Password is too short!",
+				maxlength : "Password is too long!"
+			},
+			"newPassword" : {
+				required : "Please enter new password!",
+				minlength : "Password is too short!",
+				maxlength : "Password is too long!"
+			},
+
+			"rePassword" : {
+				required : "Please enter a password confirmation!",
+				equalTo : "Password must match the entered password!",
+			},
+		}
+	});
+
+});

@@ -29,6 +29,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     background-color: rgb(0,0,0); 
     background-color: rgba(0,0,0,0.8); 
  }
+ .text-center {
+     text-align: left;
+}
  .modal-content {
     background-color: #fefefe;
     margin: auto auto  auto 30%;
@@ -87,10 +90,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
             <ul class="dropdown-menu extended logout">
               <!-- <div class="log-arrow-up"></div> -->
                <li class="eborder-top">
-                <a href="#"><i class="icon_profile"></i>MY PROFILE</a>
+                <a href="#" onclick="showEditUserLogin()"><i class="icon_profile"></i>MY PROFILE</a>
               </li>
               <li>
-                <a href="#"><i class="icon_key_alt"></i>CHANGE PASSWORD</a>
+                <a href="#" onclick="document.getElementById('viewFormChangePasswordUserLogin').style.display = 'block'"><i class="icon_key_alt"></i>CHANGE PASSWORD</a>    
               </li>
               <li>
                 <a href="/logout"><i class="icon_lock-open_alt"></i>Log Out</a>
@@ -272,8 +275,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
           <td></td>
           <td>
             <input type="submit" value="ADD BOOK" class="btn btn-primary">
-            <input type="button" value="CANCEL" class="btn btn-danger"
-              onclick="document.getElementById('viewFormAddBook').style.display='none'">
+            <input type="reset" value="CANCEL" class="btn btn-danger"
+              onclick="document.getElementById('viewFormAddMyBook').style.display='none'">
             
           </td>
          </tr>
@@ -330,7 +333,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
           <td></td>
           <td>
             <input type="submit" value="UPDATE" class="btn btn-primary">
-            <input type="button" value="CANCEL" class="btn btn-danger"
+            <input type="reset" value="CANCEL" class="btn btn-danger"
               onclick="document.getElementById('viewFormEditMyBook').style.display='none'">
             
           </td>
@@ -342,7 +345,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
         </table>
        </form>
     </div>
-  
+ 	<th:block th:include="/inc/formEditUserLogin"></th:block>
+    <th:block th:include="/inc/formChangePasswordUserLogin"></th:block> 
   <!-- container section end -->
   <!-- javascripts -->
   <script src="/resources/js/jquery.js"></script>

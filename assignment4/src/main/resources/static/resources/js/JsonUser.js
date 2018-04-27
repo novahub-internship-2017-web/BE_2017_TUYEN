@@ -391,6 +391,7 @@ function signUp() {
 				data : JSON.stringify(newUser),
 				success : function(data) {
 					alert('Account created successfully!');
+					document.getElementById("formSignUp").reset();
 					document.getElementById('viewFormSignUp').style.display = 'none';
 				},
 				error : function() {
@@ -451,3 +452,43 @@ function editUserLogin() {
 				}
 			});
 }
+
+$("#formChangePasswordUserLogin").submit(function(event) {
+	event.preventDefault(); // no submit
+	if ($("#formChangePasswordUserLogin").valid()) {
+		changePasswordUserLogin();
+	}
+});
+
+function changePasswordUserLogin() {
+	alert('change');
+	var oldPass = $('#oldPassword').val();
+	var newUser = {}
+	newUser["password"] = $('#newPassword').val();
+	alert(oldPass);
+	$
+			.ajax({
+				type : "PUT",
+				contentType : "application/json",
+				dataType : 'json',
+				url : '/changePasswordUserLogin',
+				cache : false,
+				data : {
+					oldPassword : oldPass,
+				},
+				success : function(data) {
+					if(data != null){
+						alert('successfully!');
+						document.getElementById('viewFormChangePasswordUserLogin').style.display = 'none';
+					}else{
+						alert('Error!!!!');
+					}
+					
+				},
+				error : function() {
+					alert('Error!');
+				}
+			});
+}
+
+

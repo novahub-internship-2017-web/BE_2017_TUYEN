@@ -159,4 +159,24 @@ public class AdminUserController {
 		userService.save(editUser);
 		return userService.findByIdUser(idUserLogin);
 	}
+
+	@RequestMapping(value = "/changePasswordUserLogin", method = RequestMethod.PUT)
+	public User changePasswordUserLogin(Model model, @RequestBody User newUser,
+			@RequestParam String oldPassword, Principal principal) {
+		System.out.println("hihi");
+		System.out.println(newUser.getPassword());
+		User userLogin = userService.findByEmail(principal.getName());
+		int idUserLogin = userLogin.getIdUser();
+		String hashed = BCrypt.hashpw(oldPassword, BCrypt.gensalt());
+		if (BCrypt.checkpw(userLogin.getPassword(), hashed)) {
+			// true
+			System.out.println("true");
+			userLogin.setPassword(BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt()));
+			userService.save(userLogin);
+			return userService.findByIdUser(idUserLogin);
+		} else {
+			return null;
+		}
+
+	}
 }
