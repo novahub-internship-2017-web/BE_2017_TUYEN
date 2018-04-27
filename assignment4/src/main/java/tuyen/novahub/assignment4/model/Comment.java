@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -12,23 +14,31 @@ public class Comment {
 	
 	@Id
 	@GeneratedValue
-	@Column(name = "idComment", nullable = false)
+	@Column(name = "id_comment", nullable = false)
 	int							idComment;
 	
 	@Column(name = "message", length = 1000, nullable = false)
 	private String	message;
 	
-	@Column(name = "idUser", nullable = false)
+	@Column(name = "id_user", nullable = false)
 	private int			idUser;
 	
-	@Column(name = "idBook", nullable = false)
+	@Column(name = "id_book", nullable = false)
 	private int			idBook;
 	
-	@Column(name = "createdAt", nullable = false)
+	@Column(name = "created_at", nullable = false)
 	private String	createdComment;
 	
-	@Column(name = "updatedAt", nullable = false)
+	@Column(name = "updated_at", nullable = false)
 	private String	updatedComment;
+	
+	@ManyToOne
+    @JoinColumn(name = "id_user",referencedColumnName = "id_user", insertable = false, updatable = false)
+    private User user;
+	
+	@ManyToOne
+    @JoinColumn(name = "id_book",referencedColumnName = "id_book", insertable = false, updatable = false)
+    private Book book;
 	
 	public Comment() {
 		super();
@@ -91,5 +101,22 @@ public class Comment {
 	public void setUpdatedComment(String updatedComment) {
 		this.updatedComment = updatedComment;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
+	}
+	
 	
 }

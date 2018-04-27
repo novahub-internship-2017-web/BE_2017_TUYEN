@@ -182,7 +182,7 @@
 		                <td></td>
 	                </tr>
 	                <tr>
-		                <td>Created</td>
+		                <td>Created at</td>
 		                <td th:text="${objBook.createdAt}"></td>
 	                </tr>
 	                <tr>
@@ -190,7 +190,7 @@
 		                <td></td>
 	                </tr>
 	                <tr>
-		                <td>Updated</td>
+		                <td>Updated at</td>
 		                <td th:text="${objBook.updatedAt}"></td>
 	                </tr>
 	                <tr>
@@ -203,7 +203,16 @@
 		                	<span th:text="${objBook.description}"></span>
 		                </td>
 	                </tr>
-	               
+	                <tr>
+		                <td>
+		                </td>
+		                <td></td>
+	                </tr>
+	               <tr>
+		                <td>Created by: </td>
+		                <td th:text="${objBook.user.firstName} +' '+ ${objBook.user.lastName}"></td>
+	                </tr>
+	                
                 </table>
                   
                 </div>
@@ -251,18 +260,23 @@
 	                        </div>
 	                      </div>
                       </div>
-                      <h4 th:unless="${accept}" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')" style="font: bold;font-size: 15px">Currently does not allow comment</h4>
+                      <h4 th:unless="${accept}" sec:authorize="hasAnyRole('ROLE_USER')" style="font: bold;font-size: 15px">Currently does not allow comment</h4>
                       <h4 sec:authorize="isAnonymous()" style="font: bold;font-size: 25px"><a href="/show-login">Sign in</a> to add your comments</h4>
-	                    <div th:if="${numberCmt>0}" class="act-time" style="overflow: inherit;" th:each="objComment : ${listComment}" id="resultComment" >
+	                    <div th:if="${numberCmt > 0}" class="act-time" style="overflow: inherit;" th:each="objComment : ${listComment}" id="resultComment" >
 	                        <div class="activity-body act-in">
 	                          <span class="arrow"></span>
 	                          <div class="text">
 	                            <a href="#" class="activity-img"><img class="avatar" src="/resources/img/avatar.jpg" alt=""></a>
 	                            <div class="attribution">
-	                            	<a href="#" th:text="${objComment.idUser}">..</a>
+	                            	<a href="#" th:text="${objComment.user.lastName}">..</a>
 	                            	<span th:text="${objComment.updatedComment}">..</span>
-	        						<div class="top-nav notification-row" style="margin-left: 0px;margin-top: -7px;" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-	        							<ul class="">
+	        						<div  class="top-nav notification-row" style="margin-left: 0px;margin-top: -7px;" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+	        							<!--  <security:authorize access="isAuthenticated()">
+									        <security:authentication var="principal" property="principal" />
+									      </security:authorize> -->
+									      <!-- <input type="hidden" sec:authentication="principal.username"> -->
+									      <div th:text="${objComment.user.email}"></div>
+	        							<ul>
 	          								<li class="dropdown">
 	           									<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 	                            					<b class="caret"></b>

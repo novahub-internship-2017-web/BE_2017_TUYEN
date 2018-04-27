@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -38,6 +40,10 @@ public class Book {
 	
 	@Column(name = "id_user", nullable = false)
 	private int			idUser;
+	
+    @ManyToOne
+    @JoinColumn(name = "id_user",referencedColumnName = "id_user", insertable = false, updatable = false)
+    private User user;
 	
 	public Book() {
 		super();
@@ -128,5 +134,13 @@ public class Book {
 	public void setIdUser(int idUser) {
 		this.idUser = idUser;
 	}
+	
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
 }
