@@ -1,6 +1,7 @@
 package tuyen.novahub.assignment4.controller;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -20,10 +21,15 @@ public class AdminCommentController {
 	
 	@RequestMapping(value = "/deleteComment/{idComment}", method = RequestMethod.GET)
 	public List<Comment> deleteComment(Model model, @PathVariable int idComment,@RequestParam int idBook) {
-		System.out.println("dddd");
+		Logger.getLogger("dddd");
 		Comment del = commentService.findByIdComment(idComment);
 		commentService.save(del);
 		return commentService.findByIdBook(idBook);
 	}
 	
+	@RequestMapping(value = "/allComments/{idBook}", method = RequestMethod.GET)
+	public List<Comment> allComment(Model model, @PathVariable int idBook) {
+		Logger.getLogger("allComments");
+		return commentService.findByIdBook(idBook);
+	}
 }

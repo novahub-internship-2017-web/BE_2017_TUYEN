@@ -81,7 +81,7 @@
                             <span class="profile-ava">
                                 <img alt="" src="/resources/img/avatar1_small.jpg">
                             </span>
-                            <span sec:authentication="name" class="username">..</span>
+                            <span sec:authentication="principal.username" class="username">..</span>
                             <b class="caret"></b>
                         </a>
             <ul class="dropdown-menu extended logout">
@@ -165,6 +165,10 @@
                 </div>
                 <div class="col-lg-12 col-sm-12 follow-info">
                 <table>
+               		<tr>
+		                <td><input type="hidden" id="idBook" value="${objBook.idBook}"></td>
+		                <td></td>
+	                </tr>
 	                <tr>
 		                <td>Author</td>
 		                <td th:text="${objBook.author}"></td>
@@ -238,7 +242,6 @@
                 <div class="tab-content">
                   <div id="recent-activity" class="tab-pane active">
                     <div class="profile-activity">
-                    
                       <div th:if="${accept==1}" class="act-time" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
 	                      <div class="activity-body act-in">
 	                      <span class="arrow"></span>
@@ -260,47 +263,14 @@
 	                        </div>
 	                      </div>
                       </div>
-                      <h4 th:unless="${accept}" sec:authorize="hasAnyRole('ROLE_USER')" style="font: bold;font-size: 15px">Currently does not allow comment</h4>
                       <h4 sec:authorize="isAnonymous()" style="font: bold;font-size: 25px"><a href="/show-login">Sign in</a> to add your comments</h4>
-	                    <div th:if="${numberCmt > 0}" class="act-time" style="overflow: inherit;" th:each="objComment : ${listComment}" id="resultComment" >
-	                        <div class="activity-body act-in">
-	                          <span class="arrow"></span>
-	                          <div class="text">
-	                            <a href="#" class="activity-img"><img class="avatar" src="/resources/img/avatar.jpg" alt=""></a>
-	                            <div class="attribution">
-	                            	<a href="#" th:text="${objComment.user.lastName}">..</a>
-	                            	<span th:text="${objComment.updatedComment}">..</span>
-	        						<div  class="top-nav notification-row" style="margin-left: 0px;margin-top: -7px;" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-	        							<!--  <security:authorize access="isAuthenticated()">
-									        <security:authentication var="principal" property="principal" />
-									      </security:authorize> -->
-									      <!-- <input type="hidden" sec:authentication="principal.username"> -->
-									      <div th:text="${objComment.user.email}"></div>
-	        							<ul>
-	          								<li class="dropdown">
-	           									<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-	                            					<b class="caret"></b>
-	                        				    </a>
-	            								<ul style="max-width: 100px !important;min-width: 100px !important; width: 1px !important;top: 25px" class="dropdown-menu extended logout">
-	              									<li>
-	                									<a style="padding: 5px 5px 5px 5px !important;" href="#" th:onclick="'deleteComment('+${objComment.idComment}+','+${objComment.idBook}+')'"><i class="icon_close_alt2"></i>DELETE</a>  
-	              									</li>
-	             									<li>
-	                									<a style="padding: 5px 5px 5px 5px !important;" href="#"><i class="icon_pencil-edit"></i>Edit</a>
-	              									</li>
-	            								</ul>
-	          								</li>
-	        						  </ul>
-	      							</div>
-	                            </div> 
-	                            <div><p th:text="${objComment.message}">..</p></div> 
-	                            
-	                          </div>
-	                        </div>
-	                      </div>
-                    <h4 th:unless="${numberCmt}" style="font: bold;font-size: 15px">No any comment this book</h4>
-                     
                     </div>
+      <div class="col col-md-12 comment hidden">
+	      <div class="user" style="font-size: 20px;">
+	      </div>
+	      <div class="comment-content">
+	      </div>
+     </div>
                   </div>
                 </div>
               </div>
@@ -334,7 +304,8 @@
   <script src="/resources/js/validate.js" type="text/javascript"></script>
   <script src="/resources/js/JsonUser.js" type="text/javascript"></script>
   <script src="/resources/js/JsonBook.js" type="text/javascript"></script> 
-  <script src="/resources/js/page.js" type="text/javascript"></script>   
+  <script src="/resources/js/page.js" type="text/javascript"></script>  
+  <script src="/resources/js/jsonComment.js" type="text/javascript"></script>  
   <script>
     //knob
     $(".knob").knob();
