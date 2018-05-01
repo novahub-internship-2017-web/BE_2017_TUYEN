@@ -117,6 +117,13 @@ public class Comment {
 	public void setBook(Book book) {
 		this.book = book;
 	}
+
+	@Override
+	public String toString() {
+		return "Comment [idComment=" + idComment + ", message=" + message + ", idUser=" + idUser + ", idBook=" + idBook
+				+ ", createdComment=" + createdComment + ", updatedComment=" + updatedComment + ", user=" + user
+				+ ", book=" + book + "]";
+	}
 	
 	
 }

@@ -262,3 +262,25 @@ $(document).ready(function() {
 	});
 
 });
+
+$(document).ready(function() {
+	$("#formComment").validate({
+		rules : {
+			"message" : {
+				required : true,
+				minlength : 3,
+				maxlength : 500
+			},
+
+		},
+		messages : {
+			"passwordEdit" : {
+				required : "Please enter comment!",
+				minlength : "Comment is too short!",
+				maxlength : "Comment is too long!"
+			},
+
+		}
+	});
+
+});

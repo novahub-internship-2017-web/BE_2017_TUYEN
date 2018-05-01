@@ -14,7 +14,6 @@ public interface CommentRepository extends CrudRepository<Comment, Long>{
 
 	public Comment findByIdComment(int idComment);
 
-	@SuppressWarnings("unchecked")
-	public Comment save(Comment objComment);
+	//public Comment save(Comment objComment);
 
 }

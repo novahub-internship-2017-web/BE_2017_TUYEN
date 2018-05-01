@@ -9912,3 +9912,6 @@ span.customSelect.changed {
 .pointer-disabled {
     pointer-events: none;
 }
+.user{
+	font-size: 20px
+}

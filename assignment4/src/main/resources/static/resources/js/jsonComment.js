@@ -1,36 +1,14 @@
-//function deleteComment(idComment,idB) {
-//	if (confirm('Are you sure your want to delete?')) {
-//		$
-//				.ajax({
-//					url : "/deleteComment/" + idComment,
-//					type : "GET",
-//					contentType : "application/json",
-//					dataType : 'json',
-//					data : {
-//						idBook : idB
-//					},
-//					success : function(data) {
-//						
-//					},
-//					error : function() {
-//						alert('error!');
-//					}
-//				});
-//	}
-//}
 $(document).ready(function () {
-
     getAllComments();
-
 });
 
-function addCommentLine(res) {
+function addCommentLine(data) {
     var comment = $("<div>");
     var commentOwner = $("<div>");
     var commentContent = $("<div>");
 
-    commentOwner.html(res.user.lastName);
-    commentContent.html(res.message);
+    commentOwner.html(data.user.lastName);
+    commentContent.html(data.message);
 
     commentOwner.addClass("user");
     commentContent.addClass("comment-content");
@@ -43,18 +21,44 @@ function addCommentLine(res) {
 }
 function getAllComments() {
 	var idBook = $("#idBook").val();
-	alert(idBook);
     $.ajax({
         contentType: "application/json",
-        url: "/allComments/" + 6,
+        url: "/allComments/" + idBook,
         dataType: 'json',
         type : "GET",
         timeout: 100000,
-        success: function (res) {
-            if (res.length > 0) {
-            	for (var i = 0; i < res.length; i++ ) {
-                    addCommentLine(res[i]);
+        success: function (data) {
+            if (data.length > 0) {
+            	for (var i = 0; i < data.length; i++ ) {
+                    addCommentLine(data[i]);
                 }
+            }
+        }
+    });
+}
+
+$("#formComment").submit(function(event) {
+	event.preventDefault(); // no submit
+	if ($("#formComment").valid()) {
+		addNewComment();
+	}
+});
+
+function addNewComment() {
+    var newComment = {};
+    newComment["message"] = $("#message").val();
+    newComment["idBook"] = $("#idBook").val();
+  $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/addNewComment",
+        data: JSON.stringify(newComment),
+        dataType: 'json',
+        timeout: 100000,
+        success: function (data) {
+            if (data.length > 0) {
+            	document.getElementById("formComment").reset();
+            	addCommentLine(data[data.length -1]);
             }
         }
     });
