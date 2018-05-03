@@ -26,7 +26,7 @@
     + mvn install clean 
     + mvn spring-boot:run
   - Visit the link below to see results as a guest:   
-  	+ http://localhost:8081/
+  	+ http://localhost:8080/
   	+ 
   - Account:
       + account admin: username = admin@gmail.com , password = 123456
