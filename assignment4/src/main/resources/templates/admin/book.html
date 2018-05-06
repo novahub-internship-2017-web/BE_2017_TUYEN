@@ -193,31 +193,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
                         th:selected="${pageSize} == ${selectedPageSize}"></option>
             </select>
         </div> 
-        <div th:if="${listBook.totalPages != 1}" class="form-group col-md-11 pagination-centered">
-            <ul class="pagination">
-                <li th:class="${listBook.number == 0} ? disabled">
-                    <a class="pageLink" href="#" 
-                    th:onclick="'getAllBooks('+${selectedPageSize}+',1)'">&laquo;</a>         
-                </li>
-                <li th:class="${listBook.number == 0} ? disabled">
-                    <a class="pageLink" 
-                    th:onclick="'getAllBooks('+${selectedPageSize}+','+${listBook.number}+')'" href="#">&larr;</a>
-                </li>
-                <li th:class="${listBook.number == (page - 1)} ? 'active pointer-disabled'"
-                    th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
-                    <a class="pageLink" href="#"
-                       th:onclick = "'getAllBooks('+${selectedPageSize}+','+${page}+')'"
-                       th:text="${page}"></a>
-                </li>
-                <li th:class="${listBook.number + 1 == listBook.totalPages} ? disabled">
-                    <a class="pageLink" href="#"
-                       th:onclick="'getAllBooks('+${selectedPageSize}+','+${listBook.number + 2}+')'">&rarr;</a>
-                </li>
-                <li th:class="${listBook.number + 1 == listBook.totalPages} ? disabled">
-                    <a class="pageLink" href="#"
-                    	th:onclick="'getAllBooks('+${selectedPageSize}+','+${listBook.totalPages}+')'">&raquo;</a>
-                </li>
-            </ul>
+        <div  class="form-group col-md-11 pagination-centered" id="page2">
         </div>
     </div>
         

@@ -23,6 +23,7 @@ import tuyen.novahub.assignment4.model.Book;
 import tuyen.novahub.assignment4.model.BookDelete;
 import tuyen.novahub.assignment4.model.Comment;
 import tuyen.novahub.assignment4.model.CommentDelete;
+import tuyen.novahub.assignment4.model.Pager;
 import tuyen.novahub.assignment4.model.User;
 import tuyen.novahub.assignment4.service.BookDeleteService;
 import tuyen.novahub.assignment4.service.BookService;
@@ -216,23 +217,22 @@ public class AdminBookController {
 			int evalPage = (page.orElse(0) < 1) ? Define.INITIAL_PAGE : page.get() - 1;
 			Page<Book> listBook = bookService.findAllPageable(PageRequest.of(evalPage, evalPageSize));
 			System.out.println("list: "+listBook.getSize());
-			//Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), Define.BUTTONS_TO_SHOW);
+			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), Define.BUTTONS_TO_SHOW);
 
-//			model.addAttribute("listBook", listBook);
-//			model.addAttribute("selectedPageSize", evalPageSize);
-//			model.addAttribute("pageSizes", Define.PAGE_SIZES);
-//			model.addAttribute("pager", pager);
+			model.addAttribute("listBook", listBook);
+			model.addAttribute("selectedPageSize", evalPageSize);
+			model.addAttribute("pageSizes", Define.PAGE_SIZES);
+			model.addAttribute("pager", pager);
 			return listBook;
 		} else {
 			int evalPageSize = pageSize.orElse(Define.INITIAL_PAGE_SIZE);
 			int evalPage = (page.orElse(0) < 1) ? Define.INITIAL_PAGE : page.get() - 1;
 			Page<Book> listBook = bookService.findByEnabled(1,PageRequest.of(evalPage, evalPageSize));
-//			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), Define.BUTTONS_TO_SHOW);
-//
-//			model.addAttribute("listBook", listBook);
-//			model.addAttribute("selectedPageSize", evalPageSize);
-//			model.addAttribute("pageSizes", Define.PAGE_SIZES);
-//			model.addAttribute("pager", pager);
+			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), Define.BUTTONS_TO_SHOW);
+			model.addAttribute("listBook", listBook);
+			model.addAttribute("selectedPageSize", evalPageSize);
+			model.addAttribute("pageSizes", Define.PAGE_SIZES);
+			model.addAttribute("pager", pager);
 			return listBook;
 		}
 		

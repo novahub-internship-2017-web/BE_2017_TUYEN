@@ -1,12 +1,15 @@
 //listAllBook
 $(document).ready(function () {
-	//$("#tbody").empty();
-    getAllBooks(5,1);
+    getAllBooks($('#pageSizeSelect').val(),1);
 });
 
 
 function getAllBooks(pageSize_,page_) {
-	alert(pageSize_+' '+page_);
+	var url = "/?pageSize="+pageSize_+"&page="+page_ ;
+	if(page_ != 1){
+		window.history.pushState(null, null, url);
+	}
+	
     $.ajax({
         contentType: "application/json",
         url: "/listBook",
@@ -27,6 +30,7 @@ function getAllBooks(pageSize_,page_) {
    			var title = '<table class="table table-striped table-advance table-hover">'
 				+ '<tbody>'
 				+ '<tr>'
+				+ '<th><i class=""></i>Index</th>'
 				+ '<th><i class=""></i>Title</th>'
 				+ '<th><i class=""></i>Author</th>'
 				+ '<th><i class=""></i>Date created</th>'
@@ -40,6 +44,7 @@ function getAllBooks(pageSize_,page_) {
 					check = 'checked="checked"';
 				}
 				var row = '<tr>' 
+						+ '<td>'+i+'</td>'
 						+ '<td>'+ book.title + '</td>'
 						+ '<td>'+ book.author + '</td>'
 						+ '<td>'+ book.createdAt + '</td>'
@@ -65,12 +70,72 @@ function getAllBooks(pageSize_,page_) {
 			});
 			title = title + '</tbody>' + '</table>';
 			$('#result').html(title);
+			var totalPages = data.totalPages;
+			var pageSize = data.size;
+			var currentPage = page_;
+			//totalPages, pageSize, currentPage = page_
+			page(totalPages,pageSize,currentPage);
         }
       },
     });
 }
 
+function page(totalPages,pageSize,currentPage){
+	var classFristPage = "";
+	var classPrePage = "";
+	var classLastPage = "";
+	var classNextPage = "";
+	if((currentPage - 1) == 0){
+		classFristPage = 'class="disabled"';
+		classPrePage = 'class="disabled"';
+	}
+	if(currentPage == totalPages){
+		classLastPage = 'class="disabled"';
+		classNextPage = 'class="disabled"';
+	}
+	var tmp = "";
+	var title = "";
+	var classTmp = "";
+	for(var i = 1; i <= totalPages;i++){
+		if(i == currentPage){
+			classTmp = 'class="active pointer-disabled"';
+		}else{
+			classTmp = "";
+		}
+		tmp = '<li '+classTmp+'>'
+              +' <a class="pageLink" href="#"'
+              +' onclick = "getAllBooks('+pageSize+','+i+')"'
+              +'        >'+i+'</a>'
+               +' </li>';
+        title = title + tmp;      
+	}
+   var  valuePage = '<ul class="pagination">'
+       + '<li '+classFristPage+' id="firstPage">'
+       +' <a class="pageLink" href="#" '
+       +' onclick="getAllBooks('+pageSize+',1)">&laquo;</a>'         
+       +'        </li>'
+       +'         <li '+classPrePage+' id="prePage">'
+       +'             <a class="pageLink" '
+       +'             onclick="getAllBooks('+pageSize+','+(currentPage - 1)+')" href="#">&larr;</a>'
+        +'        </li>'
+         +title     
+        +'        <li '+classNextPage+' id="nextPage">'
+        +'            <a class="pageLink" href="#"'
+        +'               onclick="getAllBooks('+pageSize+','+(currentPage + 1)+')">&rarr;</a>'
+        +'        </li>'
+        +'        <li '+classLastPage+' id="lastPage">'
+        +'            <a class="pageLink" href="#"'
+        +'            	onclick="getAllBooks('+pageSize+','+totalPages+')">&raquo;</a>'
+         +'       </li>'
+         +'   </ul>';
 
+if(totalPages != 1){
+	$('#page2').html(valuePage);
+}else{
+	$('#page2').html("");
+}
+	
+}
 function addLineOfTable(book) {
 	//alert('create');
     var tr = $("<tr>");

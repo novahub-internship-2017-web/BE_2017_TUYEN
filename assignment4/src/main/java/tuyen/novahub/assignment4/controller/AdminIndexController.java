@@ -59,17 +59,10 @@ public class AdminIndexController {
 	public String showListBookPage(Principal principal,Model model, @RequestParam("pageSize") Optional<Integer> pageSize,
 			@RequestParam("page") Optional<Integer> page, Authentication authentication) {
 		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
-			// if admin login then redirect all book
-			// Evaluate page size. If requested parameter is null, return initial
-			// page size
 			int evalPageSize = pageSize.orElse(Define.INITIAL_PAGE_SIZE);
-			// Evaluate page. If requested parameter is null or less than 0 (to
-			// prevent exception), return initial size. Otherwise, return value of
-			// param. decreased by 1.
 			int evalPage = (page.orElse(0) < 1) ? Define.INITIAL_PAGE : page.get() - 1;
 			Page<Book> listBook = bookService.findAllPageable(PageRequest.of(evalPage, evalPageSize));
 			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), Define.BUTTONS_TO_SHOW);
-			System.out.println("listBook"+listBook.toString());
 			model.addAttribute("listBook", listBook);
 			model.addAttribute("selectedPageSize", evalPageSize);
 			model.addAttribute("pageSizes", Define.PAGE_SIZES);
