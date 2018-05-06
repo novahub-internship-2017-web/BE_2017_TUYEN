@@ -237,4 +237,15 @@ public class AdminBookController {
 		}
 		
 	}
+	
+	@RequestMapping(value = "/allBooks", method = RequestMethod.GET)
+	public List<Book> showAllBooks(Authentication authentication) {
+		if(authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+			return bookService.findAll();
+		}else {
+			return bookService.findByEnabled(1);
+		}
+		
+		
+	}
 }

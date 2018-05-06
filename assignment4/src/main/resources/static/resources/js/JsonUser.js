@@ -112,6 +112,7 @@ function addUser() {
 					title = title + '</tbody>' + '</table>';
 					$('#result').html(title);
 					$('#msgResult').html('Successfully added new user!');
+					setTimeout(function(){ $('#msgResult').html('')},2000);
 				},
 				error : function() {
 					alert('Error adding new user!');
@@ -191,6 +192,7 @@ function deleteUser(idUser) {
 							title = title + '</tbody>' + '</table>';
 							$('#result').html(title);
 							$('#msgResult').html('Successfully deleted user!');
+							setTimeout(function(){ $('#msgResult').html('')}, 2000);
 						} else {
 							$('#result').html("No user");
 							$('#msgResult').html('');
@@ -222,6 +224,7 @@ function showEditUser(idUser) {
 			} else {
 				document.getElementById('formEditUser').style.display = 'none';
 				$('#msgResult').html('Error edited user!');
+				setTimeout(function(){ $('#msgResult').html('')}, 2000);
 			}
 		},
 		error : function() {
@@ -308,9 +311,11 @@ function editUser() {
 					title = title + '</tbody>' + '</table>';
 					$('#result').html(title);
 					$('#msgResult').html('Successfully edited user!');
+					setTimeout(function(){ $('#msgResult').html('')}, 2000);
 				},
 				error : function() {
-					alert('Error edit new user!');
+					$('#msgResult').html('Error editing user!');
+					setTimeout(function(){ $('#msgResult').html('')}, 2000);
 				}
 			});
 }
@@ -382,9 +387,11 @@ function changeStatus(idUser, st) {
 		title = title + '</tbody>' + '</table>';
 		$('#result').html(title);
 		$('#msgResult').html('Successfully added new user!');
+		setTimeout(function(){ $('#msgResult').html('')}, 2000);
 	},
 		error : function() {
-			alert('Error change status user!');
+			$('#msgResult').html('Error adding new user!');
+			setTimeout(function(){ $('#msgResult').html('')}, 2000);
 		}
 	});
 }
@@ -411,12 +418,12 @@ function signUp() {
 				cache : false,
 				data : JSON.stringify(newUser),
 				success : function(data) {
-					alert('Account created successfully!');
 					document.getElementById("formSignUp").reset();
 					document.getElementById('viewFormSignUp').style.display = 'none';
 				},
 				error : function() {
-					alert('Error creating!');
+					$('#msgResult').html('Error creating new user!');
+					setTimeout(function(){ $('#msgResult').html('')}, 2000);
 				}
 			});
 }
@@ -439,11 +446,13 @@ function showEditUserLogin(){
 				$('#formEditUserLogin').find('#idRoleEditLogin').val(data.idRole);
 			} else {
 				document.getElementById('formEditUserLogin').style.display = 'none';
-				$('#msgResult').html('Error edited user!');
+				$('#msgResult').html('Error editing new user!');
+				setTimeout(function(){ $('#msgResult').html('')}, 2000);
 			}
 		},
 		error : function() {
-			alert('error!');
+			$('#msgResult').html('Error editing new user!');
+			setTimeout(function(){ $('#msgResult').html('')}, 2000);
 		}
 	});
 }
@@ -469,11 +478,13 @@ function editUserLogin() {
 				success : function(data) {
 					var url = "/editUserLogin/msg=success";
 					window.history.pushState(null, null, url);
-					alert('successfully!');
 					document.getElementById('viewFormEditUserLogin').style.display = 'none';
+					$('#msgResult').html('Successfully edited user!');
+					setTimeout(function(){ $('#msgResult').html('')}, 2000);
 				},
 				error : function() {
-					alert('Error!');
+					$('#msgResult').html('Error editing user!');
+					setTimeout(function(){ $('#msgResult').html('')}, 2000);
 				}
 			});
 }

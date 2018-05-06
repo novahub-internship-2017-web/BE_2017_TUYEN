@@ -54,31 +54,9 @@ public class AdminIndexController {
 		return "/admin/user";
 	}
 
-	// @RequestMapping(value = "/", method = RequestMethod.GET)
-	// public String showListBook(Model model, Authentication authentication) {
-	// List<Book> list;
-	// int current_page = 1;
-	// if (authentication != null &&
-	// authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
-	// // if admin login then redirect all book
-	// list = bookService.findAll();
-	// model.addAttribute("listBook", list);
-	// } else {
-	// // all list book enabled
-	// int totalBook = bookService.findByEnabled(1).size();
-	// int row_count = Define.BOOK_COUNT;
-	// int sumPage = (int) Math.ceil((float) totalBook/row_count);
-	// int offset = (current_page-1)*row_count;
-	// System.out.println("offset: "+offset);
-	// list = bookService.findByEnabled(1);
-	// model.addAttribute("sumPage", sumPage);
-	// model.addAttribute("listBook", list);
-	// }
-	// return "/admin/book";
-	// }
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String showListBookPage(Model model, @RequestParam("pageSize") Optional<Integer> pageSize,
+	public String showListBookPage(Principal principal,Model model, @RequestParam("pageSize") Optional<Integer> pageSize,
 			@RequestParam("page") Optional<Integer> page, Authentication authentication) {
 		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
 			// if admin login then redirect all book
@@ -96,6 +74,8 @@ public class AdminIndexController {
 			model.addAttribute("selectedPageSize", evalPageSize);
 			model.addAttribute("pageSizes", Define.PAGE_SIZES);
 			model.addAttribute("pager", pager);
+			User userLogin = userService.findByEmail(principal.getName());
+			model.addAttribute("userLogin",userLogin);
 		} else {
 			int evalPageSize = pageSize.orElse(Define.INITIAL_PAGE_SIZE);
 			int evalPage = (page.orElse(0) < 1) ? Define.INITIAL_PAGE : page.get() - 1;
@@ -106,11 +86,12 @@ public class AdminIndexController {
 			model.addAttribute("selectedPageSize", evalPageSize);
 			model.addAttribute("pageSizes", Define.PAGE_SIZES);
 			model.addAttribute("pager", pager);
-
+			model.addAttribute("userLogin",new User());
 		}
 		return "/admin/book";
 	}
-
+	
+	
 	@RequestMapping(value = "/detailBook/{idBook}", method = RequestMethod.GET)
 	public String showDetailBook(Model model, @PathVariable int idBook, Authentication authentication,
 			Principal principal) {

@@ -16,10 +16,10 @@ public class Role implements Serializable{
 
 	@Id
 	@GeneratedValue
-	@Column(name = "idRole", nullable = false)
+	@Column(name = "id_role", nullable = false)
 	int			idRole;
 	
-	@Column(name = "nameRole", length = 45, nullable = false)
+	@Column(name = "name_role", length = 45, nullable = false)
 	String	nameRole;
 	
 	
