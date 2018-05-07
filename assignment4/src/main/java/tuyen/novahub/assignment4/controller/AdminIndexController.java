@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import tuyen.novahub.assignment4.common.Define;
-import tuyen.novahub.assignment4.common.Pager;
 import tuyen.novahub.assignment4.model.Book;
 import tuyen.novahub.assignment4.model.Comment;
 import tuyen.novahub.assignment4.model.User;
@@ -61,25 +58,14 @@ public class AdminIndexController {
 		Define define = new Define();
 		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
 			int evalPageSize = pageSize.orElse(define.getInitialPageSize());
-			int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
-			Page<Book> listBook = bookService.findAllPageable(PageRequest.of(evalPage, evalPageSize));
-			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(),define.getButtonToShow());
-			model.addAttribute("listBook", listBook);
 			model.addAttribute("selectedPageSize", evalPageSize);
 			model.addAttribute("pageSizes", define.getPageSize());
-			model.addAttribute("pager", pager);
 			User userLogin = userService.findByEmail(principal.getName());
 			model.addAttribute("userLogin",userLogin);
 		} else {
 			int evalPageSize = pageSize.orElse(define.getInitialPageSize());
-			int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
-			Page<Book> listBook = bookService.findByEnabled(1,PageRequest.of(evalPage, evalPageSize));
-			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), define.getButtonToShow());
-
-			model.addAttribute("listBook", listBook);
 			model.addAttribute("selectedPageSize", evalPageSize);
 			model.addAttribute("pageSizes",define.getPageSize());
-			model.addAttribute("pager", pager);
 			model.addAttribute("userLogin",new User());
 		}
 		return "/admin/book";
@@ -122,18 +108,9 @@ public class AdminIndexController {
 	public String showMyBook(Model model, Principal principal,@RequestParam("pageSize") Optional<Integer> pageSize,
 			@RequestParam("page") Optional<Integer> page) {
 		Define define = new Define();
-		String emailLogin = principal.getName();
-		User userLogin = userService.findByEmail(emailLogin);
 		int evalPageSize = pageSize.orElse( define.getInitialPageSize());
-		int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
-		Page<Book> listMyBook = bookService.findByIdUser(userLogin.getIdUser(),PageRequest.of(evalPage, evalPageSize));
-		Pager pager = new Pager(listMyBook.getTotalPages(), listMyBook.getNumber(), define.getButtonToShow());
-
-		model.addAttribute("listBook", listMyBook);
 		model.addAttribute("selectedPageSize", evalPageSize);
 		model.addAttribute("pageSizes", define.getPageSize());
-		model.addAttribute("pager", pager);
-		model.addAttribute("listBook", listMyBook);
 		return "/admin/myBook";
 	}
 }

@@ -2,6 +2,17 @@ $(document).ready(function () {
     getAllBooks($('#pageSizeSelect').val(),1);
 });
 
+function changePageAndSize() {
+	var key = $('#keyword').val();
+	var pageSize = $('#pageSizeSelect').val();
+	if(key.length<1){
+		window.history.pushState(null, null, '/');
+		getAllBooks(pageSize,1);
+	}else{
+		searchBook(pageSize,1);
+	}
+	
+}
 
 function getAllBooks(pageSize_,page_) {
 	var url = "/?pageSize="+pageSize_+"&page="+page_ ;
@@ -251,4 +262,158 @@ function changeStatusBook(idBook, st) {
 			setTimeout(function(){ $('#msgResult').html('')},2000);
 		}
 	});
+}
+
+$("#formSearch").submit(function(event) {
+	event.preventDefault(); // no submit
+	if ($("#formSearch").valid()) {
+		searchBook(5,1);
+	}
+});
+function searchBook(pageSize_,page_){
+	var key = $('#keyword').val();
+	pageSize_ = $('#pageSizeSelect').val();
+	var url = "/searchBook/?keyword="+key+"&pageSize="+pageSize_+"&page=1" ;
+	window.history.pushState(null, null, url);
+	$.ajax({
+		url : "/searchBook/",
+		type : "GET",
+		cache : false,
+		contentType : "application/json",
+		dataType : 'json',
+		data : {
+			keyword : key,
+			page : page_,
+			pageSize : pageSize_,
+		},
+		success : function(data) {
+        	var idRole = $("#idRole").val();
+        	var tmp = 'class="hidden"';
+        	if(idRole == 1){
+        		tmp = "";
+        	}
+        	var totalPages ;
+			var pageSize;
+			var currentPage;
+           if (data.content.length > 0) {
+   			var title = '<table class="table table-striped table-advance table-hover">'
+				+ '<thead>'
+					+ '<tr>'
+						+ '<th><i class=""></i>Index</th>'
+						+ '<th><i class=""></i>Title</th>'
+						+ '<th><i class=""></i>Author</th>'
+						+ '<th><i class=""></i>Date created</th>'
+						+ '<th><i class=""></i>Date updated</th>'
+						+ '<th '+tmp+'><i class=""></i>Status</th>'
+						+ '<th><i class=""></i>Action</th>'
+					+ '</tr>'
+				+ '</thead>'
+				+ '<tbody>';
+   			var j = 0;
+			$.each(data.content, function(i,book){
+				var check = null;
+				if(book.enabled == 1){
+					check = 'checked="checked"';
+				}
+				var row = '<tr>' 
+						+ '<td>'+(++j)+'</td>'
+						+ '<td>'+ book.title + '</td>'
+						+ '<td>'+ book.author + '</td>'
+						+ '<td>'+ book.createdAt + '</td>'
+						+ '<td>'+ book.updatedAt + '</td>'
+						+ '<td '+tmp+'>'
+							+ '<input type="checkbox" '	+ check
+							+ ' onclick="changeStatusBook('+ book.idBook+ ','+ book.enabled	+ ')">'
+						+ '</td>'
+						+ '<td>'
+							+ '<div class="btn-group">'
+								+ '<a class="btn btn-warning"'
+								+ ' href="/detailBook/'+book.idBook+'" title="Detail!"><i class="icon_camera_alt"></i></a>'
+								+ '<div '+tmp+' style="float:left">'
+									+ '<a class="btn btn-success" '
+										+'onclick="showEditBook('+ book.idBook + ')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
+									+ '<a class="btn btn-danger" '
+										+'onclick="deleteBook('+ book.idBook+ ')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
+								+ '</div>'		
+							+ '</div>' 
+						+ '</td>' 
+					+ '</tr>';
+				title = title + row;
+			});
+			title = title + '</tbody>' + '</table>';
+			$('#result').html(title);
+			$('#msgResult').html('Have '+data.totalElements+' result with keyword = '+key);
+			 totalPages = data.totalPages;
+			 pageSize = data.size;
+			 currentPage = data.number+1;
+			 pageSearch(totalPages,pageSize,currentPage);
+           }else{
+        	   $('#result').html(""); 
+        	   $('#msgResult').html('No result with keyword = '+key);
+        	   $('#page').html("");
+           }
+		},
+		error : function() {
+			$('#msgResult').html('Error');
+			setTimeout(function(){ $('#msgResult').html('')},2000);
+		}
+	});
+	
+}
+
+function pageSearch(totalPages,pageSize,currentPage){
+	var classFristPage = "";
+	var classPrePage = "";
+	var classLastPage = "";
+	var classNextPage = "";
+	if((currentPage - 1) == 0){
+		classFristPage = 'class="disabled"';
+		classPrePage = 'class="disabled"';
+	}
+	if(currentPage == totalPages){
+		classLastPage = 'class="disabled"';
+		classNextPage = 'class="disabled"';
+	}
+	var tmp = "";
+	var title = "";
+	var classTmp = "";
+		for(var j = 1; j <= totalPages;j++){
+			if(j == currentPage){
+				classTmp = 'class="active pointer-disabled"';
+			}else{
+				classTmp = "";
+			}
+			tmp = '<li '+classTmp+'>'
+	              	+' <a class="pageLink" href="#"'
+	              	+' onclick = "searchBook('+pageSize+','+j+')">'+j+'</a>'
+	               +' </li>';
+	        title = title + tmp;      
+		}
+
+   var  valuePage = '<ul class="pagination">'
+       + '<li '+classFristPage+' id="firstPage">'
+       +' <a class="pageLink" href="#" '
+       +' onclick="searchBook('+pageSize+',1)">&laquo;</a>'         
+       +'        </li>'
+       +'         <li '+classPrePage+' id="prePage">'
+       +'             <a class="pageLink" '
+       +'             onclick="searchBook('+pageSize+','+(currentPage - 1)+')" href="#">&larr;</a>'
+       +'        </li>'
+       +	title     
+       +'        <li '+classNextPage+' id="nextPage">'
+       +'            <a class="pageLink" href="#"'
+       +'               onclick="searchBook('+pageSize+','+(currentPage + 1)+')">&rarr;</a>'
+       +'        </li>'
+       +'        <li '+classLastPage+' id="lastPage">'
+       +'            <a class="pageLink" href="#"'
+       +'            	onclick="searchBook('+pageSize+','+totalPages+')">&raquo;</a>'
+       +'       </li>'
+       +'   </ul>';
+
+	if(totalPages != 1){
+		$('#page').html(valuePage);
+	}else{
+		$('#page').html("");
+	}
+	
 }

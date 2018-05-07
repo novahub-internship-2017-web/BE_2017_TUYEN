@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tuyen.novahub.assignment4.common.Define;
-import tuyen.novahub.assignment4.common.Pager;
 import tuyen.novahub.assignment4.model.Book;
 import tuyen.novahub.assignment4.model.BookDelete;
 import tuyen.novahub.assignment4.model.Comment;
@@ -210,22 +209,15 @@ public class AdminBookController {
 			int evalPageSize = pageSize.orElse(define.getInitialPageSize());
 			int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
 			Page<Book> listBook = bookService.findAllPageable(PageRequest.of(evalPage, evalPageSize));
-			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), define.getButtonToShow());
-
-			model.addAttribute("listBook", listBook);
 			model.addAttribute("selectedPageSize", evalPageSize);
 			model.addAttribute("pageSizes", define.getPageSize());
-			model.addAttribute("pager", pager);
 			return listBook;
 		} else {
 			int evalPageSize = pageSize.orElse(define.getInitialPageSize());
 			int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
 			Page<Book> listBook = bookService.findByEnabled(1, PageRequest.of(evalPage, evalPageSize));
-			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), define.getButtonToShow());
-			model.addAttribute("listBook", listBook);
 			model.addAttribute("selectedPageSize", evalPageSize);
 			model.addAttribute("pageSizes", define.getPageSize());
-			model.addAttribute("pager", pager);
 			return listBook;
 		}
 
@@ -248,14 +240,31 @@ public class AdminBookController {
 		Define define = new Define();
 		int evalPageSize = pageSize.orElse(define.getInitialPageSize());
 		int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
-		Page<Book> listBook = bookService.findByIdUser(userLogin.getIdUser(),PageRequest.of(evalPage, evalPageSize));
-		Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), define.getButtonToShow());
+		Page<Book> listBook = bookService.findByIdUser(userLogin.getIdUser(), PageRequest.of(evalPage, evalPageSize));
 
 		model.addAttribute("listBook", listBook);
 		model.addAttribute("selectedPageSize", evalPageSize);
-		model.addAttribute("pageSizes", define.getPageSize());
-		model.addAttribute("pager", pager);
 		return listBook;
+	}
+
+	@RequestMapping(value = "/searchBook", method = RequestMethod.GET)
+	public Page<Book> searchBook(@RequestParam("pageSize") Optional<Integer> pageSize,
+			@RequestParam("page") Optional<Integer> page, Authentication authentication, Model model,
+			@RequestParam("keyword") String keyword) {
+		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+			Define define = new Define();
+			int evalPageSize = pageSize.orElse(define.getInitialPageSize());
+			int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
+
+			return bookService.findByAuthorContainingOrTitleContaining(keyword, keyword,
+					PageRequest.of(evalPage, evalPageSize));
+		} else {
+			Define define = new Define();
+			int evalPageSize = pageSize.orElse(define.getInitialPageSize());
+			int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
+			return bookService.findByAuthorContainingAndEnabledOrTitleContainingAndEnabled(keyword,1,keyword, 1,
+					PageRequest.of(evalPage, evalPageSize));
+		}
 	}
 
 }

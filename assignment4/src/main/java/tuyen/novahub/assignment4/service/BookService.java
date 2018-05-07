@@ -15,7 +15,7 @@ import tuyen.novahub.assignment4.repository.BookRepository;
 @Service
 @Transactional
 public class BookService {
-	
+
 	@Autowired
 	BookRepository bookRepository;
 
@@ -37,31 +37,34 @@ public class BookService {
 
 	public Book save(Book newBook) {
 		return bookRepository.save(newBook);
-		
+
 	}
 
 	public int deleteByIdBook(int idBook) {
 		return bookRepository.deleteByIdBook(idBook);
-		
-	}
 
+	}
 
 	public Page<Book> findAllPageable(PageRequest pageRequest) {
 		return bookRepository.findAll(pageRequest);
 	}
 
 	public Page<Book> findByEnabled(int enabled, Pageable pageable) {
-		return bookRepository.findByEnabled(enabled,pageable);
+		return bookRepository.findByEnabled(enabled, pageable);
 	}
 
 	public Page<Book> findByIdUser(int idUser, Pageable pageable) {
-		return bookRepository.findByIdUser(idUser,pageable);
+		return bookRepository.findByIdUser(idUser, pageable);
 	}
 
-//	public Page<Book> findByIdUserPageable(int idUser, PageRequest of) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	public Page<Book> findByAuthorContainingAndEnabledOrTitleContainingAndEnabled(String author, int enabled1,
+			String title, int enabled2, Pageable pageable) {
+		return bookRepository.findByAuthorContainingAndEnabledOrTitleContainingAndEnabled(author, enabled1, title,
+				enabled2, pageable);
+	}
 
+	public Page<Book> findByAuthorContainingOrTitleContaining(String author, String title, Pageable pageable) {
+		return bookRepository.findByAuthorContainingOrTitleContaining(author, title, pageable);
+	}
 
 }

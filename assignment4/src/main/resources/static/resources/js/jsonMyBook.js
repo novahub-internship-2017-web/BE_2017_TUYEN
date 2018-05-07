@@ -137,7 +137,6 @@ function pageMyBooks(totalPages,pageSize,currentPage){
 }
 
 
-//user/ admin login with myBook
 $("#formAddMyBook").submit(function(event) {
 	event.preventDefault(); // no submit
 	if ($("#formAddMyBook").valid()) {
