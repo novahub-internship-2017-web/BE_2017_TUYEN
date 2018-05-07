@@ -1,4 +1,4 @@
-package tuyen.novahub.assignment4.model;
+package tuyen.novahub.assignment4.common;
 
 /**
  * Used to calculate span of buttons which will be displayed on a page

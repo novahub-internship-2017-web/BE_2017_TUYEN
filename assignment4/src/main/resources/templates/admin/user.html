@@ -177,9 +177,6 @@
                     <td sec:authorize="hasAnyRole('ROLE_ADMIN')">
                     	<input type="checkbox" th:checked="${listUser.enabled == 1}" th:onclick="'changeStatus('+${listUser.idUser}+','+${listUser.enabled}+')'">          
                     </td>
-                    <!--  
-                    th:onclick="'changeStatus(\''+${listUser.idUser}+','+${listUser.enabled}+'\');'"
-                    -->
                      <td> 
                      	<!-- <span th:if="${listUser.idRole == 1}" th:text="admin"></span> -->
                      	<div th:switch="${listUser.idRole}">
@@ -384,8 +381,7 @@
   <!--custom script for all page-->
   <script src="/resources/js/scripts.js" type="text/javascript"></script>
   <script src="/resources/js/validate.js" type="text/javascript"></script>
-  <script src="/resources/js/JsonUser.js" type="text/javascript"></script>
-  <script src="/resources/js/JsonBook.js" type="text/javascript"></script>  
+  <script src="/resources/js/jsonUser.js" type="text/javascript"></script>
   
  
 </body>

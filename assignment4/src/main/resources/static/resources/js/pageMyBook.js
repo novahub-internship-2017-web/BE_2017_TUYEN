@@ -4,7 +4,7 @@ $(document).ready(function() {
 
 function changePageAndSize() {
 	$('#pageSizeSelect').change(function(evt) {
-		window.history.pushState(null, null, '/');
-		getAllBooks(this.value,1);
+		window.history.pushState(null, null, '/myBook');
+		getMyBooks(this.value,1);
 	});
 }

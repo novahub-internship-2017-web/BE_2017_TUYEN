@@ -6,15 +6,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
   <title>Books management</title>
 
-  <!-- Bootstrap CSS -->
   <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
-  <!-- bootstrap theme -->
   <link href="/resources/css/bootstrap-theme.css" rel="stylesheet">
-  <!--external css-->
-  <!-- font icon -->
   <link href="/resources/css/elegant-icons-style.css" rel="stylesheet" />
   <link href="/resources/css/font-awesome.min.css" rel="stylesheet" />
-  <!-- Custom styles -->
   <link href="/resources/css/style.css" rel="stylesheet">
   <link href="/resources/css/style-responsive.css" rel="stylesheet" />
 <style>
@@ -165,37 +160,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 			<br>
              <div id="msgResult" style="margin-left: 10px;color: blue; font-size: 20px; font-weight: bold;"></div><br>
               <div id="result">
-              <table class="table table-striped table-advance table-hover">
+              <table class="table table-striped table-advance table-hover" id = "resultMyBook">
                 <tbody>
-                  <tr>
-                    <th><i class=""></i>Title</th>
-                    <th><i class=""></i>Author</th>
-                    <th><i class=""></i>Date created</th>
-                    <th><i class=""></i>Date updated</th>
-                    <th sec:authorize="hasAnyRole('ROLE_ADMIN')"><i class=""></i>Enable</th>
-                    <th sec:authorize="hasAnyRole('ROLE_USER')"><i class=""></i>Status</th>
-                    <th><i class="" ></i> Action</th>
-                  </tr>
-                  <tr th:each="listBook : ${listBook}">
-                    <td th:text="${listBook.title}">..</td>
-                    <td th:utext="${listBook.author}"></td>
-                    <td th:utext="${listBook.createdAt}"></td>
-                    <td th:utext="${listBook.updatedAt}"></td>
-                    <td sec:authorize="hasAnyRole('ROLE_ADMIN')">
-                    	<input type="checkbox" th:checked="${listBook.enabled == 1}" th:onclick="'changeStatusMyBook('+${listBook.idBook}+','+${listBook.enabled}+')'">          
-                    </td>
-                    <td sec:authorize="hasAnyRole('ROLE_USER')"> 
-                    	<p   th:if="${listBook.enabled}==1">Approved</p>
-                    	<p th:unless="${listBook.enabled}">Waiting</p>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                      	<a class="btn btn-warning" th:href="@{'/detailBook/' + ${listBook.idBook}}" title="Detail!"><i class="icon_camera_alt"></i></a>
-                        <a sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')" class="btn btn-success" th:onclick="'showEditMyBook(\''+${listBook.idBook}+'\')'" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>    
-                      	<a sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')" class="btn btn-danger" th:onclick="' deleteMyBook(\''+${listBook.idBook}+'\')'" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>
-                      </div>
-                    </td>
-                  </tr>
+				  <tr class="trResultMyBook" id="trResultMyBook">
+                  </tr> 
                 </tbody>
               </table>
               </div>
@@ -210,28 +178,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
                         th:selected="${pageSize} == ${selectedPageSize}"></option>
             </select>
         </div>
-        <div th:if="${listBook.totalPages != 1}" class="form-group col-md-11 pagination-centered">
-            <ul class="pagination">
-                <li th:class="${listBook.number == 0} ? disabled">
-                    <a class="pageLink" th:href="@{/myBook(pageSize=${selectedPageSize}, page=1)}">&laquo;</a>
-                </li>
-                <li th:class="${listBook.number == 0} ? disabled">
-                    <a class="pageLink" th:href="@{/myBook(pageSize=${selectedPageSize}, page=${listBook.number})}">&larr;</a>
-                </li>
-                <li th:class="${listBook.number == (page - 1)} ? 'active pointer-disabled'"
-                    th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
-                    <a class="pageLink" th:href="@{/myBook(pageSize=${selectedPageSize}, page=${page})}"
-                       th:text="${page}"></a>
-                </li>
-                <li th:class="${listBook.number + 1 == listBook.totalPages} ? disabled">
-                    <a class="pageLink"
-                       th:href="@{/myBook(pageSize=${selectedPageSize}, page=${listBook.number + 2})}">&rarr;</a>
-                </li>
-                <li th:class="${listBook.number + 1 == listBook.totalPages} ? disabled">
-                    <a class="pageLink"
-                       th:href="@{/myBook(pageSize=${selectedPageSize}, page=${listBook.totalPages})}">&raquo;</a>
-                </li>
-            </ul>
+        <div  class="form-group col-md-11 pagination-centered" id="page">
         </div>
     </div>
       </section>
@@ -348,22 +295,18 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
  	<th:block th:include="/inc/formEditUserLogin"></th:block>
     <th:block th:include="/inc/formChangePasswordUserLogin"></th:block> 
   <!-- container section end -->
-  <!-- javascripts -->
   <script src="/resources/js/jquery.js"></script>
   <script src="/resources/js/jquery.validate.min.js" type="text/javascript"></script>
   <script src="/resources/js/bootstrap.min.js"></script>
-  <!-- nicescroll -->
   <script src="/resources/js/jquery.scrollTo.min.js"></script>
   <script src="/resources/js/jquery.nicescroll.js" type="text/javascript"></script>
-  <!--custome script for all page-->
   <script src="/resources/js/scripts.js"></script>
-  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css"> -->
   
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
   <script src="/resources/js/validate.js" type="text/javascript"></script>
-  <script src="/resources/js/JsonUser.js" type="text/javascript"></script>
-  <script src="/resources/js/JsonBook.js" type="text/javascript"></script>
-  <script src="/resources/js/page.js" type="text/javascript"></script>  
+  <script src="/resources/js/jsonUser.js" type="text/javascript"></script>
+  <script src="/resources/js/jsonMyBook.js" type="text/javascript"></script>
+  <script src="/resources/js/pageMyBook.js" type="text/javascript"></script>  
 </body>
 
 </html>

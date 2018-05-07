@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import tuyen.novahub.assignment4.define.Define;
+import tuyen.novahub.assignment4.common.Define;
+import tuyen.novahub.assignment4.common.Pager;
 import tuyen.novahub.assignment4.model.Book;
 import tuyen.novahub.assignment4.model.Comment;
-import tuyen.novahub.assignment4.model.Pager;
 import tuyen.novahub.assignment4.model.User;
 import tuyen.novahub.assignment4.service.BookService;
 import tuyen.novahub.assignment4.service.CommentService;
@@ -58,26 +58,27 @@ public class AdminIndexController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String showListBookPage(Principal principal,Model model, @RequestParam("pageSize") Optional<Integer> pageSize,
 			@RequestParam("page") Optional<Integer> page, Authentication authentication) {
+		Define define = new Define();
 		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
-			int evalPageSize = pageSize.orElse(Define.INITIAL_PAGE_SIZE);
-			int evalPage = (page.orElse(0) < 1) ? Define.INITIAL_PAGE : page.get() - 1;
+			int evalPageSize = pageSize.orElse(define.getInitialPageSize());
+			int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
 			Page<Book> listBook = bookService.findAllPageable(PageRequest.of(evalPage, evalPageSize));
-			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), Define.BUTTONS_TO_SHOW);
+			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(),define.getButtonToShow());
 			model.addAttribute("listBook", listBook);
 			model.addAttribute("selectedPageSize", evalPageSize);
-			model.addAttribute("pageSizes", Define.PAGE_SIZES);
+			model.addAttribute("pageSizes", define.getPageSize());
 			model.addAttribute("pager", pager);
 			User userLogin = userService.findByEmail(principal.getName());
 			model.addAttribute("userLogin",userLogin);
 		} else {
-			int evalPageSize = pageSize.orElse(Define.INITIAL_PAGE_SIZE);
-			int evalPage = (page.orElse(0) < 1) ? Define.INITIAL_PAGE : page.get() - 1;
+			int evalPageSize = pageSize.orElse(define.getInitialPageSize());
+			int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
 			Page<Book> listBook = bookService.findByEnabled(1,PageRequest.of(evalPage, evalPageSize));
-			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), Define.BUTTONS_TO_SHOW);
+			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), define.getButtonToShow());
 
 			model.addAttribute("listBook", listBook);
 			model.addAttribute("selectedPageSize", evalPageSize);
-			model.addAttribute("pageSizes", Define.PAGE_SIZES);
+			model.addAttribute("pageSizes",define.getPageSize());
 			model.addAttribute("pager", pager);
 			model.addAttribute("userLogin",new User());
 		}
@@ -120,19 +121,18 @@ public class AdminIndexController {
 	@RequestMapping(value = "/myBook", method = RequestMethod.GET)
 	public String showMyBook(Model model, Principal principal,@RequestParam("pageSize") Optional<Integer> pageSize,
 			@RequestParam("page") Optional<Integer> page) {
+		Define define = new Define();
 		String emailLogin = principal.getName();
 		User userLogin = userService.findByEmail(emailLogin);
-		int evalPageSize = pageSize.orElse(Define.INITIAL_PAGE_SIZE);
-		int evalPage = (page.orElse(0) < 1) ? Define.INITIAL_PAGE : page.get() - 1;
+		int evalPageSize = pageSize.orElse( define.getInitialPageSize());
+		int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
 		Page<Book> listMyBook = bookService.findByIdUser(userLogin.getIdUser(),PageRequest.of(evalPage, evalPageSize));
-		Pager pager = new Pager(listMyBook.getTotalPages(), listMyBook.getNumber(), Define.BUTTONS_TO_SHOW);
+		Pager pager = new Pager(listMyBook.getTotalPages(), listMyBook.getNumber(), define.getButtonToShow());
 
 		model.addAttribute("listBook", listMyBook);
 		model.addAttribute("selectedPageSize", evalPageSize);
-		model.addAttribute("pageSizes", Define.PAGE_SIZES);
+		model.addAttribute("pageSizes", define.getPageSize());
 		model.addAttribute("pager", pager);
-		// view all book of user
-		//List<Book> listMyBook = bookService.findByIdUser(userLogin.getIdUser());
 		model.addAttribute("listBook", listMyBook);
 		return "/admin/myBook";
 	}

@@ -58,5 +58,10 @@ public class BookService {
 		return bookRepository.findByIdUser(idUser,pageable);
 	}
 
+//	public Page<Book> findByIdUserPageable(int idUser, PageRequest of) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
 
 }

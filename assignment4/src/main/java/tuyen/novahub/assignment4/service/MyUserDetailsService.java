@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import org.springframework.stereotype.Service;
 
-import tuyen.novahub.assignment4.model.MyUserDetails;
+import tuyen.novahub.assignment4.common.MyUserDetails;
 import tuyen.novahub.assignment4.model.User;
 import tuyen.novahub.assignment4.repository.RoleRepository;
 import tuyen.novahub.assignment4.repository.UserRepository;

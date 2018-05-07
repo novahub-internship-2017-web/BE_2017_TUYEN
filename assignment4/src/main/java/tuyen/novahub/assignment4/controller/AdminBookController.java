@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import tuyen.novahub.assignment4.define.Define;
+import tuyen.novahub.assignment4.common.Define;
+import tuyen.novahub.assignment4.common.Pager;
 import tuyen.novahub.assignment4.model.Book;
 import tuyen.novahub.assignment4.model.BookDelete;
 import tuyen.novahub.assignment4.model.Comment;
 import tuyen.novahub.assignment4.model.CommentDelete;
-import tuyen.novahub.assignment4.model.Pager;
 import tuyen.novahub.assignment4.model.User;
 import tuyen.novahub.assignment4.service.BookDeleteService;
 import tuyen.novahub.assignment4.service.BookService;
@@ -127,8 +127,8 @@ public class AdminBookController {
 	public Book showEditMyBook(Model model, @PathVariable int idBook, Principal principal) {
 		int idUserLogin = userService.findByEmail(principal.getName()).getIdUser();
 		Book editBook = bookService.findByIdBook(idBook);
-		System.out.println("idLogin: "+idUserLogin);
-		System.out.println("idUserBook: "+editBook.getIdUser());
+		System.out.println("idLogin: " + idUserLogin);
+		System.out.println("idUserBook: " + editBook.getIdUser());
 		if (idUserLogin == editBook.getIdUser()) {
 			return bookService.findByIdBook(idBook);
 		} else {
@@ -185,9 +185,10 @@ public class AdminBookController {
 			return null;
 		}
 	}
-	
+
 	@RequestMapping(value = "/admin/changeStatusMyBook/{idBook}", method = RequestMethod.GET)
-	public List<Book> changeStatusMyBook(Principal principal,Model model, @PathVariable int idBook, @RequestParam int enabled) {
+	public List<Book> changeStatusMyBook(Principal principal, Model model, @PathVariable int idBook,
+			@RequestParam int enabled) {
 		Book changeBook = bookService.findByIdBook(idBook);
 		int idUserLogin = userService.findByEmail(principal.getName()).getIdUser();
 		if (enabled == 0) {
@@ -200,52 +201,61 @@ public class AdminBookController {
 		bookService.save(changeBook);
 		return bookService.findByIdUser(idUserLogin);
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/listBook", method = RequestMethod.GET)
 	public Page<Book> showListBookPageJson(Model model, @RequestParam("pageSize") Optional<Integer> pageSize,
 			@RequestParam("page") Optional<Integer> page, Authentication authentication) {
+		Define define = new Define();
 		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
-			// if admin login then redirect all book
-			// Evaluate page size. If requested parameter is null, return initial
-			// page size
-			int evalPageSize = pageSize.orElse(Define.INITIAL_PAGE_SIZE);
-			// Evaluate page. If requested parameter is null or less than 0 (to
-			// prevent exception), return initial size. Otherwise, return value of
-			// param. decreased by 1.
-			int evalPage = (page.orElse(0) < 1) ? Define.INITIAL_PAGE : page.get() - 1;
+			int evalPageSize = pageSize.orElse(define.getInitialPageSize());
+			int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
 			Page<Book> listBook = bookService.findAllPageable(PageRequest.of(evalPage, evalPageSize));
-			System.out.println("list: "+listBook.getSize());
-			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), Define.BUTTONS_TO_SHOW);
+			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), define.getButtonToShow());
 
 			model.addAttribute("listBook", listBook);
 			model.addAttribute("selectedPageSize", evalPageSize);
-			model.addAttribute("pageSizes", Define.PAGE_SIZES);
+			model.addAttribute("pageSizes", define.getPageSize());
 			model.addAttribute("pager", pager);
 			return listBook;
 		} else {
-			int evalPageSize = pageSize.orElse(Define.INITIAL_PAGE_SIZE);
-			int evalPage = (page.orElse(0) < 1) ? Define.INITIAL_PAGE : page.get() - 1;
-			Page<Book> listBook = bookService.findByEnabled(1,PageRequest.of(evalPage, evalPageSize));
-			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), Define.BUTTONS_TO_SHOW);
+			int evalPageSize = pageSize.orElse(define.getInitialPageSize());
+			int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
+			Page<Book> listBook = bookService.findByEnabled(1, PageRequest.of(evalPage, evalPageSize));
+			Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), define.getButtonToShow());
 			model.addAttribute("listBook", listBook);
 			model.addAttribute("selectedPageSize", evalPageSize);
-			model.addAttribute("pageSizes", Define.PAGE_SIZES);
+			model.addAttribute("pageSizes", define.getPageSize());
 			model.addAttribute("pager", pager);
 			return listBook;
 		}
-		
+
 	}
-	
+
 	@RequestMapping(value = "/allBooks", method = RequestMethod.GET)
 	public List<Book> showAllBooks(Authentication authentication) {
-		if(authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
 			return bookService.findAll();
-		}else {
+		} else {
 			return bookService.findByEnabled(1);
 		}
-		
-		
+
 	}
+
+	@RequestMapping(value = "/listMyBook", method = RequestMethod.GET)
+	public Page<Book> showListMyBook(Model model, @RequestParam("pageSize") Optional<Integer> pageSize,
+			@RequestParam("page") Optional<Integer> page, Authentication authentication) {
+		User userLogin = userService.findByEmail(authentication.getName());
+		Define define = new Define();
+		int evalPageSize = pageSize.orElse(define.getInitialPageSize());
+		int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
+		Page<Book> listBook = bookService.findByIdUser(userLogin.getIdUser(),PageRequest.of(evalPage, evalPageSize));
+		Pager pager = new Pager(listBook.getTotalPages(), listBook.getNumber(), define.getButtonToShow());
+
+		model.addAttribute("listBook", listBook);
+		model.addAttribute("selectedPageSize", evalPageSize);
+		model.addAttribute("pageSizes", define.getPageSize());
+		model.addAttribute("pager", pager);
+		return listBook;
+	}
+
 }

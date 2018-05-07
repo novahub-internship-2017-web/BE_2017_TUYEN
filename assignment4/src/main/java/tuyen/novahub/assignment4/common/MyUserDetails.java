@@ -1,4 +1,4 @@
-package tuyen.novahub.assignment4.model;
+package tuyen.novahub.assignment4.common;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,6 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
+
+import tuyen.novahub.assignment4.model.User;
 
 public class MyUserDetails extends User implements UserDetails {
 	
