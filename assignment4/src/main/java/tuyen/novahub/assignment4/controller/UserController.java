@@ -61,29 +61,32 @@ public class UserController {
 	@RequestMapping(value = "/admin/deleteUser/{idUser}", method = RequestMethod.DELETE)
 	public List<User> deleteUserJson(Model model, @PathVariable int idUser) {
 		User objUser = userService.findByIdUser(idUser);
-		UserDelete userDelete = new UserDelete(objUser.getIdUser(), objUser.getEmail(), objUser.getPassword(),
-				objUser.getFirstName(), objUser.getLastName(), 0, objUser.getAvatar(), objUser.getIdRole());
-		userDeleteService.save(userDelete);
-		BookDelete bookDelete = new BookDelete();
-		// find allBook of user need delete by idUser, add allBook in book_delete
-		List<Book> listBook = bookService.findByIdUser(idUser);
-		for (Book objBook : listBook) {
-			bookDelete = new BookDelete(objBook.getIdBook(), objBook.getTitle(), objBook.getAuthor(),
-					objBook.getDescription(), objBook.getCreatedAt(), objBook.getUpdatedAt(), objBook.getImage(),
-					objBook.getEnabled(), idUser);
-			bookDeleteService.save(bookDelete);
+		if(objUser.getEmail() == "admin@gmail.com") {
+			UserDelete userDelete = new UserDelete(objUser.getIdUser(), objUser.getEmail(), objUser.getPassword(),
+					objUser.getFirstName(), objUser.getLastName(), 0, objUser.getAvatar(), objUser.getIdRole());
+			userDeleteService.save(userDelete);
+			BookDelete bookDelete = new BookDelete();
+			// find allBook of user need delete by idUser, add allBook in book_delete
+			List<Book> listBook = bookService.findByIdUser(idUser);
+			for (Book objBook : listBook) {
+				bookDelete = new BookDelete(objBook.getIdBook(), objBook.getTitle(), objBook.getAuthor(),
+						objBook.getDescription(), objBook.getCreatedAt(), objBook.getUpdatedAt(), objBook.getImage(),
+						objBook.getEnabled(), idUser);
+				bookDeleteService.save(bookDelete);
+			}
+
+			// find all comment of user need delete, add allComment of user this in
+			// comment_delete
+			List<Comment> listComment = commentService.findByIdUser(idUser);
+			for (Comment objComment : listComment) {
+				CommentDelete commentDelete = new CommentDelete(objComment.getIdComment(), objComment.getMessage(), idUser,
+						objComment.getIdBook(), objComment.getCreatedComment(), objComment.getUpdatedComment());
+				commentDeleteService.save(commentDelete);
+			}
+			// delete user
+			userService.deleteByIdUser(objUser.getIdUser());
 		}
 
-		// find all comment of user need delete, add allComment of user this in
-		// comment_delete
-		List<Comment> listComment = commentService.findByIdUser(idUser);
-		for (Comment objComment : listComment) {
-			CommentDelete commentDelete = new CommentDelete(objComment.getIdComment(), objComment.getMessage(), idUser,
-					objComment.getIdBook(), objComment.getCreatedComment(), objComment.getUpdatedComment());
-			commentDeleteService.save(commentDelete);
-		}
-		// delete user
-		userService.deleteByIdUser(objUser.getIdUser());
 		return userService.findAll();
 	}
 
@@ -101,6 +104,10 @@ public class UserController {
 		} else {
 			newUser.setPassword(BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt()));
 		}
+		if(editUser.getEmail() == "admin@gmail.com") {
+			//do not allow change role admin with account admin@gmail.com
+			newUser.setIdRole(0);
+		}
 		newUser.setEnabled(editUser.getEnabled());
 		newUser.setAvatar(editUser.getAvatar());
 		userService.save(newUser);
@@ -110,16 +117,21 @@ public class UserController {
 	@RequestMapping(value = "/admin/changeStatus/{idUser}", method = RequestMethod.GET)
 	public List<User> changeStatus(Model model, @PathVariable int idUser, @RequestParam int enabled) {
 		User changeUser = userService.findByIdUser(idUser);
-		if (enabled == 0) {
-			changeUser.setEnabled(1);
-		} else {
-			if (enabled == 1) {
-				changeUser.setEnabled(0);
+		if(changeUser.getEmail() == "admin@gmail.com") {
+			return userService.findAll();
+		}else {
+			if (enabled == 0) {
+				changeUser.setEnabled(1);
+			} else {
+				if (enabled == 1) {
+					changeUser.setEnabled(0);
+				}
 			}
-		}
 
-		userService.save(changeUser);
-		return userService.findAll();
+			userService.save(changeUser);
+			return userService.findAll();
+		}
+		
 	}
 
 	@RequestMapping(value = { "/checkEmail" }, method = RequestMethod.POST)
@@ -162,12 +174,10 @@ public class UserController {
 		int idUserLogin = userLogin.getIdUser();
 		if (BCrypt.checkpw(oldPassword, userLogin.getPassword())) {
 			// true
-			System.out.println("true");
 			userLogin.setPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
 			userService.save(userLogin);
 			return userService.findByIdUser(idUserLogin);
 		} else {
-			System.out.println("false");
 			return null;
 		}
 

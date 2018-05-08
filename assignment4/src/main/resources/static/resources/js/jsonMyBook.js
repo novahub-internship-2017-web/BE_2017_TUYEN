@@ -2,6 +2,9 @@ $(document).ready(function () {
     getMyBooks($('#pageSizeSelect').val(),1);
 });
 
+var properties_ = "Title";
+var direction_ = "ASC";
+
 
 function changePageAndSize() {
 	var key = $('#keyword').val();
@@ -15,7 +18,25 @@ function changePageAndSize() {
 	
 }
 
+function sortTable(typeSort) {
+	if(typeSort == 0){
+		//sort by title
+		properties_ = "Title";
+	}else{
+		//sort by author
+		properties_ = "Author";
+	}
+	if(direction_ == "ASC"){
+		direction_ = "DESC";
+	}else{
+		direction_ = "ASC";
+	}
+
+	getMyBooks($('#pageSizeSelect').val(),1);
+}
+
 function getMyBooks(pageSize_,page_) {
+
 	var url = "/myBook?pageSize="+pageSize_+"&page="+page_ ;
 	if(page_ != 1){
 		window.history.pushState(null, null, url);
@@ -28,7 +49,9 @@ function getMyBooks(pageSize_,page_) {
         timeout: 100000,
         data : {
 			pageSize : pageSize_,
-			page: page_
+			page: page_,
+			properties:properties_, 
+			direction: direction_,
 		},
         success: function (data) {
 			var colUser = "";
@@ -43,13 +66,14 @@ function getMyBooks(pageSize_,page_) {
 					+ '<tbody>'
 					+ '<tr>'
 					+ '<th><i class=""></i>Index</th>'
-					+ '<th><i class=""></i>Title</th>'
-					+ '<th><i class=""></i>Author</th>'
+					+ '<th><a onclick="sortTable(0)"><i class="glyphicon glyphicon-sort"></i>Title</a></th>'
+					+ '<th><a onclick="sortTable(1)"><i class="glyphicon glyphicon-sort"></i>Author</a></th>'
 					+ '<th><i class=""></i>Date created</th>'
 					+ '<th><i class=""></i>Date updated</th>'
 					+ '<th><i class=""></i>Status</th>'
 					+ '<th><i class=""></i>Action</th>'
 					+ ' </tr>';
+			if(data.content.length > 0){
 			for (var i = 0; i < data.content.length; i++) {
 				var check = 'checked="checked"';
 				var status = "Approved";
@@ -86,7 +110,10 @@ function getMyBooks(pageSize_,page_) {
 			var totalPages = data.totalPages;
 			var pageSize = data.size;
 			var currentPage = page_;
-			pageMyBooks(totalPages,pageSize,currentPage);
+			pageMyBooks(totalPages,pageSize,currentPage);}
+		else{
+			$('#result').html("No data");
+		}
         }
     });
 }
@@ -265,9 +292,15 @@ function deleteMyBook(idBook) {
 					contentType : "application/json",
 					dataType : 'json',
 					success : function(data) {
-						getMyBooks($('#pageSizeSelect').val(),1);
-						$('#msgResult').html('Successfully deleted book!');
-						setTimeout(function(){ $('#msgResult').html('')},2000);
+						if(data == 1){
+							getMyBooks($('#pageSizeSelect').val(),1);
+							$('#msgResult').html('Successfully deleted book!');
+							setTimeout(function(){ $('#msgResult').html('')},2000);
+						}else{
+							$('#msgResult').html('Error');
+							setTimeout(function(){ $('#msgResult').html('')},2000);
+						}
+						
 					},
 					error : function() {
 						$('#msgResult').html('Error');
@@ -307,8 +340,25 @@ $("#formSearch").submit(function(event) {
 	}
 });
 
+
+function sortSearch(typeSort) {
+	if(typeSort == 0){
+		//sort by title
+		properties_ = "Title";
+	}else{
+		//sort by author
+		properties_ = "Author";
+	}
+	if(direction_ == "ASC"){
+		direction_ = "DESC";
+	}else{
+		direction_ = "ASC";
+	}
+
+	searchMyBook($('#pageSizeSelect').val(),1);
+}
+
 function searchMyBook(pageSize_,page_){
-	alert("search");
 	var key = $('#keyword').val();
 	pageSize_ = $('#pageSizeSelect').val();
 	var url = "/searchMyBook/?keyword="+key+"&pageSize="+pageSize_+"&page=1" ;
@@ -323,6 +373,8 @@ function searchMyBook(pageSize_,page_){
 			keyword : key,
 			page : page_,
 			pageSize : pageSize_,
+			properties:properties_, 
+			direction: direction_,
 		},
 		success : function(data) {
 			if(data.content.length > 0){
@@ -338,8 +390,8 @@ function searchMyBook(pageSize_,page_){
 					+ '<tbody>'
 					+ '<tr>'
 					+ '<th><i class=""></i>Index</th>'
-					+ '<th><i class=""></i>Title</th>'
-					+ '<th><i class=""></i>Author</th>'
+					+ '<th><a onclick="sortSearch(0)"> <i class="glyphicon glyphicon-sort"></i>Title</a></th>'
+					+ '<th><a onclick="sortSearch(1)"><i class="glyphicon glyphicon-sort"></i>Author</a></th>'
 					+ '<th><i class=""></i>Date created</th>'
 					+ '<th><i class=""></i>Date updated</th>'
 					+ '<th><i class=""></i>Status</th>'
@@ -379,6 +431,7 @@ function searchMyBook(pageSize_,page_){
 			title = title + '</tbody>' + '</table>';
 			$('#msgResult').html('Have '+data.totalElements+' result with keyword = '+key);
 			$('#result').html(title);
+			$('#view').show();
 			var totalPages = data.totalPages;
 			var pageSize = data.size;
 			var currentPage = data.number+1;
@@ -388,6 +441,7 @@ function searchMyBook(pageSize_,page_){
         	   $('#result').html(""); 
         	   $('#msgResult').html('No result with keyword = '+key);
         	   $('#page').html("");
+        	   $('#view').hide();
            }
 		},
 		error : function() {
@@ -399,7 +453,6 @@ function searchMyBook(pageSize_,page_){
 }
 
 function pageMySearch(totalPages,pageSize,currentPage){
-	alert("page");
 	var classFristPage = "";
 	var classPrePage = "";
 	var classLastPage = "";

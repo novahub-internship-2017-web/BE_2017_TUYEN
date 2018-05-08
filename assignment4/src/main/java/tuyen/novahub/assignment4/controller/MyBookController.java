@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,12 +53,31 @@ public class MyBookController {
 	@Autowired
 	CommentDeleteService commentDeleteService;
 
+	
+	@RequestMapping(value = "/addBook", method = RequestMethod.POST)
+	public Book addBook(Model model, @RequestBody Book newBook, Principal principal) {
+		String emailLogin = principal.getName();
+		User userLogin = userService.findByEmail(emailLogin);
+		Date date = new Date();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String st = simpleDateFormat.format(date);
+		newBook.setCreatedAt(st);
+		newBook.setUpdatedAt(st);
+		newBook.setIdUser(userLogin.getIdUser());
+		if(userLogin.getIdRole() == 0) {
+			//admin => enable
+			newBook.setEnabled(1);
+		}else {
+			newBook.setEnabled(0); // not enable
+		}
+		
+		return bookService.save(newBook);
+	}
+	
 	@RequestMapping(value = "/showEditMyBook/{idBook}", method = RequestMethod.PUT)
 	public Book showEditMyBook(Model model, @PathVariable int idBook, Principal principal) {
 		int idUserLogin = userService.findByEmail(principal.getName()).getIdUser();
 		Book editBook = bookService.findByIdBook(idBook);
-		System.out.println("idLogin: " + idUserLogin);
-		System.out.println("idUserBook: " + editBook.getIdUser());
 		if (idUserLogin == editBook.getIdUser()) {
 			return bookService.findByIdBook(idBook);
 		} else {
@@ -67,7 +87,7 @@ public class MyBookController {
 	}
 
 	@RequestMapping(value = "/editMyBook", method = RequestMethod.PUT)
-	public List<Book> editMyBook(Model model, @RequestBody Book newBook, Principal principal,
+	public Book editMyBook(Model model, @RequestBody Book newBook, Principal principal,
 			Authentication authentication) {
 		int idUserLogin = userService.findByEmail(principal.getName()).getIdUser();
 		Book editBook = bookService.findByIdBook(newBook.getIdBook());
@@ -81,7 +101,7 @@ public class MyBookController {
 			String st = simpleDateFormat.format(date);
 			newBook.setUpdatedAt(st);
 			bookService.save(newBook);
-			return bookService.findByIdUser(idUserLogin);
+			return bookService.save(newBook);
 		} else {
 			return null;
 		}
@@ -89,7 +109,7 @@ public class MyBookController {
 	}
 
 	@RequestMapping(value = "/deleteMyBook/{idBook}", method = RequestMethod.GET)
-	public List<Book> deleteMyBook(Model model, @PathVariable int idBook, Principal principal) {
+	public int deleteMyBook(Model model, @PathVariable int idBook, Principal principal) {
 		// find book by idBook
 		Book objBook = bookService.findByIdBook(idBook);
 		int idUserLogin = userService.findByEmail(principal.getName()).getIdUser();
@@ -108,53 +128,64 @@ public class MyBookController {
 						objComment.getUpdatedComment());
 				commentDeleteService.save(commentDelete);
 			}
-			bookService.deleteByIdBook(idBook);
-			return bookService.findByIdUser(idUserLogin);
+			
+			return bookService.deleteByIdBook(idBook);
 		} else {
-			return null;
+			return 0;
 		}
 	}
 
 	@RequestMapping(value = "/admin/changeStatusMyBook/{idBook}", method = RequestMethod.GET)
-	public List<Book> changeStatusMyBook(Principal principal, Model model, @PathVariable int idBook,
+	public Book changeStatusMyBook(Principal principal, Model model, @PathVariable int idBook,
 			@RequestParam int enabled) {
 		Book changeBook = bookService.findByIdBook(idBook);
-		int idUserLogin = userService.findByEmail(principal.getName()).getIdUser();
-		if (enabled == 0) {
-			changeBook.setEnabled(1);
-		} else {
-			if (enabled == 1) {
-				changeBook.setEnabled(0);
+		User userLogin = userService.findByEmail(principal.getName());
+		if(userLogin.getIdRole() == 1) {
+			if (enabled == 0) {
+				changeBook.setEnabled(1);
+			} else {
+				if (enabled == 1) {
+					changeBook.setEnabled(0);
+				}
 			}
+			bookService.save(changeBook);
+			return bookService.save(changeBook);
+		}else {
+			return null;
 		}
-		bookService.save(changeBook);
-		return bookService.findByIdUser(idUserLogin);
+		
 	}
 
 	@RequestMapping(value = "/listMyBook", method = RequestMethod.GET)
 	public Page<Book> showListMyBook(Model model, @RequestParam("pageSize") Optional<Integer> pageSize,
-			@RequestParam("page") Optional<Integer> page, Authentication authentication) {
+			@RequestParam("page") Optional<Integer> page, Authentication authentication,
+			@RequestParam("direction") Direction direction, @RequestParam("properties") String properties) {
 		User userLogin = userService.findByEmail(authentication.getName());
 		Define define = new Define();
 		int evalPageSize = pageSize.orElse(define.getInitialPageSize());
 		int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
-		Page<Book> listBook = bookService.findByIdUser(userLogin.getIdUser(), PageRequest.of(evalPage, evalPageSize));
-
-		model.addAttribute("listBook", listBook);
-		model.addAttribute("selectedPageSize", evalPageSize);
-		return listBook;
+		if (direction == null || properties == null) {
+			direction = Direction.DESC;
+			properties = "Title";
+		}
+		return bookService.findByIdUser(userLogin.getIdUser(),
+				PageRequest.of(evalPage, evalPageSize, direction, properties));
 	}
 
 	@RequestMapping(value = "/searchMyBook", method = RequestMethod.GET)
 	public Page<Book> searchBook(@RequestParam("pageSize") Optional<Integer> pageSize,
 			@RequestParam("page") Optional<Integer> page, Authentication authentication, Model model,
-			@RequestParam("keyword") String keyword) {
+			@RequestParam("keyword") String keyword,@RequestParam("direction") Direction direction, @RequestParam("properties") String properties) {
 		User userLogin = userService.findByEmail(authentication.getName());
 		Define define = new Define();
 		int evalPageSize = pageSize.orElse(define.getInitialPageSize());
 		int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
+		if (direction == null || properties == null) {
+			direction = Direction.DESC;
+			properties = "Title";
+		}
 		return bookService.findByAuthorContainingAndIdUserOrTitleContainingAndIdUser(keyword, userLogin.getIdUser(),
-				keyword, userLogin.getIdUser(), PageRequest.of(evalPage, evalPageSize));
+				keyword, userLogin.getIdUser(), PageRequest.of(evalPage, evalPageSize,direction, properties));
 	}
 
 }

@@ -3,17 +3,20 @@ $(document).ready(function () {
 });
 
 function addCommentLine(data) {
-    var comment = $("<div>");
+    var comment = $('<div style="color:#000">');
     var commentOwner = $("<div>");
-    var commentContent = $("<div>");
+    var dateComment = $('<div style="font-size: 10px;">');
+    var commentContent = $('<div style="font-size:  20px; color: #3e5f64;">');
 
     commentOwner.html(data.user.lastName);
+    dateComment.html(data.createdComment);
     commentContent.html(data.message);
 
     commentOwner.addClass("user");
     commentContent.addClass("comment-content");
 
     comment.append(commentOwner);
+    comment.append(dateComment);
     comment.append(commentContent);
     comment.addClass("col col-md-12 comment");
     

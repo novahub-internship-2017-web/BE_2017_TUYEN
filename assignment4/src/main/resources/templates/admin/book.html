@@ -53,9 +53,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
         <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
       </div>
 
-      <!--logo start-->
       <a href="/" class="logo">Books <span class="lite"> Management</span></a>
-      <!--logo end-->
 
       <div class="nav search-row" id="top_menu">
         <!--  search form start -->
@@ -70,7 +68,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
       </div>
 
       <div class="top-nav notification-row">
-        <!-- notificatoin dropdown start-->
         <ul class="nav pull-right top-menu">
 		  <li class="dropdown" sec:authorize="isAnonymous()">
             <a class="" href="#" onclick="document.getElementById('viewFormSignUp').style.display='block'"><i class="icon_pencil-edit"></i> Sign up
@@ -80,7 +77,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
             <a href="/show-login"><i class="icon_lock_alt" ></i> Sign in
             </a>
           </li>
-          <!-- user login dropdown start-->
           <li class="dropdown" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="profile-ava">
@@ -90,7 +86,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
                             <b class="caret"></b>
                         </a>
             <ul class="dropdown-menu extended logout">
-              <!-- <div class="log-arrow-up"></div> -->
                <li class="eborder-top">
                 <a href="#" onclick="showEditUserLogin()"><i class="icon_profile"></i>MY PROFILE</a>
               </li>
@@ -102,17 +97,12 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
               </li>
             </ul>
           </li>
-          <!-- user login dropdown end -->
         </ul>
-        <!-- notificatoin dropdown end-->
       </div>
     </header>
-    <!--header end-->
 
-    <!--sidebar start-->
     <aside sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
       <div id="sidebar" class="nav-collapse ">
-        <!-- sidebar menu start-->
         <ul class="sidebar-menu">
           <li class="" sec:authorize="hasAnyRole('ROLE_ADMIN')">
             <a class="" href="/admin/allUser">
@@ -140,10 +130,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
           </li>
 
         </ul>
-        <!-- sidebar menu end-->
       </div>
     </aside>
-
     <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
@@ -173,7 +161,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
         <!-- page end-->
          
      <div class="row">
-          <div class="form-group col-md-1">
+          <div class="form-group col-md-1" id="view">
             <select class="form-control pagination" id="pageSizeSelect" onclick="changePageAndSize()">
                 <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}" th:value="${pageSize}"
                         th:selected="${pageSize} == ${selectedPageSize}"></option>

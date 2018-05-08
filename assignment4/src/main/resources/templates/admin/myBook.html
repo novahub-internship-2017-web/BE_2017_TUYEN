@@ -150,7 +150,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
         </div>
         <!-- page end-->
          <div class="row">
-        <div class="form-group col-md-1">
+        <div class="form-group col-md-1" id="view">
             <select class="form-control pagination" id="pageSizeSelect" onclick="changePageAndSize()">
                 <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}" th:value="${pageSize}"
                         th:selected="${pageSize} == ${selectedPageSize}"></option>
