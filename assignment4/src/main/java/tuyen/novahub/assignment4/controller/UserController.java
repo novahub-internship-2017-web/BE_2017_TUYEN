@@ -30,7 +30,7 @@ import tuyen.novahub.assignment4.service.UserDeleteService;
 import tuyen.novahub.assignment4.service.UserService;
 
 @RestController
-public class AdminUserController {
+public class UserController {
 
 	@Autowired
 	UserService userService;

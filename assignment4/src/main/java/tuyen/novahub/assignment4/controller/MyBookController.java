@@ -32,7 +32,7 @@ import tuyen.novahub.assignment4.service.UserDeleteService;
 import tuyen.novahub.assignment4.service.UserService;
 
 @RestController
-public class AdminBookController {
+public class MyBookController {
 
 	@Autowired
 	UserService userService;
@@ -51,76 +51,6 @@ public class AdminBookController {
 
 	@Autowired
 	CommentDeleteService commentDeleteService;
-
-	@RequestMapping(value = "/addBook", method = RequestMethod.POST)
-	public List<Book> addBook(Model model, @RequestBody Book newBook, Principal principal) {
-		String emailLogin = principal.getName();
-		User userLogin = userService.findByEmail(emailLogin);
-		Date date = new Date();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String st = simpleDateFormat.format(date);
-		newBook.setCreatedAt(st);
-		newBook.setUpdatedAt(st);
-		newBook.setIdUser(userLogin.getIdUser());
-		newBook.setEnabled(0); // not enable
-		bookService.save(newBook);
-		return bookService.findByIdUser(userLogin.getIdUser());
-	}
-
-	@RequestMapping(value = "/admin/showEditBook/{idBook}", method = RequestMethod.PUT)
-	public Book showEditBook(Model model, @PathVariable int idBook) {
-		return bookService.findByIdBook(idBook);
-	}
-
-	@RequestMapping(value = "/admin/editBook", method = RequestMethod.PUT)
-	public List<Book> editBook(Model model, @RequestBody Book newBook) {
-		Book editBook = bookService.findByIdBook(newBook.getIdBook());
-		newBook.setEnabled(editBook.getEnabled());
-		newBook.setImage(editBook.getImage());
-		newBook.setCreatedAt(editBook.getCreatedAt());
-		Date date = new Date();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String st = simpleDateFormat.format(date);
-		newBook.setUpdatedAt(st);
-		bookService.save(newBook);
-		return bookService.findAll();
-	}
-
-	@RequestMapping(value = "/admin/deleteBook/{idBook}", method = RequestMethod.GET)
-	public List<Book> deleteBook(Model model, @PathVariable int idBook) {
-		// find book by idBook
-		Book objBook = bookService.findByIdBook(idBook);
-		// add book in book_delete
-		BookDelete bookDelete = new BookDelete(objBook.getIdBook(), objBook.getTitle(), objBook.getAuthor(),
-				objBook.getDescription(), objBook.getCreatedAt(), objBook.getUpdatedAt(), objBook.getImage(),
-				objBook.getEnabled(), objBook.getIdUser());
-		bookDeleteService.save(bookDelete);
-
-		// find all comment by IdBook and add this in comment_delete
-		List<Comment> listComment = commentService.findByIdBook(idBook);
-		for (Comment objComment : listComment) {
-			CommentDelete commentDelete = new CommentDelete(objComment.getIdComment(), objComment.getMessage(),
-					objComment.getIdUser(), objComment.getIdBook(), objComment.getCreatedComment(),
-					objComment.getUpdatedComment());
-			commentDeleteService.save(commentDelete);
-		}
-		bookService.deleteByIdBook(idBook);
-		return bookService.findAll();
-	}
-
-	@RequestMapping(value = "/admin/changeStatusBook/{idBook}", method = RequestMethod.GET)
-	public List<Book> changeStatus(Model model, @PathVariable int idBook, @RequestParam int enabled) {
-		Book changeBook = bookService.findByIdBook(idBook);
-		if (enabled == 0) {
-			changeBook.setEnabled(1);
-		} else {
-			if (enabled == 1) {
-				changeBook.setEnabled(0);
-			}
-		}
-		bookService.save(changeBook);
-		return bookService.findAll();
-	}
 
 	@RequestMapping(value = "/showEditMyBook/{idBook}", method = RequestMethod.PUT)
 	public Book showEditMyBook(Model model, @PathVariable int idBook, Principal principal) {
@@ -201,38 +131,6 @@ public class AdminBookController {
 		return bookService.findByIdUser(idUserLogin);
 	}
 
-	@RequestMapping(value = "/listBook", method = RequestMethod.GET)
-	public Page<Book> showListBookPageJson(Model model, @RequestParam("pageSize") Optional<Integer> pageSize,
-			@RequestParam("page") Optional<Integer> page, Authentication authentication) {
-		Define define = new Define();
-		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
-			int evalPageSize = pageSize.orElse(define.getInitialPageSize());
-			int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
-			Page<Book> listBook = bookService.findAllPageable(PageRequest.of(evalPage, evalPageSize));
-			model.addAttribute("selectedPageSize", evalPageSize);
-			model.addAttribute("pageSizes", define.getPageSize());
-			return listBook;
-		} else {
-			int evalPageSize = pageSize.orElse(define.getInitialPageSize());
-			int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
-			Page<Book> listBook = bookService.findByEnabled(1, PageRequest.of(evalPage, evalPageSize));
-			model.addAttribute("selectedPageSize", evalPageSize);
-			model.addAttribute("pageSizes", define.getPageSize());
-			return listBook;
-		}
-
-	}
-
-	@RequestMapping(value = "/allBooks", method = RequestMethod.GET)
-	public List<Book> showAllBooks(Authentication authentication) {
-		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
-			return bookService.findAll();
-		} else {
-			return bookService.findByEnabled(1);
-		}
-
-	}
-
 	@RequestMapping(value = "/listMyBook", method = RequestMethod.GET)
 	public Page<Book> showListMyBook(Model model, @RequestParam("pageSize") Optional<Integer> pageSize,
 			@RequestParam("page") Optional<Integer> page, Authentication authentication) {
@@ -247,24 +145,16 @@ public class AdminBookController {
 		return listBook;
 	}
 
-	@RequestMapping(value = "/searchBook", method = RequestMethod.GET)
+	@RequestMapping(value = "/searchMyBook", method = RequestMethod.GET)
 	public Page<Book> searchBook(@RequestParam("pageSize") Optional<Integer> pageSize,
 			@RequestParam("page") Optional<Integer> page, Authentication authentication, Model model,
 			@RequestParam("keyword") String keyword) {
-		if (authentication != null && authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
-			Define define = new Define();
-			int evalPageSize = pageSize.orElse(define.getInitialPageSize());
-			int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
-
-			return bookService.findByAuthorContainingOrTitleContaining(keyword, keyword,
-					PageRequest.of(evalPage, evalPageSize));
-		} else {
-			Define define = new Define();
-			int evalPageSize = pageSize.orElse(define.getInitialPageSize());
-			int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
-			return bookService.findByAuthorContainingAndEnabledOrTitleContainingAndEnabled(keyword,1,keyword, 1,
-					PageRequest.of(evalPage, evalPageSize));
-		}
+		User userLogin = userService.findByEmail(authentication.getName());
+		Define define = new Define();
+		int evalPageSize = pageSize.orElse(define.getInitialPageSize());
+		int evalPage = (page.orElse(0) < 1) ? define.getInitialPage() : page.get() - 1;
+		return bookService.findByAuthorContainingAndIdUserOrTitleContainingAndIdUser(keyword, userLogin.getIdUser(),
+				keyword, userLogin.getIdUser(), PageRequest.of(evalPage, evalPageSize));
 	}
 
 }

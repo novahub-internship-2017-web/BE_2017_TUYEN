@@ -3,6 +3,18 @@ $(document).ready(function () {
 });
 
 
+function changePageAndSize() {
+	var key = $('#keyword').val();
+	var pageSize = $('#pageSizeSelect').val();
+	if(key.length<1){
+		window.history.pushState(null, null, '/');
+		getMyBooks(pageSize,1);
+	}else{
+		searchMyBook(pageSize,1);
+	}
+	
+}
+
 function getMyBooks(pageSize_,page_) {
 	var url = "/myBook?pageSize="+pageSize_+"&page="+page_ ;
 	if(page_ != 1){
@@ -30,7 +42,7 @@ function getMyBooks(pageSize_,page_) {
 			var title = '<table class="table table-striped table-advance table-hover">'
 					+ '<tbody>'
 					+ '<tr>'
-					+ '<th><i class="">Index</th>'
+					+ '<th><i class=""></i>Index</th>'
 					+ '<th><i class=""></i>Title</th>'
 					+ '<th><i class=""></i>Author</th>'
 					+ '<th><i class=""></i>Date created</th>'
@@ -287,4 +299,159 @@ function changeStatusMyBook(idBook, st) {
 			setTimeout(function(){ $('#msgResult').html('')},2000);
 		}
 	});
+}
+$("#formSearch").submit(function(event) {
+	event.preventDefault(); // no submit
+	if ($("#formSearch").valid()) {
+		searchMyBook(5,1);
+	}
+});
+
+function searchMyBook(pageSize_,page_){
+	alert("search");
+	var key = $('#keyword').val();
+	pageSize_ = $('#pageSizeSelect').val();
+	var url = "/searchMyBook/?keyword="+key+"&pageSize="+pageSize_+"&page=1" ;
+	window.history.pushState(null, null, url);
+	$.ajax({
+		url : "/searchMyBook/",
+		type : "GET",
+		cache : false,
+		contentType : "application/json",
+		dataType : 'json',
+		data : {
+			keyword : key,
+			page : page_,
+			pageSize : pageSize_,
+		},
+		success : function(data) {
+			if(data.content.length > 0){
+			var colUser = "";
+			var colAdmin = "";
+			var rs = $('#checkUser').val();
+			if(rs != "isUser"){
+				colUser = 'class="hidden"';
+			}else{
+				colAdmin = 'class="hidden"';
+			}
+			var title = '<table class="table table-striped table-advance table-hover">'
+					+ '<tbody>'
+					+ '<tr>'
+					+ '<th><i class=""></i>Index</th>'
+					+ '<th><i class=""></i>Title</th>'
+					+ '<th><i class=""></i>Author</th>'
+					+ '<th><i class=""></i>Date created</th>'
+					+ '<th><i class=""></i>Date updated</th>'
+					+ '<th><i class=""></i>Status</th>'
+					+ '<th><i class=""></i>Action</th>'
+					+ ' </tr>';
+			for (var i = 0; i < data.content.length; i++) {
+				var check = 'checked="checked"';
+				var status = "Approved";
+				if(data.content[i].enabled == 0){
+					status = "Waiting";
+					check = null;
+				}
+				var row = '<tr>' 
+							+ '<td>'+i+'</td>'
+							+ '<td>'+ data.content[i].title + '</td>'
+							+ '<td>'+ data.content[i].author + '</td>'
+							+ '<td>'+ data.content[i].createdAt	+ '</td>'
+							+ '<td>'+ data.content[i].updatedAt	+ '</td>'
+							+ '<td '+colUser+'>'+ status+ '</td>'
+							+ '<td '+colAdmin+'>'+ '<input type="checkbox" '+ check
+								+ ' onclick="changeStatusMyBook('+ data.content[i].idBook + ','+ data.content[i].enabled+ ')">'
+							+ '</td>'
+							+ '<td>'
+								+ '<div class="btn-group">'
+								+ '<a class="btn btn-warning"'
+								+ ' href="/detailBook/'+data.content[i].idBook+'" title="Detail!"><i class="icon_camera_alt"></i></a>'
+								+ '<a class="btn btn-success" onclick="showEditMyBook('+ data.content[i].idBook+ ')"' 
+								+ 'href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
+								+ '<a class="btn btn-danger" onclick="deleteMyBook('+ data.content[i].idBook+ ')"'
+								+ 'href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
+								+ '</div>' 
+							+ '</td>' 
+							+ '</tr>';
+				title = title + row;
+			}
+
+			title = title + '</tbody>' + '</table>';
+			$('#msgResult').html('Have '+data.totalElements+' result with keyword = '+key);
+			$('#result').html(title);
+			var totalPages = data.totalPages;
+			var pageSize = data.size;
+			var currentPage = data.number+1;
+			pageMyBooks(totalPages,pageSize,currentPage);
+        	
+           }else{
+        	   $('#result').html(""); 
+        	   $('#msgResult').html('No result with keyword = '+key);
+        	   $('#page').html("");
+           }
+		},
+		error : function() {
+			$('#msgResult').html('Error');
+			setTimeout(function(){ $('#msgResult').html('')},2000);
+		}
+	});
+	
+}
+
+function pageMySearch(totalPages,pageSize,currentPage){
+	alert("page");
+	var classFristPage = "";
+	var classPrePage = "";
+	var classLastPage = "";
+	var classNextPage = "";
+	if((currentPage - 1) == 0){
+		classFristPage = 'class="disabled"';
+		classPrePage = 'class="disabled"';
+	}
+	if(currentPage == totalPages){
+		classLastPage = 'class="disabled"';
+		classNextPage = 'class="disabled"';
+	}
+	var tmp = "";
+	var title = "";
+	var classTmp = "";
+		for(var j = 1; j <= totalPages;j++){
+			if(j == currentPage){
+				classTmp = 'class="active pointer-disabled"';
+			}else{
+				classTmp = "";
+			}
+			tmp = '<li '+classTmp+'>'
+	              	+' <a class="pageLink" href="#"'
+	              	+' onclick = "searchMyBook('+pageSize+','+j+')">'+j+'</a>'
+	               +' </li>';
+	        title = title + tmp;      
+		}
+
+   var  valuePage = '<ul class="pagination">'
+       + '<li '+classFristPage+' id="firstPage">'
+       +' <a class="pageLink" href="#" '
+       +' onclick="searchMyBook('+pageSize+',1)">&laquo;</a>'         
+       +'        </li>'
+       +'         <li '+classPrePage+' id="prePage">'
+       +'             <a class="pageLink" '
+       +'             onclick="searchMyBook('+pageSize+','+(currentPage - 1)+')" href="#">&larr;</a>'
+       +'        </li>'
+       +	title     
+       +'        <li '+classNextPage+' id="nextPage">'
+       +'            <a class="pageLink" href="#"'
+       +'               onclick="searchMyBook('+pageSize+','+(currentPage + 1)+')">&rarr;</a>'
+       +'        </li>'
+       +'        <li '+classLastPage+' id="lastPage">'
+       +'            <a class="pageLink" href="#"'
+       +'            	onclick="searchMyBook('+pageSize+','+totalPages+')">&raquo;</a>'
+       +'       </li>'
+       +'   </ul>';
+
+	if(totalPages != 1){
+		$('#page').html(valuePage);
+	}else{
+		$('#page').html("");
+	}
+	
 }

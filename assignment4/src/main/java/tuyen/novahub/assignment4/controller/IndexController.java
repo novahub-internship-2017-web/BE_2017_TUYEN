@@ -22,7 +22,7 @@ import tuyen.novahub.assignment4.service.CommentService;
 import tuyen.novahub.assignment4.service.UserService;
 
 @Controller
-public class AdminIndexController {
+public class IndexController {
 
 	@Autowired
 	UserService userService;

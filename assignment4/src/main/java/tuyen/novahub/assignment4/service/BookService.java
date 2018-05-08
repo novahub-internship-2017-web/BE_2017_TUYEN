@@ -67,4 +67,10 @@ public class BookService {
 		return bookRepository.findByAuthorContainingOrTitleContaining(author, title, pageable);
 	}
 
+	public Page<Book> findByAuthorContainingAndIdUserOrTitleContainingAndIdUser(String author, int idUser, String title,
+			int idUser2, Pageable pageable) {
+		return bookRepository.findByAuthorContainingAndIdUserOrTitleContainingAndIdUser(author, idUser, title, idUser2,
+				pageable);
+	}
+
 }

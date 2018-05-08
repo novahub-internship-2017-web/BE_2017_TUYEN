@@ -23,7 +23,7 @@ import tuyen.novahub.assignment4.service.CommentService;
 import tuyen.novahub.assignment4.service.UserService;
 
 @RestController
-public class AdminCommentController {
+public class CommentController {
 	@Autowired
 	CommentService commentService;
 	

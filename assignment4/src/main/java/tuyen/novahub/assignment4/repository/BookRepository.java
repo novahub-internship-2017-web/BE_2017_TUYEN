@@ -32,4 +32,7 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
 
 	public Page<Book> findByAuthorContainingOrTitleContaining(String author, String title, Pageable pageable);
 
+	public Page<Book> findByAuthorContainingAndIdUserOrTitleContainingAndIdUser(String author, int idUser, String title,
+			int idUser2, Pageable pageable);
+
 }

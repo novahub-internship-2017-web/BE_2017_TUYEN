@@ -1,5 +1,5 @@
 package tuyen.novahub.assignment4.controller;
 
-public class AdminRoleController {
+public class RoleController {
 	
 }
