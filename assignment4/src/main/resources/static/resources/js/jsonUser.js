@@ -39,8 +39,73 @@ $("#formAddUser").submit(function(event) {
 		addUser();
 	}
 });
+ function getAllUser(){
+		$
+		.ajax({
+			type : "get",
+			contentType : "application/json",
+			dataType : 'json',
+			url : '/admin/getAllUser',
+			cache : false,
+			success : function(data) {
+				var url = "/admin/allUser";
+				window.history.pushState(null, null, url);
+				var title = '<table class="table table-striped table-advance table-hover">'
+						+ '<tbody>'
+						+ '<tr>'
+						+ '<th><i class=""></i> Full Name</th>'
+						+ '<th><i class=""></i> Email</th>'
+						+ '<th><i class=""></i> Active</th>'
+						+ '<th><i class=""></i> Role</th>'
+						+ '<th style="text-align: center;"><i class="icon_cogs"></i> Action</th>'
+						+ ' </tr>';
+				for (var i = 0; i < data.length; i++) {
+					var check = null;
+					var checkSuperAdmin = '';
+					var classDel = 'class="btn btn-danger"';
+					var nameRole = 'admin';
+					if(data[i].email == "admin@gmail.com"){
+						checkSuperAdmin = 'disabled="disabled"';
+						classDel = 'class="hidden"';
+					}
+					if (data[i].enabled == 1) {
+						check = 'checked="checked"';
+					}
+					if (data[i].idRole != 1) {
+						nameRole = 'user';
+					}
+					var row = '<tr>' 
+							+ '<td> ' + data[i].firstName+ ' '+ data[i].lastName+ ' </td>'
+							+ '<td> ' + data[i].email+ ' </td>'
+							+ '<td>'
+								+ '<input '+checkSuperAdmin+' type="checkbox" '
+								+ check
+								+ ' onclick="changeStatus('	+ data[i].idUser+ ','+ data[i].enabled+ ')">'   
+							+ '</td>'
+							+ '<td>' + nameRole	+ '</td>'
+							+ '<td style="text-align: center;">'
+								+ '<div class="btn-group">'
+									+ '<a class="btn btn-success" onclick="showEditUser('+ data[i].idUser+ ')"'
+										+ ' href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
+									+ '<a '+classDel+' onclick="return deleteUser('+ data[i].idUser+ ')"'
+										+' href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
+								+ '</div>' 
+							+ '</td>' 
+						+ '</tr>';
+					title = title + row;
+				}
+				title = title + '</tbody>' + '</table>';
+				$('#result').html(title);
+			},
+			error : function() {
+				$('#msgResult').html('error!');
+				setTimeout(function(){ $('#msgResult').html('')},2000);
+			}
+		});
+ }
+
 function addUser() {
-	var url = "/admin/addUser/";
+	var url = "/admin/addUser";
 	window.history.pushState(null, null, url);
 	var newUser = {}
 	newUser["firstName"] = $('#firstName').val();
@@ -57,65 +122,14 @@ function addUser() {
 				cache : false,
 				data : JSON.stringify(newUser),
 				success : function(data) {
-					var url = "/admin/allUser/";
-					window.history.pushState(null, null, url);
 					document.getElementById('viewFormAddUser').style.display = 'none';
-					var title = '<table class="table table-striped table-advance table-hover">'
-							+ '<tbody>'
-							+ '<tr>'
-							+ '<th><i class=""></i> Full Name</th>'
-							+ '<th><i class=""></i> Email</th>'
-							+ '<th><i class=""></i> Active</th>'
-							+ '<th><i class=""></i> Role</th>'
-							+ '<th><i class="icon_cogs"></i> Action</th>'
-							+ ' </tr>';
-					for (var i = 0; i < data.length; i++) {
-						var check = null;
-						var nameRole = 'admin';
-						if (data[i].enabled == 1) {
-							check = 'checked="checked"';
-						}
-						if (data[i].idRole != 1) {
-							nameRole = 'user';
-						}
-						var row = '<tr>' + '<td>'
-								+ data[i].firstName
-								+ ' '
-								+ data[i].lastName
-								+ '</td>'
-								+ '<td>'
-								+ data[i].email
-								+ '</td>'
-								+ '<td>'
-								+ '<input type="checkbox" '
-								+ check
-								+ ' onclick="changeStatus('
-								+ data[i].idUser
-								+ ','
-								+ data[i].enabled
-								+ ')">'
-								+ '</td>'
-								+ '<td>'
-								+ nameRole
-								+ '</td>'
-								+ '<td>'
-								+ '<div class="btn-group">'
-								+ '<a class="btn btn-success" onclick="showEditUser('
-								+ data[i].idUser
-								+ ')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
-								+ '<a class="btn btn-danger" onclick="return deleteUser('
-								+ data[i].idUser
-								+ ')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
-								+ '</div>' + '</td>' + '</tr>';
-						title = title + row;
-					}
-					title = title + '</tbody>' + '</table>';
-					$('#result').html(title);
 					$('#msgResult').html('Successfully added new user!');
+					getAllUser();
 					setTimeout(function(){ $('#msgResult').html('')},2000);
 				},
 				error : function() {
-					alert('Error adding new user!');
+					$('#msgResult').html('error!');
+					setTimeout(function(){ $('#msgResult').html('')},2000);
 				}
 			});
 }
@@ -137,60 +151,8 @@ function deleteUser(idUser) {
 					contentType : "application/json",
 					dataType : 'json',
 					success : function(data) {
-						var url = "/admin/allUser/";
-						window.history.pushState(null, null, url);
 						if (data.length > 0) {
-							var title = '<table class="table table-striped table-advance table-hover">'
-									+ '<tbody>'
-									+ '<tr>'
-									+ '<th><i class=""></i> Full Name</th>'
-									+ '<th><i class=""></i> Email</th>'
-									+ '<th><i class=""></i> Active</th>'
-									+ '<th><i class=""></i> Role</th>'
-									+ '<th><i class="icon_cogs"></i> Action</th>'
-									+ ' </tr>';
-							for (var i = 0; i < data.length; i++) {
-								var check = null;
-								var nameRole = 'admin';
-								if (data[i].enabled == 1) {
-									check = 'checked="checked"';
-								}
-								if (data[i].idRole != 1) {
-									nameRole = 'user';
-								}
-								var row = '<tr>' + '<td>'
-										+ data[i].firstName
-										+ ' '
-										+ data[i].lastName
-										+ '</td>'
-										+ '<td>'
-										+ data[i].email
-										+ '</td>'
-										+ '<td>'
-										+ '<input type="checkbox" '
-										+ check
-										+ ' onclick="changeStatus('
-										+ data[i].idUser
-										+ ','
-										+ data[i].enabled
-										+ ')">'
-										+ '</td>'
-										+ '<td>'
-										+ nameRole
-										+ '</td>'
-										+ '<td>'
-										+ '<div class="btn-group">'
-										+ '<a class="btn btn-success" onclick="showEditUser('
-										+ data[i].idUser
-										+ ')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
-										+ '<a class="btn btn-danger" onclick="deleteUser('
-										+ data[i].idUser
-										+ ')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
-										+ '</div>' + '</td>' + '</tr>';
-								title = title + row;
-							}
-							title = title + '</tbody>' + '</table>';
-							$('#result').html(title);
+							getAllUser();
 							$('#msgResult').html('Successfully deleted user!');
 							setTimeout(function(){ $('#msgResult').html('')}, 2000);
 						} else {
@@ -199,7 +161,8 @@ function deleteUser(idUser) {
 						}
 					},
 					error : function() {
-						alert('error!');
+						$('#msgResult').html('error!');
+						setTimeout(function(){ $('#msgResult').html('')},2000);
 					}
 				});
 	}
@@ -228,7 +191,8 @@ function showEditUser(idUser) {
 			}
 		},
 		error : function() {
-			alert('error!');
+			$('#msgResult').html('error!');
+			setTimeout(function(){ $('#msgResult').html('')},2000);
 		}
 	});
 }
@@ -257,59 +221,8 @@ function editUser() {
 				cache : false,
 				data : JSON.stringify(newUser),
 				success : function(data) {
-					var url = "/admin/allUser/";
-					window.history.pushState(null, null, url);
 					document.getElementById('viewFormEditUser').style.display = 'none';
-					var title = '<table class="table table-striped table-advance table-hover">'
-							+ '<tbody>'
-							+ '<tr>'
-							+ '<th><i class=""></i> Full Name</th>'
-							+ '<th><i class=""></i> Email</th>'
-							+ '<th><i class=""></i> Active</th>'
-							+ '<th><i class=""></i> Role</th>'
-							+ '<th><i class=""></i> Action</th>' + ' </tr>';
-					for (var i = 0; i < data.length; i++) {
-						var check = null;
-						var nameRole = 'admin';
-						if (data[i].enabled == 1) {
-							check = 'checked="checked"';
-						}
-						if (data[i].idRole != 1) {
-							nameRole = 'user';
-						}
-						var row = '<tr>' + '<td>'
-								+ data[i].firstName
-								+ ' '
-								+ data[i].lastName
-								+ '</td>'
-								+ '<td>'
-								+ data[i].email
-								+ '</td>'
-								+ '<td>'
-								+ '<input type="checkbox" '
-								+ check
-								+ ' onclick="changeStatus('
-								+ data[i].idUser
-								+ ','
-								+ data[i].enabled
-								+ ')">'
-								+ '</td>'
-								+ '<td>'
-								+ nameRole
-								+ '</td>'
-								+ '<td>'
-								+ '<div class="btn-group">'
-								+ '<a class="btn btn-success" onclick="showEditUser('
-								+ data[i].idUser
-								+ ')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
-								+ '<a class="btn btn-danger" onclick="deleteUser('
-								+ data[i].idUser
-								+ ')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
-								+ '</div>' + '</td>' + '</tr>';
-						title = title + row;
-					}
-					title = title + '</tbody>' + '</table>';
-					$('#result').html(title);
+					getAllUser();
 					$('#msgResult').html('Successfully edited user!');
 					setTimeout(function(){ $('#msgResult').html('')}, 2000);
 				},
@@ -333,59 +246,7 @@ function changeStatus(idUser, st) {
 			enabled : st
 		},
 		success : function(data) {
-			var url = "/admin/allUser/";
-			window.history.pushState(null, null, url);
-			var title = '<table class="table table-striped table-advance table-hover">'
-				+ '<tbody>'
-				+ '<tr>'
-				+ '<th><i class=""></i> Full Name</th>'
-				+ '<th><i class=""></i> Email</th>'
-				+ '<th><i class=""></i> Active</th>'
-				+ '<th><i class=""></i> Role</th>'
-				+ '<th><i class="icon_cogs"></i> Action</th>'
-				+ ' </tr>';
-		for (var i = 0; i < data.length; i++) {
-			var check = null;
-			var nameRole = 'admin';
-			if (data[i].enabled == 1) {
-				check = 'checked="checked"';
-			}
-			if (data[i].idRole != 1) {
-				nameRole = 'user';
-			}
-			var row = '<tr>' + '<td>'
-					+ data[i].firstName
-					+ ' '
-					+ data[i].lastName
-					+ '</td>'
-					+ '<td>'
-					+ data[i].email
-					+ '</td>'
-					+ '<td>'
-					+ '<input type="checkbox" '
-					+ check
-					+ ' onclick="changeStatus('
-					+ data[i].idUser
-					+ ','
-					+ data[i].enabled
-					+ ')">'
-					+ '</td>'
-					+ '<td>'
-					+ nameRole
-					+ '</td>'
-					+ '<td>'
-					+ '<div class="btn-group">'
-					+ '<a class="btn btn-success" onclick="showEditUser('
-					+ data[i].idUser
-					+ ')" href="#" title="Edit!"><i class="icon_pencil-edit"></i></a>'
-					+ '<a class="btn btn-danger" onclick="return deleteUser('
-					+ data[i].idUser
-					+ ')" href="#" title="Delete!"><i class="icon_close_alt2"></i></a>'
-					+ '</div>' + '</td>' + '</tr>';
-			title = title + row;
-		}
-		title = title + '</tbody>' + '</table>';
-		$('#result').html(title);
+			getAllUser();
 		$('#msgResult').html('Successfully added new user!');
 		setTimeout(function(){ $('#msgResult').html('')}, 2000);
 	},
@@ -404,7 +265,7 @@ $("#formSignUp").submit(function(event) {
 });
 
 function signUp() {
-	var url = "/signUp/";
+	var url = "/signUp";
 	window.history.pushState(null, null, url);
 	var newUser = {}
 	newUser["email"] = $('#email').val();
@@ -420,6 +281,8 @@ function signUp() {
 				success : function(data) {
 					document.getElementById("formSignUp").reset();
 					document.getElementById('viewFormSignUp').style.display = 'none';
+					$('#msgResult').html('signup success!');
+					setTimeout(function(){ $('#msgResult').html('')}, 2000);
 				},
 				error : function() {
 					$('#msgResult').html('Error creating new user!');
@@ -429,7 +292,7 @@ function signUp() {
 }
 
 function showEditUserLogin(){
-	var url = "/admin/showEditUserLogin/" ;
+	var url = "/admin/showEditUserLogin" ;
 	window.history.pushState(null, null, url);
 	document.getElementById('viewFormEditUserLogin').style.display = 'block';
 	$.ajax({
@@ -497,7 +360,7 @@ $("#formChangePasswordUserLogin").submit(function(event) {
 });
 
 function changePasswordUserLogin() {
-	var url = "/changePasswordUserLogin/";
+	var url = "/changePasswordUserLogin";
 	window.history.pushState(null, null, url);
 	var oldPass = $('#oldPassword').val();
 	var newPass = $('#newPassword').val();
@@ -514,8 +377,6 @@ function changePasswordUserLogin() {
 				},
 				success : function(data) {
 					if(data != null){
-						var url = "/changePasswordUserLogin/msg=success";
-						window.history.pushState(null, null, url);
 						alert('Successfully updated the new password. You must log in again to continue!');
 						document.getElementById('viewFormChangePasswordUserLogin').style.display = 'none';
 						window.location.replace("/logout");
@@ -526,7 +387,7 @@ function changePasswordUserLogin() {
 					
 				},
 				error : function() {
-					$('#error').html('<td>Old password is incorrect</td>'
+					$('#error').html('<td>error</td>'
 				        	+'<td></td>');
 				}
 			});

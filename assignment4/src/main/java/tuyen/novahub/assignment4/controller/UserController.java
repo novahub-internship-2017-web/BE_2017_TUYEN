@@ -50,6 +50,12 @@ public class UserController {
 	@Autowired
 	CommentDeleteService commentDeleteService;
 
+	String superAdmin = "admin@gmail.com";
+	@RequestMapping(value = "/admin/getAllUser", method = RequestMethod.GET)
+	public List<User> allUser() {
+		return userService.findAll();
+	}
+
 	@RequestMapping(value = "/admin/addUser", method = RequestMethod.POST)
 	public List<User> addUserJson(Model model, @RequestBody User newUser) {
 		newUser.setPassword(BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt()));
@@ -61,15 +67,14 @@ public class UserController {
 	@RequestMapping(value = "/admin/deleteUser/{idUser}", method = RequestMethod.DELETE)
 	public List<User> deleteUserJson(Model model, @PathVariable int idUser) {
 		User objUser = userService.findByIdUser(idUser);
-		if(objUser.getEmail() == "admin@gmail.com") {
+		if (objUser.getEmail() != superAdmin) {
 			UserDelete userDelete = new UserDelete(objUser.getIdUser(), objUser.getEmail(), objUser.getPassword(),
 					objUser.getFirstName(), objUser.getLastName(), 0, objUser.getAvatar(), objUser.getIdRole());
 			userDeleteService.save(userDelete);
-			BookDelete bookDelete = new BookDelete();
 			// find allBook of user need delete by idUser, add allBook in book_delete
 			List<Book> listBook = bookService.findByIdUser(idUser);
 			for (Book objBook : listBook) {
-				bookDelete = new BookDelete(objBook.getIdBook(), objBook.getTitle(), objBook.getAuthor(),
+				BookDelete bookDelete = new BookDelete(objBook.getIdBook(), objBook.getTitle(), objBook.getAuthor(),
 						objBook.getDescription(), objBook.getCreatedAt(), objBook.getUpdatedAt(), objBook.getImage(),
 						objBook.getEnabled(), idUser);
 				bookDeleteService.save(bookDelete);
@@ -79,8 +84,8 @@ public class UserController {
 			// comment_delete
 			List<Comment> listComment = commentService.findByIdUser(idUser);
 			for (Comment objComment : listComment) {
-				CommentDelete commentDelete = new CommentDelete(objComment.getIdComment(), objComment.getMessage(), idUser,
-						objComment.getIdBook(), objComment.getCreatedComment(), objComment.getUpdatedComment());
+				CommentDelete commentDelete = new CommentDelete(objComment.getIdComment(), objComment.getMessage(),
+						idUser, objComment.getIdBook(), objComment.getCreatedComment(), objComment.getUpdatedComment());
 				commentDeleteService.save(commentDelete);
 			}
 			// delete user
@@ -104,8 +109,8 @@ public class UserController {
 		} else {
 			newUser.setPassword(BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt()));
 		}
-		if(editUser.getEmail() == "admin@gmail.com") {
-			//do not allow change role admin with account admin@gmail.com
+		if (editUser.getEmail() == superAdmin) {
+			// do not allow change role admin with account admin@gmail.com
 			newUser.setIdRole(0);
 		}
 		newUser.setEnabled(editUser.getEnabled());
@@ -117,9 +122,10 @@ public class UserController {
 	@RequestMapping(value = "/admin/changeStatus/{idUser}", method = RequestMethod.GET)
 	public List<User> changeStatus(Model model, @PathVariable int idUser, @RequestParam int enabled) {
 		User changeUser = userService.findByIdUser(idUser);
-		if(changeUser.getEmail() == "admin@gmail.com") {
+		if (changeUser.getEmail() == superAdmin) {
+			System.out.println("not change");
 			return userService.findAll();
-		}else {
+		} else {
 			if (enabled == 0) {
 				changeUser.setEnabled(1);
 			} else {
@@ -131,7 +137,7 @@ public class UserController {
 			userService.save(changeUser);
 			return userService.findAll();
 		}
-		
+
 	}
 
 	@RequestMapping(value = { "/checkEmail" }, method = RequestMethod.POST)
@@ -142,12 +148,12 @@ public class UserController {
 			return false;
 		}
 	}
+
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	public User signUp(Model model, @RequestBody User newUser) {
 		newUser.setPassword(BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt()));
 		newUser.setIdRole(2);
-		newUser.setEnabled(1); // enable
-		userService.save(newUser);
+		newUser.setEnabled(0); // enable
 		return userService.save(newUser);
 	}
 
@@ -168,8 +174,8 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/changePasswordUserLogin", method = RequestMethod.GET)
-	public User changePasswordUserLogin(Model model, @RequestParam("oldPassword") String oldPassword,@RequestParam("newPassword") String newPassword,
-			 Principal principal) {
+	public User changePasswordUserLogin(Model model, @RequestParam("oldPassword") String oldPassword,
+			@RequestParam("newPassword") String newPassword, Principal principal) {
 		User userLogin = userService.findByEmail(principal.getName());
 		int idUserLogin = userLogin.getIdUser();
 		if (BCrypt.checkpw(oldPassword, userLogin.getPassword())) {

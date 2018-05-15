@@ -64,8 +64,8 @@ public class MyBookController {
 		newBook.setCreatedAt(st);
 		newBook.setUpdatedAt(st);
 		newBook.setIdUser(userLogin.getIdUser());
-		if(userLogin.getIdRole() == 0) {
-			//admin => enable
+		if(userLogin.getIdRole() == 1) {
+			//admin => auto enable
 			newBook.setEnabled(1);
 		}else {
 			newBook.setEnabled(0); // not enable

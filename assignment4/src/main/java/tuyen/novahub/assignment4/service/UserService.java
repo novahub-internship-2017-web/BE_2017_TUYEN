@@ -36,4 +36,8 @@ public class UserService {
 return userRepository.deleteByIdUser(idUser);		
 	}
 
+	public User findByEmailAndEnabled(String email, int enabled) {
+		return userRepository.findByEmailAndEnabled(email, enabled);
+	}
+
 }
